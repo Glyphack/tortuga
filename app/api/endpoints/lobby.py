@@ -12,4 +12,10 @@ async def get_lobbies_list():
                           host=User(username="ez frost"),
                           players=[User(username="ez frost"),
                                    User(username="glyphack")])
-    return GetLobbyListResponse(lobbies=[dummy_lobby_1])
+    return GetLobbyListResponse(
+        lobbies=[
+            dummy_lobby_1,
+            dummy_lobby_1,
+            dummy_lobby_1,
+            dummy_lobby_1
+        ])
