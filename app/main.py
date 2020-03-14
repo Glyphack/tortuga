@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from app.core import config
-from app.api.endpoints.auth import router
+from app.api.api_v1 import api_router
 
 app = FastAPI()
 
@@ -11,4 +11,4 @@ def read_root():
     return {"Hello": "World"}
 
 
-app.include_router(router, prefix=config.API_V1_STR)
+app.include_router(api_router, prefix=config.API_V1_STR)
