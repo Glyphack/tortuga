@@ -1,25 +1,12 @@
 from datetime import timedelta
 
 from fastapi import APIRouter
-from pydantic.main import BaseModel
 
-from jwt_helper import create_access_token
-import config
+from app.helpers.jwt_helper import create_access_token
+from app.core import config
+from app.schemas.auth import Token, User
 
 router = APIRouter()
-
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
-
-class TokenData(BaseModel):
-    username: str = None
-
-
-class User(BaseModel):
-    username: str
 
 
 @router.post("/token", response_model=Token)
