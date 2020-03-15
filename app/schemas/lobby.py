@@ -83,6 +83,10 @@ class JoinLobbyResponse(BaseModel):
     lobby: Lobby
 
 
+class LeaveLobbyRequest(BaseModel):
+    lobby_id: str
+
+
 class StartGameResponse(BaseModel):
     started: bool
     game_status: GameStatus
