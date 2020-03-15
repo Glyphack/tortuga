@@ -25,7 +25,7 @@ class JWTUser(BaseUser):
 
 class JWTAuthenticationBackend(AuthenticationBackend):
     def __init__(self, algorithm: str = 'HS256',
-                 prefix: str = 'Bearer', username_field: str = 'username'):
+                 prefix: str = 'Basic', username_field: str = 'username'):
         self.secret_key = config.SECRET_KEY
         self.algorithm = algorithm
         self.prefix = prefix
@@ -50,10 +50,11 @@ class JWTAuthenticationBackend(AuthenticationBackend):
         return token
 
     async def authenticate(self, request: Request):
-        if "token" not in request.cookies:
+        if "Authorization" not in request.headers:
             return None
 
-        token = request.cookies["token"]
+        auth = request.headers["Authorization"]
+        token = self.get_token_from_header(authorization=auth, prefix=self.prefix)
         try:
 
             payload = jwt.decode(token, key=self.secret_key,
