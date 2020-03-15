@@ -1,8 +1,10 @@
 from fastapi import FastAPI
+from starlette.middleware.authentication import AuthenticationMiddleware
 from starlette.middleware.cors import CORSMiddleware
 
 from app.core import config
 from app.api.api_v1 import api_router
+from app.middlewares.authentication import JWTAuthenticationBackend
 
 app = FastAPI()
 
@@ -22,7 +24,10 @@ if config.BACKEND_CORS_ORIGINS:
         allow_methods=["*"],
         allow_headers=["*"],
     ),
-print(origins)
+
+app.add_middleware(
+    AuthenticationMiddleware, backend=JWTAuthenticationBackend()
+)
 
 
 @app.get("/")
