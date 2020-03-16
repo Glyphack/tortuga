@@ -26,6 +26,10 @@ class JoinLobbyResponse(BaseModel):
     lobby: Lobby
 
 
+class GetLobbyStatusResponse(BaseModel):
+    lobby: Lobby
+
+
 class LeaveLobbyRequest(BaseModel):
     lobby_id: str
 
