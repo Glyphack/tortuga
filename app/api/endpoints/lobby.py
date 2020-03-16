@@ -3,8 +3,15 @@ from typing import Dict
 
 from fastapi import APIRouter, Request, HTTPException
 from app.schemas.auth import User
-from app.schemas.lobby import GetLobbyListResponse, Lobby, JoinLobbyResponse, \
-    JoinLobbyRequest, LeaveLobbyRequest
+from app.schemas.lobby import (
+    GetLobbyListResponse,
+    Lobby,
+    JoinLobbyResponse,
+    JoinLobbyRequest,
+    LeaveLobbyRequest,
+    StartGameRequest,
+    StartGameResponse
+)
 
 router = APIRouter()
 
@@ -63,3 +70,19 @@ async def leave_lobby(request: Request,
         raise HTTPException(status_code=400)
     lobby.players.remove(user)
     lobby.occupy -= 1
+
+
+@router.post("lobby/{start_game_request.lobby_id/start",
+             response_model=StartGameResponse)
+async def start_game(request: Request, start_game_request: StartGameRequest):
+    if not request.user.is_authenticated:
+        raise HTTPException(status_code=401)
+    lobby = lobbies.get(start_game_request.lobby_id)
+    if not lobby:
+        raise HTTPException(status_code=400, detail="Lobby does not exist")
+    user = User(username=request.user.username)
+    if lobby.host != user:
+        raise HTTPException(status_code=403,
+                            detail="You cannot start this game")
+    # TODO: start game code
+    del lobby
