@@ -23,7 +23,7 @@ async def create_lobby(request: Request):
     if not request.user.is_authenticated:
         raise HTTPException(status_code=401)
     user = User(username=request.user.username)
-    for lobby in lobbies:
+    for lobby in lobbies.values():
         if user in lobby.players:
             raise HTTPException(status_code=400, detail="Already in a lobby")
     lobby_id = uuid.uuid4().hex[:6].upper()
