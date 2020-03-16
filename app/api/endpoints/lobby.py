@@ -10,7 +10,6 @@ from app.schemas.lobby import (
     JoinLobbyRequest,
     LeaveLobbyRequest,
     StartGameRequest,
-    StartGameResponse,
     GetLobbyStatusResponse
 )
 
@@ -73,8 +72,7 @@ async def leave_lobby(request: Request,
     lobby.occupy -= 1
 
 
-@router.post("lobby/{start_game_request.lobby_id/start",
-             response_model=StartGameResponse)
+@router.post("lobby/{start_game_request.lobby_id/start")
 async def start_game(request: Request, start_game_request: StartGameRequest):
     if not request.user.is_authenticated:
         raise HTTPException(status_code=401)
@@ -85,8 +83,7 @@ async def start_game(request: Request, start_game_request: StartGameRequest):
     if lobby.host != user:
         raise HTTPException(status_code=403,
                             detail="You cannot start this game")
-    # TODO: start game code
-    del lobby
+    lobby.game_started = True
 
 
 @router.post("lobby/{lobby_id}/",
