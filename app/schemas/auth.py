@@ -12,3 +12,7 @@ class TokenData(BaseModel):
 
 class User(BaseModel):
     username: str
+
+
+class VerifyTokenResponse(BaseModel):
+    valid: bool
