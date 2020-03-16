@@ -17,3 +17,12 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode.update({"exp": expire, "sub": access_token_jwt_subject})
     encoded_jwt = jwt.encode(to_encode, config.SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
+
+
+def verify_access_token(token: str):
+    valid = True
+    try:
+        jwt.decode(jwt=token, key=config.SECRET_KEY, algorithm=ALGORITHM)
+    except jwt.InvalidTokenError:
+        valid = False
+    return valid
