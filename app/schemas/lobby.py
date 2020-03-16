@@ -11,6 +11,7 @@ class Lobby(BaseModel):
     occupy: int
     players: List[User]
     host: User
+    game_started: bool = False
 
 
 class GetLobbyListResponse(BaseModel):
@@ -36,7 +37,3 @@ class LeaveLobbyRequest(BaseModel):
 
 class StartGameRequest(BaseModel):
     lobby_id: str
-
-
-class StartGameResponse(BaseModel):
-    started: bool
