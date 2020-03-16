@@ -37,4 +37,3 @@ class StartGameRequest(BaseModel):
 
 class StartGameResponse(BaseModel):
     started: bool
-    game_status: GameStatus
