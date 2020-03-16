@@ -1,4 +1,5 @@
 import uuid
+from typing import Dict
 
 from fastapi import APIRouter, Request, HTTPException
 from app.schemas.auth import User
@@ -7,7 +8,7 @@ from app.schemas.lobby import GetLobbyListResponse, Lobby, JoinLobbyResponse, \
 
 router = APIRouter()
 
-lobbies = {}
+lobbies: Dict[str, Lobby] = {}
 
 
 @router.get("/lobby", response_model=GetLobbyListResponse)
@@ -58,7 +59,7 @@ async def leave_lobby(request: Request,
     if not lobby:
         raise HTTPException(status_code=400, detail="Lobby does not exist")
     user = User(username=request.user.username)
-    if user not in lobby.platers:
+    if user not in lobby.players:
         raise HTTPException(status_code=400)
-    lobby.players.remove()
+    lobby.players.remove(user)
     lobby.occupy -= 1
