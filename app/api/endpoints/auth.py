@@ -4,7 +4,10 @@ from fastapi import APIRouter, Response
 
 from app.helpers.jwt_helper import create_access_token, verify_access_token
 from app.core import config
-from app.schemas.auth import Token, User, VerifyTokenResponse
+from app.schemas.auth import (
+    Token, User, VerifyTokenResponse,
+    VerifyTokenRequest
+)
 
 router = APIRouter()
 
@@ -21,6 +24,6 @@ async def login_for_access_token(user: User):
 
 
 @router.post("/token/verify", response_model=VerifyTokenResponse)
-async def verify_token(token: str):
-    valid = verify_access_token(token)
+async def verify_token(verify_token_request: VerifyTokenRequest):
+    valid = verify_access_token(verify_token_request.token)
     return VerifyTokenResponse(valid=valid)

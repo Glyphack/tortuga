@@ -14,5 +14,9 @@ class User(BaseModel):
     username: str
 
 
+class VerifyTokenRequest(BaseModel):
+    token: str
+
+
 class VerifyTokenResponse(BaseModel):
     valid: bool
