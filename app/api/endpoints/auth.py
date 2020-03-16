@@ -2,9 +2,9 @@ from datetime import timedelta
 
 from fastapi import APIRouter, Response
 
-from app.helpers.jwt_helper import create_access_token
+from app.helpers.jwt_helper import create_access_token, verify_access_token
 from app.core import config
-from app.schemas.auth import Token, User
+from app.schemas.auth import Token, User, VerifyTokenResponse
 
 router = APIRouter()
 
@@ -18,3 +18,9 @@ async def login_for_access_token(user: User):
     ).decode("utf-8")
 
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+@router.post("/token/verify", response_model=VerifyTokenResponse)
+async def verify_token(token: str):
+    valid = verify_access_token(token)
+    return VerifyTokenResponse(valid=valid)
