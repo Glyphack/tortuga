@@ -10,7 +10,8 @@ from app.schemas.lobby import (
     JoinLobbyRequest,
     LeaveLobbyRequest,
     StartGameRequest,
-    StartGameResponse
+    StartGameResponse,
+    GetLobbyStatusResponse
 )
 
 router = APIRouter()
@@ -86,3 +87,12 @@ async def start_game(request: Request, start_game_request: StartGameRequest):
                             detail="You cannot start this game")
     # TODO: start game code
     del lobby
+
+
+@router.post("lobby/{lobby_id}/",
+             response_model=GetLobbyStatusResponse)
+async def get_lobby_status(lobby_id: str):
+    lobby = lobbies.get(lobby_id)
+    if lobby is None:
+        return HTTPException(status_code=400)
+    return GetLobbyStatusResponse(lobby=lobby)
