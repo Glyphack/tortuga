@@ -3,7 +3,6 @@ from typing import List, Dict
 from pydantic.main import BaseModel
 
 from app.schemas.auth import User
-from app.schemas.game import GameStatus
 
 
 class Lobby(BaseModel):
