@@ -97,7 +97,7 @@ async def get_lobby_status(lobby_id: str):
     return GetLobbyStatusResponse(lobby=lobby)
 
 
-@router.get("lobby/my-lobby", response_model=Lobby)
+@router.get("/lobby/my-lobby", response_model=Lobby)
 async def my_lobby(request: Request):
     if not request.user.is_authenticated:
         raise HTTPException(status_code=401)
