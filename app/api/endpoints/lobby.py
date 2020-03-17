@@ -95,3 +95,16 @@ async def get_lobby_status(lobby_id: str):
     if lobby is None:
         return HTTPException(status_code=400)
     return GetLobbyStatusResponse(lobby=lobby)
+
+
+@router.get("lobby/my-lobby", response_model=Lobby)
+async def my_lobby(request: Request):
+    if not request.user.is_authenticated:
+        raise HTTPException(status_code=401)
+    found_lobby = None
+    user = User(username=request.user.username)
+    for lobby in lobbies.values():
+        if user in lobby.players:
+            found_lobby = lobby
+            break
+    return found_lobby
