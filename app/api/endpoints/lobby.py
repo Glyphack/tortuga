@@ -10,8 +10,8 @@ from app.schemas.lobby import (
     JoinLobbyRequest,
     LeaveLobbyRequest,
     StartGameRequest,
-    GetLobbyStatusResponse
-)
+    GetLobbyStatusResponse,
+    CreateLobbyResponse)
 
 router = APIRouter()
 
@@ -25,7 +25,7 @@ async def get_lobbies_list(request: Request):
     return GetLobbyListResponse(lobbies=list(lobbies.values()))
 
 
-@router.post("/lobby")
+@router.post("/lobby", response_model=CreateLobbyResponse)
 async def create_lobby(request: Request):
     if not request.user.is_authenticated:
         raise HTTPException(status_code=401)
@@ -42,6 +42,8 @@ async def create_lobby(request: Request):
         players=[user],
     )
     lobbies[lobby_id] = lobby
+    CreateLobbyResponse(lobby=lobby)
+
 
 
 @router.patch(
@@ -55,6 +57,7 @@ async def join_lobby(request: Request, join_lobby_request: JoinLobbyRequest):
         raise HTTPException(status_code=400, detail="Lobby does not exist")
     lobby.players.append(User(username=request.user.username))
     lobby.occupy += 1
+    return JoinLobbyResponse(lobby=lobby, success=True)
 
 
 @router.put("lobby/{leave_lobby_request.lobby_id}/leave")

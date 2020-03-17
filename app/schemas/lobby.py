@@ -31,6 +31,10 @@ class GetLobbyStatusResponse(BaseModel):
     lobby: Lobby
 
 
+class CreateLobbyResponse(BaseModel):
+    lobby: Lobby
+
+
 class LeaveLobbyRequest(BaseModel):
     lobby_id: str
 
