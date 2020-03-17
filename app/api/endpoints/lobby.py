@@ -45,9 +45,8 @@ async def create_lobby(request: Request):
     CreateLobbyResponse(lobby=lobby)
 
 
-
 @router.patch(
-    "/lobby/{join_lobby_request.lobby_id}/join",
+    "/lobby/join",
     response_model=JoinLobbyResponse)
 async def join_lobby(request: Request, join_lobby_request: JoinLobbyRequest):
     if not request.user.is_authenticated:
@@ -60,7 +59,7 @@ async def join_lobby(request: Request, join_lobby_request: JoinLobbyRequest):
     return JoinLobbyResponse(lobby=lobby, success=True)
 
 
-@router.put("/lobby/{leave_lobby_request.lobby_id}/leave")
+@router.put("/lobby/leave")
 async def leave_lobby(request: Request,
                       leave_lobby_request: LeaveLobbyRequest):
     if not request.user.is_authenticated:
@@ -75,7 +74,7 @@ async def leave_lobby(request: Request,
     lobby.occupy -= 1
 
 
-@router.post("/lobby/{start_game_request.lobby_id/start")
+@router.post("/lobby/start")
 async def start_game(request: Request, start_game_request: StartGameRequest):
     if not request.user.is_authenticated:
         raise HTTPException(status_code=401)
@@ -89,8 +88,8 @@ async def start_game(request: Request, start_game_request: StartGameRequest):
     lobby.game_started = True
 
 
-@router.post("/lobby/{lobby_id}",
-             response_model=GetLobbyStatusResponse)
+@router.get("/lobby/{lobby_id}",
+            response_model=GetLobbyStatusResponse)
 async def get_lobby_status(lobby_id: str):
     lobby = lobbies.get(lobby_id)
     if lobby is None:
