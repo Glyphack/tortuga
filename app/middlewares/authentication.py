@@ -25,7 +25,7 @@ class JWTUser(BaseUser):
 
 class JWTAuthenticationBackend(AuthenticationBackend):
     def __init__(self, algorithm: str = 'HS256',
-                 prefix: str = 'Basic', username_field: str = 'username'):
+                 prefix: str = 'Bearer', username_field: str = 'username'):
         self.secret_key = config.SECRET_KEY
         self.algorithm = algorithm
         self.prefix = prefix
@@ -38,6 +38,8 @@ class JWTAuthenticationBackend(AuthenticationBackend):
         :param authorization:
         :return:
         """
+        if len(authorization.split()) != 2:
+            return None
         try:
             scheme, token = authorization.split()
         except ValueError:
@@ -54,11 +56,16 @@ class JWTAuthenticationBackend(AuthenticationBackend):
             return None
 
         auth = request.headers["Authorization"]
-        token = self.get_token_from_header(authorization=auth, prefix=self.prefix)
+        token = self.get_token_from_header(
+            authorization=auth,
+            prefix=self.prefix
+        )
+        if token is None:
+            return None
         try:
-
-            payload = jwt.decode(token, key=self.secret_key,
-                                 algorithms=self.algorithm)
+            payload = jwt.decode(
+                token, key=self.secret_key, algorithms=self.algorithm
+            )
         except jwt.InvalidTokenError as e:
             raise AuthenticationError(str(e))
 
