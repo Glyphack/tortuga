@@ -27,8 +27,9 @@ class JoinLobbyResponse(BaseModel):
     lobby: Lobby
 
 
-class GetLobbyStatusResponse(BaseModel):
+class MyLobbyResponse(BaseModel):
     lobby: Lobby
+    can_start: bool
 
 
 class CreateLobbyResponse(BaseModel):
