@@ -10,7 +10,7 @@ from app.schemas.lobby import (
     JoinLobbyRequest,
     LeaveLobbyRequest,
     StartGameRequest,
-    GetLobbyStatusResponse,
+    MyLobbyResponse,
     CreateLobbyResponse)
 
 router = APIRouter()
@@ -88,23 +88,16 @@ async def start_game(request: Request, start_game_request: StartGameRequest):
     lobby.game_started = True
 
 
-@router.get("/lobby/{lobby_id}",
-            response_model=GetLobbyStatusResponse)
-async def get_lobby_status(lobby_id: str):
-    lobby = lobbies.get(lobby_id)
-    if lobby is None:
-        return HTTPException(status_code=400)
-    return GetLobbyStatusResponse(lobby=lobby)
-
-
-@router.get("/lobby/my-lobby", response_model=Lobby)
+@router.get("/lobby/my-lobby", response_model=MyLobbyResponse)
 async def my_lobby(request: Request):
     if not request.user.is_authenticated:
         raise HTTPException(status_code=401)
     found_lobby = None
+    can_start = False
     user = User(username=request.user.username)
     for lobby in lobbies.values():
         if user in lobby.players:
             found_lobby = lobby
+            can_start = user == lobby.host
             break
-    return found_lobby
+    return MyLobbyResponse(lobby=found_lobby, can_start=can_start)
