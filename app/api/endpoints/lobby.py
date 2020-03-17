@@ -42,7 +42,7 @@ async def create_lobby(request: Request):
         players=[user],
     )
     lobbies[lobby_id] = lobby
-    CreateLobbyResponse(lobby=lobby)
+    return CreateLobbyResponse(lobby=lobby)
 
 
 @router.patch(
