@@ -101,18 +101,18 @@ class PlayerGameInfo(BaseModel):
         GOVERNOR_OF_TORTUGA = "governor of tortuga"
 
     team: str
-    vote_cards: List[VoteCard] = []
-    event_cards: List[EventCard] = []
+    vote_cards: Optional[List[VoteCard]] = None
+    event_cards: Optional[List[EventCard]] = None
     role: Optional[Role]
 
 
 class GameStatus(BaseModel):
     players_position: Dict[str, str]
     chests_position: Dict[str, str]
-    player_game_info: PlayerGameInfo
+    player_game_info: Optional[PlayerGameInfo]
     last_action: Optional[Action] = None
     is_over: bool = False
-    turn: User = 1
+    turn: User
     winner: Optional[User] = None
 
 
