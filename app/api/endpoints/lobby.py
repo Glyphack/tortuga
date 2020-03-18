@@ -98,10 +98,16 @@ async def my_lobby(request: Request):
         raise HTTPException(status_code=401)
     found_lobby = None
     can_start = False
+    has_lobby = False
     user = User(username=request.user.username)
     for lobby in lobbies.values():
         if user in lobby.players:
             found_lobby = lobby
             can_start = user == lobby.host
+            has_lobby = True
             break
-    return MyLobbyResponse(lobby=found_lobby, can_start=can_start)
+    return MyLobbyResponse(
+        lobby=found_lobby,
+        can_start=can_start,
+        has_lobby=has_lobby
+    )

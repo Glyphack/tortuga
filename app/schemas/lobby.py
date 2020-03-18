@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Optional
 
 from pydantic.main import BaseModel
 
@@ -28,8 +28,9 @@ class JoinLobbyResponse(BaseModel):
 
 
 class MyLobbyResponse(BaseModel):
-    lobby: Lobby
+    lobby: Optional[Lobby]
     can_start: bool
+    has_lobby: bool
 
 
 class CreateLobbyResponse(BaseModel):
