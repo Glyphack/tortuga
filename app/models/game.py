@@ -5,6 +5,17 @@ from typing import List, Dict, Optional
 
 
 @dataclass
+class Votes:
+    cannons: int
+    fire: int
+    water: int
+    britain: int
+    france: int
+    skull: int
+    wheel: int
+
+
+@dataclass
 class Player:
     class Role(Enum):
         CAPTAIN = "captain"
