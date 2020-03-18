@@ -6,7 +6,7 @@ from app.core import config
 from app.api.api_v1 import api_router
 from app.middlewares.authentication import JWTAuthenticationBackend
 
-app = FastAPI()
+app = FastAPI(title="tortugack", version="0.1.0")
 
 # CORS
 origins = []
