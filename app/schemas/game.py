@@ -117,7 +117,7 @@ class GameStatus(BaseModel):
 
 
 class MyGameResponse(BaseModel):
-    game_status: GameStatus
+    game_status: Optional[GameStatus]
     has_game: bool
 
 
