@@ -148,7 +148,7 @@ class VotePayload(BaseModel):
 class DoActionRequest(BaseModel):
     game_id: str
     action: Action
-    payload: Optional[
+    payload: Union[
         ViewTwoEventCardsPayload,
         MovePayload,
         MaroonCrewMateToTortugaPayload,
