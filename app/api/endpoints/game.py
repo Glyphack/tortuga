@@ -5,21 +5,23 @@ from starlette.requests import Request
 from app.api.services.game_service import get_player_game, get_player_info_in_game
 from app.schemas.auth import User
 from app.schemas.game import (
-    GetGameStatusResponse,
+    MyGameResponse,
     DoActionRequest,
     GameStatus, PlayerGameInfo)
 
 router = APIRouter()
 
 
-@router.get("/game/my-game", response_model=GetGameStatusResponse)
+@router.get("/game/my-game", response_model=MyGameResponse)
 async def my_game(request: Request):
     if not request.user.is_authenticated:
         return HTTPException(status_code=401)
     game = get_player_game(request.user.username)
+    if game is None:
+        return MyGameResponse(game_status=None, has_game=False)
     player_info = get_player_info_in_game(game, request.user.username)
 
-    return GetGameStatusResponse(
+    return MyGameResponse(
         game_status=GameStatus(
             players_position=game.players_position,
             chests_position=game.chests_position,
@@ -33,7 +35,8 @@ async def my_game(request: Request):
             is_over=game.is_over,
             turn=User(username=game.turn),
             winner=game.winner
-        )
+        ),
+        has_game=True
     )
 
 

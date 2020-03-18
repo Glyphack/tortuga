@@ -109,19 +109,16 @@ class PlayerGameInfo(BaseModel):
 class GameStatus(BaseModel):
     players_position: Dict[str, str]
     chests_position: Dict[str, str]
-    player_game_info: Optional[PlayerGameInfo]
+    player_game_info: PlayerGameInfo
     last_action: Optional[Action] = None
     is_over: bool = False
     turn: User
     winner: Optional[User] = None
 
 
-class GetGameStatusRequest(BaseModel):
-    game_id: str
-
-
-class GetGameStatusResponse(BaseModel):
+class MyGameResponse(BaseModel):
     game_status: GameStatus
+    has_game: bool
 
 
 class ViewTwoEventCardsPayload(BaseModel):
