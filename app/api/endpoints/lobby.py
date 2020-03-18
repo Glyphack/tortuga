@@ -3,6 +3,7 @@ from typing import Dict
 
 from fastapi import APIRouter, Request, HTTPException
 from app.api.services.game_service import create_new_game
+from app.api.services.lobby_service import can_join_lobby
 from app.schemas.auth import User
 from app.schemas.lobby import (
     GetLobbyListResponse,
@@ -31,9 +32,8 @@ async def create_lobby(request: Request):
     if not request.user.is_authenticated:
         raise HTTPException(status_code=401)
     user = User(username=request.user.username)
-    for lobby in lobbies.values():
-        if user in lobby.players:
-            raise HTTPException(status_code=400, detail="Already in a lobby")
+    if not can_join_lobby(User(usernane=request.user.username), lobbies):
+        raise HTTPException(status_code=400, detail="Already in a lobby")
     lobby_id = uuid.uuid4().hex[:6].upper()
     lobby = Lobby(
         id=lobby_id,
@@ -52,6 +52,8 @@ async def create_lobby(request: Request):
 async def join_lobby(request: Request, join_lobby_request: JoinLobbyRequest):
     if not request.user.is_authenticated:
         raise HTTPException(status_code=401)
+    if not can_join_lobby(User(usernane=request.user.username), lobbies):
+        raise HTTPException(status_code=400, detail="Already in a lobby")
     lobby = lobbies.get(join_lobby_request.lobby_id)
     if not lobby:
         raise HTTPException(status_code=400, detail="Lobby does not exist")
