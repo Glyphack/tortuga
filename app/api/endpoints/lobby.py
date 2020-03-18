@@ -32,7 +32,7 @@ async def create_lobby(request: Request):
     if not request.user.is_authenticated:
         raise HTTPException(status_code=401)
     user = User(username=request.user.username)
-    if not can_join_lobby(User(usernane=request.user.username), lobbies):
+    if not can_join_lobby(User(username=request.user.username), lobbies):
         raise HTTPException(status_code=400, detail="Already in a lobby")
     lobby_id = uuid.uuid4().hex[:6].upper()
     lobby = Lobby(
