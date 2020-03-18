@@ -2,6 +2,7 @@ import uuid
 from typing import Dict
 
 from fastapi import APIRouter, Request, HTTPException
+from app.api.services.game_service import create_new_game
 from app.schemas.auth import User
 from app.schemas.lobby import (
     GetLobbyListResponse,
@@ -86,6 +87,7 @@ async def start_game(request: Request, start_game_request: StartGameRequest):
         raise HTTPException(status_code=403,
                             detail="You cannot start this game")
     lobby.game_started = True
+    create_new_game(lobby.id, lobby.players)
 
 
 @router.get("/lobby/my-lobby", response_model=MyLobbyResponse)
