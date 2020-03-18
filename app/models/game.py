@@ -24,6 +24,29 @@ class Player:
     role: Optional[Role] = None
 
 
+class Positions(Enum):
+    FL1 = "fl_1"
+    FL2 = "fl_2"
+    FL3 = "fl_3"
+    FL4 = "fl_4"
+    FL5 = "fl_5"
+    JR1 = "jr_1"
+    JR2 = "jr_2"
+    JR3 = "jr_3"
+    JR4 = "jr_4"
+    JR5 = "jr_5"
+    TR1 = "tr_1"
+    TR2 = "tr_2"
+    TR3 = "tr_3"
+    TR4 = "tr_4"
+    TR5 = "tr_5"
+    TR6 = "tr_6"
+    TR7 = "tr_7"
+    TR8 = "tr_8"
+    TR9 = "tr_9"
+    SP = "sp"
+
+
 @dataclass
 class Game:
     id: str
@@ -33,5 +56,6 @@ class Game:
     players_position: Dict[str, str] = None
     chests_position: Dict[str, str] = None
     last_action: Optional[Action] = None
+    last_votes: Optional[Votes] = None
     is_over: bool = False
     winner: Optional[str] = None
