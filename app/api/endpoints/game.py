@@ -15,6 +15,6 @@ async def my_game(request: Request, get_game_status: GetGameStatusRequest):
     pass
 
 
-@router.post("game/action")
+@router.post("/game/action")
 async def do_action(request: Request, action_request: DoActionRequest):
     pass
