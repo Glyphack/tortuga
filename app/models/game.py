@@ -29,7 +29,9 @@ class Game:
     id: str
     players: List[str]
     players_info: Dict[str, Player]
-    last_action: Action = None
+    turn: str
+    players_position: Dict[str, str] = None
+    chests_position: Dict[str, str] = None
+    last_action: Optional[Action] = None
     is_over: bool = False
-    turn: int = 0
-    winner: str = None
+    winner: Optional[str] = None
