@@ -29,7 +29,13 @@ def create_new_game(game_id: str, players: List[User]):
     new_game = Game(
         id=game_id,
         players=players,
-        players_info=players_info
+        players_info=players_info,
+        chests_position={},
+        players_position={},
+        last_action=None,
+        is_over=False,
+        turn=players[0],
+        winner=None
     )
     game_statuses[game_id] = new_game
 
@@ -37,3 +43,7 @@ def create_new_game(game_id: str, players: List[User]):
 def get_player_game(username) -> Game:
     game_id = players_game.get(username)
     return game_statuses.get(game_id)
+
+
+def get_player_info_in_game(game: Game, player_id: str) -> Player:
+    return game.players_info[player_id]
