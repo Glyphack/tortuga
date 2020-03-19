@@ -43,7 +43,7 @@ def _give_treasure_to_captains(players_info: Dict[str, Player],
                                positions: Dict[str, Positions]):
     updated_players_info = players_info.copy()
     for player, position in positions.items():
-        if position == Positions.FL1.value or position == Positions.JR1.value:
+        if position == Positions.FD1.value or position == Positions.JR1.value:
             updated_players_info[player].chests += 1
 
     return updated_players_info
