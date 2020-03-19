@@ -34,7 +34,7 @@ class Positions(Enum):
     TR9 = "tr_9"
     TR_EN = "tr_en"
     TR_FR = "tr_fr"
-    SP = "sp"
+    SP = "sg_nt"
 
 
 class VoteCard(BaseModel):
