@@ -1,7 +1,7 @@
 import random
 from typing import List, Dict
 
-from app.models.game import Game, Player
+from app.models.game import Game, Player, Chests
 from app.schemas.game import Positions
 from app.schemas.auth import User
 
@@ -10,7 +10,7 @@ players_game: Dict[str, str] = {}
 
 
 def _generate_map(players: List[str]):
-    players_position = {}
+    players_position: Dict[str, Positions] = {}
     shuffled_players = players.copy()
     random.shuffle(shuffled_players)
     positions = [e.value for e in Positions]
@@ -24,6 +24,29 @@ def _generate_map(players: List[str]):
             players_position[player] = positions[fl_head]
             fl_head += 1
     return players_position
+
+
+def _generate_chests_positions() -> Chests:
+    chests = Chests(
+        tr_en=1,
+        tr_fr=1,
+        sg=4,
+        fd_en=0,
+        fd_fr=0,
+        jr_en=0,
+        jr_fr=0
+    )
+    return chests
+
+
+def _give_treasure_to_captains(players_info: Dict[str, Player],
+                               positions: Dict[str, Positions]):
+    updated_players_info = players_info.copy()
+    for player, position in positions.items():
+        if position == Positions.FL1.value or position == Positions.JR1.value:
+            updated_players_info[player].chests += 1
+
+    return updated_players_info
 
 
 def create_new_game(game_id: str, players: List[User]):
@@ -47,18 +70,21 @@ def create_new_game(game_id: str, players: List[User]):
         players_game[player] = game_id
 
     players_positions = _generate_map(players)
+    chests_position = _generate_chests_positions()
+    players_info = _give_treasure_to_captains(players_info, players_positions)
 
     new_game = Game(
         id=game_id,
         players=players,
         players_info=players_info,
-        chests_position={},
+        chests_position=chests_position,
         players_position=players_positions,
         last_action=None,
         is_over=False,
         turn=players[0],
         winner=None
     )
+    print(new_game)
     game_statuses[game_id] = new_game
 
 

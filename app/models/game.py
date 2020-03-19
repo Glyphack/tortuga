@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from app.schemas.game import Action, VoteCard, EventCard
+from app.schemas.game import Action, VoteCard, EventCard, Positions
 from typing import List, Dict, Optional
 
 
@@ -33,6 +33,18 @@ class Player:
     vote_cards: List[VoteCard] = None
     event_cards: List[EventCard] = None
     role: Optional[Role] = None
+    chests: int = 0
+
+
+@dataclass
+class Chests:
+    fd_fr: int
+    fd_en: int
+    sg: int
+    jr_fr: int
+    jr_en: int
+    tr_fr: int
+    tr_en: int
 
 
 @dataclass
@@ -41,8 +53,8 @@ class Game:
     players: List[str]
     players_info: Dict[str, Player]
     turn: str
-    players_position: Dict[str, str] = None
-    chests_position: Dict[str, str] = None
+    players_position: Dict[str, Positions]
+    chests_position: Chests
     last_action: Optional[Action] = None
     last_votes: Optional[Votes] = None
     is_over: bool = False
