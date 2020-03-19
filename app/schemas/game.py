@@ -6,6 +6,37 @@ from pydantic.main import BaseModel
 from app.schemas.auth import User
 
 
+class Positions(Enum):
+    FL1 = "fl_1"
+    FL2 = "fl_2"
+    FL3 = "fl_3"
+    FL4 = "fl_4"
+    FL5 = "fl_5"
+    FL_EN = "fl_en"
+    FL_FR = "fl_fr"
+    FL_B = "fl_b"
+    JR1 = "jr_1"
+    JR2 = "jr_2"
+    JR3 = "jr_3"
+    JR4 = "jr_4"
+    JR5 = "jr_5"
+    JR_EN = "jr_en"
+    JR_FR = "jr_fr"
+    JR_B = "jr_b"
+    TR1 = "tr_1"
+    TR2 = "tr_2"
+    TR3 = "tr_3"
+    TR4 = "tr_4"
+    TR5 = "tr_5"
+    TR6 = "tr_6"
+    TR7 = "tr_7"
+    TR8 = "tr_8"
+    TR9 = "tr_9"
+    TR_EN = "tr_en"
+    TR_FR = "tr_fr"
+    SP = "sp"
+
+
 class VoteCard(BaseModel):
     class AttackVote(Enum):
         CANNON = "cannon"
@@ -61,8 +92,12 @@ class CabinBoysMoveTreasureData(BaseModel):
     to_where: str
 
 
-class GovernorOfTortugaCallForBrawl(BaseModel):
+class GovernorOfTortugaCallForBrawlData(BaseModel):
     governor: str
+
+
+class PutChestData(BaseModel):
+    where: Positions
 
 
 class Action(BaseModel):
@@ -79,6 +114,7 @@ class Action(BaseModel):
         CABIN_BOYS_MOVE_TREASURE = "cabin boys move treasure"
         GOVERNOR_OF_TORTUGA_CALL_FOR_BRAWL = "call for brawl"
         VOTE = "vote"
+        PUT_CHEST = "put chest"
 
     action_type: ActionType
     action_data: Union[
@@ -89,7 +125,8 @@ class Action(BaseModel):
         MaroonAnyCrewMateToTortuga,
         FirstMateCallForAMutiny,
         CabinBoysMoveTreasureData,
-        GovernorOfTortugaCallForBrawl
+        GovernorOfTortugaCallForBrawlData,
+        PutChestData
     ] = None
 
 
@@ -104,37 +141,6 @@ class PlayerGameInfo(BaseModel):
     vote_cards: Optional[List[VoteCard]] = None
     event_cards: Optional[List[EventCard]] = None
     role: Optional[Role]
-
-
-class Positions(Enum):
-    FL1 = "fl_1"
-    FL2 = "fl_2"
-    FL3 = "fl_3"
-    FL4 = "fl_4"
-    FL5 = "fl_5"
-    FL_EN = "fl_en"
-    FL_FR = "fl_fr"
-    FL_B = "fl_b"
-    JR1 = "jr_1"
-    JR2 = "jr_2"
-    JR3 = "jr_3"
-    JR4 = "jr_4"
-    JR5 = "jr_5"
-    JR_EN = "jr_en"
-    JR_FR = "jr_fr"
-    JR_B = "jr_b"
-    TR1 = "tr_1"
-    TR2 = "tr_2"
-    TR3 = "tr_3"
-    TR4 = "tr_4"
-    TR5 = "tr_5"
-    TR6 = "tr_6"
-    TR7 = "tr_7"
-    TR8 = "tr_8"
-    TR9 = "tr_9"
-    TR_EN = "tr_en"
-    TR_FR = "tr_fr"
-    SP = "sp"
 
 
 class GameStatus(BaseModel):
