@@ -6,12 +6,11 @@ from app.api.services.game_service import (
     get_player_game,
     get_player_info_in_game
 )
-from app.models.game import Chests
 from app.schemas.auth import User
 from app.schemas.game import (
     MyGameResponse,
     DoActionRequest,
-    GameStatus, PlayerGameInfo, Action
+    GameStatus, PlayerGameInfo, Chests
 )
 
 router = APIRouter()
