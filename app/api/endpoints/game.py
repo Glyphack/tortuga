@@ -35,7 +35,7 @@ async def my_game(request: Request):
                 fd_en=game.chests_position.fd_en,
                 jr_fr=game.chests_position.jr_fr,
                 jr_en=game.chests_position.jr_en,
-                sg=game.chests_position.sg,
+                sg_nt=game.chests_position.sg_nt,
             ),
             player_game_info=PlayerGameInfo(
                 team=player_info.team,

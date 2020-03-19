@@ -30,7 +30,7 @@ def _generate_chests_positions() -> Chests:
     chests = Chests(
         tr_en=1,
         tr_fr=1,
-        sg=4,
+        sg_nt=4,
         fd_en=0,
         fd_fr=0,
         jr_en=0,
@@ -84,7 +84,6 @@ def create_new_game(game_id: str, players: List[User]):
         turn=players[0],
         winner=None
     )
-    print(new_game)
     game_statuses[game_id] = new_game
 
 

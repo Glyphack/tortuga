@@ -146,7 +146,7 @@ class PlayerGameInfo(BaseModel):
 class Chests(BaseModel):
     fd_fr: int
     fd_en: int
-    sg: int
+    sg_nt: int
     jr_fr: int
     jr_en: int
     tr_fr: int
