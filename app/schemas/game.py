@@ -143,9 +143,19 @@ class PlayerGameInfo(BaseModel):
     role: Optional[Role]
 
 
+class Chests(BaseModel):
+    fd_fr: int
+    fd_en: int
+    sg: int
+    jr_fr: int
+    jr_en: int
+    tr_fr: int
+    tr_en: int
+
+
 class GameStatus(BaseModel):
     players_position: Dict[str, Positions]
-    chests_position: Dict[str, str]
+    chests_position: Chests
     player_game_info: PlayerGameInfo
     last_action: Optional[Action] = None
     is_over: bool = False

@@ -2,12 +2,17 @@ from fastapi import HTTPException
 from fastapi.routing import APIRouter
 from starlette.requests import Request
 
-from app.api.services.game_service import get_player_game, get_player_info_in_game
+from app.api.services.game_service import (
+    get_player_game,
+    get_player_info_in_game
+)
+from app.models.game import Chests
 from app.schemas.auth import User
 from app.schemas.game import (
     MyGameResponse,
     DoActionRequest,
-    GameStatus, PlayerGameInfo)
+    GameStatus, PlayerGameInfo, Action
+)
 
 router = APIRouter()
 
@@ -24,7 +29,15 @@ async def my_game(request: Request):
     return MyGameResponse(
         game_status=GameStatus(
             players_position=game.players_position,
-            chests_position=game.chests_position,
+            chests_position=Chests(
+                tr_en=game.chests_position.tr_en,
+                tr_fr=game.chests_position.tr_fr,
+                fd_fr=game.chests_position.fd_fr,
+                fd_en=game.chests_position.fd_en,
+                jr_fr=game.chests_position.jr_fr,
+                jr_en=game.chests_position.jr_en,
+                sg=game.chests_position.sg,
+            ),
             player_game_info=PlayerGameInfo(
                 team=player_info.team,
                 vote_cards=player_info.vote_cards,
@@ -42,4 +55,7 @@ async def my_game(request: Request):
 
 @router.post("/game/action")
 async def do_action(request: Request, action_request: DoActionRequest):
-    pass
+    # action_function_mapper = {
+    #     Action.ActionType.VIEW_TWO_EVENT_CARDS:
+    # }
+    raise NotImplemented
