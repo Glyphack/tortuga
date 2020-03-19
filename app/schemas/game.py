@@ -7,14 +7,14 @@ from app.schemas.auth import User
 
 
 class Positions(Enum):
-    FL1 = "fl_1"
-    FL2 = "fl_2"
-    FL3 = "fl_3"
-    FL4 = "fl_4"
-    FL5 = "fl_5"
-    FL_EN = "fl_en"
-    FL_FR = "fl_fr"
-    FL_B = "fl_b"
+    FD1 = "fd_1"
+    FD2 = "fd_2"
+    FD3 = "fd_3"
+    FD4 = "fd_4"
+    FD5 = "fd_5"
+    FD_EN = "fd_en"
+    FD_FR = "fd_fr"
+    FD_B = "fd_b"
     JR1 = "jr_1"
     JR2 = "jr_2"
     JR3 = "jr_3"
