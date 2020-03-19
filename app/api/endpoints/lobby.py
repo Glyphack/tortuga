@@ -104,7 +104,8 @@ async def my_lobby(request: Request):
         if user in lobby.players:
             found_lobby = lobby
             can_start = user == lobby.host
-            has_lobby = True
+            if lobby.game_started is False:
+                has_lobby = True
             break
     return MyLobbyResponse(
         lobby=found_lobby,
