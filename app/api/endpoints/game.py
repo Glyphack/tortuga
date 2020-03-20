@@ -4,14 +4,12 @@ from starlette.requests import Request
 
 from app.api.services.game_services.service import (
     get_player_game,
-    handle_attack_vote_action,
     remove_game, is_game_host,
     generate_game_schema_from_game,
     get_action_handler)
 from app.schemas.game_schema import (
     MyGameResponse,
     DoActionRequest,
-    Action
 )
 
 router = APIRouter()
@@ -43,7 +41,8 @@ async def do_action(request: Request, action_request: DoActionRequest):
     get_action_handler(
         game,
         request.user.username,
-        action_request.action
+        action_request.action,
+        payload=action_request.payload
     ).execute()
 
     return
