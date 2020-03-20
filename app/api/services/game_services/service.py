@@ -157,7 +157,7 @@ def handle_call_for_an_attack_action(game: Game, player: str):
 
 def handle_attack_vote_action(game: Game, player: str, card_index: int):
     assert (
-        game.last_action.action_type == game_schema.Action.ActionType.CAPTAIN_CALL_FOR_AN_ATTACK,
+        game.last_action.action_type == game_schema.Action.ActionType.CAPTAIN_CALL_FOR_AN_ATTACK and
         game.last_action.action_data.state == game_schema.State.InProgress
     )
     vote_card = game.players_info.get(player).vote_cards[card_index]
