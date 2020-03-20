@@ -113,7 +113,7 @@ class Action(APIModel):
         VOTE = "vote"
         PUT_CHEST = "put chest"
 
-    action_type: Union[ActionType]
+    action_type: ActionType
     action_data: Union[
         ViewTwoEventCardsActionData,
         RevealOneEventCardActionData,
@@ -189,10 +189,12 @@ class VotePayload(APIModel):
 class DoActionRequest(APIModel):
     game_id: str
     action: Action
-    payload: Union[
-        ViewTwoEventCardsPayload,
-        MovePayload,
-        MaroonCrewMateToTortugaPayload,
-        CabinBoyMoveTreasurePayload,
-        VotePayload
+    payload: Optional[
+        Union[
+            ViewTwoEventCardsPayload,
+            MovePayload,
+            MaroonCrewMateToTortugaPayload,
+            CabinBoyMoveTreasurePayload,
+            VotePayload
+        ]
     ]

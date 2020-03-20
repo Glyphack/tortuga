@@ -8,11 +8,10 @@ from app.api.services.game_service import (
     remove_game, is_game_host,
     generate_game_schema_from_game
 )
-from app.schemas.auth import User
-from app.schemas.game import (
+from app.schemas.game_schema import (
     MyGameResponse,
     DoActionRequest,
-    GameStatus, PlayerGameInfo, Chests
+    Action
 )
 
 router = APIRouter()
@@ -34,7 +33,26 @@ async def my_game(request: Request):
 
 @router.post("/game/action")
 async def do_action(request: Request, action_request: DoActionRequest):
-    # action_function_mapper = {
-    #     Action.ActionType.VIEW_TWO_EVENT_CARDS:
-    # }
-    raise NotImplemented
+    if not request.user.is_authenticated:
+        return HTTPException(status_code=401)
+    game = get_player_game(request.user.username)
+    if game is None:
+        return MyGameResponse(game_status=None, has_game=False)
+
+    if action_request.action.action_type == Action.ActionType.CAPTAIN_CALL_FOR_AN_ATTACK:
+        handle_call_for_an_attack_action(game, request.user.username)
+    elif action_request.action.action_type == Action.ActionType.VOTE:
+        handle_attack_vote_action(
+            game, request.user.username,
+            DoActionRequest.payload.vote_card_index
+        )
+    return
+
+
+@router.post("/game/stop")
+async def stop_game(request: Request, game_id: str):
+    if not request.user.is_authenticated:
+        raise HTTPException(status_code=401)
+    username = request.user.username
+    if is_game_host(get_player_game(username), username):
+        remove_game(game_id)
