@@ -9,10 +9,28 @@ from app.api.services.lobby_service import remove_lobby
 from app.models.game import Game, Player, Chests, Votes
 from app.schemas import game_schema
 from app.schemas.auth import User
+from app.schemas.game_schema import PayloadType, VoteCard
 
 game_statuses: Dict[str, Game] = {}
 players_game: Dict[str, str] = {}
 votes: Dict[str, Votes] = {}
+
+
+def _give_players_vote_cards(game: Game):
+    for player_info in game.players_info.values():
+        if player_info.vote_cards is None:
+            player_info.vote_cards = []
+        player_info.vote_cards.extend([
+            VoteCard(
+                cannon=0,
+                fire=random.randint(1, 2),
+                water=random.randint(1, 2),
+                britain=0,
+                england=0,
+                skull=0,
+                wheel=0
+            )
+        ])
 
 
 def _generate_map(players: List[str]):
@@ -92,6 +110,7 @@ def create_new_game(game_id: str, players: List[str], host: str) -> Game:
         winner=None,
         host=host,
     )
+    _give_players_vote_cards(new_game)
     game_statuses[game_id] = new_game
     return new_game
 
@@ -115,24 +134,6 @@ def next_turn(game: Game, current: str):
     if index == len(game.players_position.keys()):
         index = 0
     game.turn = list(game.players_position.keys())[index]
-
-
-def handle_attack_vote_action(game: Game, player: str, card_index: int):
-    assert (
-            game.last_action.action_type == game_schema.Action.ActionType.CAPTAIN_CALL_FOR_AN_ATTACK and
-            game.last_action.action_data.state == game_schema.State.InProgress
-    )
-    vote_card = game.players_info.get(player).vote_cards[card_index]
-    vote = votes.get(game.id)
-    vote.fire += vote_card.fire
-    vote.water += vote_card.water
-    game.last_action.action_data.participating_players.remove(player)
-    if len(game.last_action.action_data.participating_players) == 0:
-        if vote.fire < vote.water:
-            game.last_action.action_data.state = game_schema.State.Failed
-        else:
-            game.last_action.action_data.state = game_schema.State.Success
-        next_turn(game, game.turn)
 
 
 def remove_game(game_id: str):
@@ -167,11 +168,13 @@ def generate_game_schema_from_game(username: str):
         last_action=game.last_action,
         is_over=game.is_over,
         turn=User(username=game.turn),
-        winner=game.winner
+        winner=game.winner,
     )
 
 
 def get_action_handler(game: Game, player: str,
-                       action: game_schema.Action) -> ActionHandler:
-    action_handler = handlers.get(action.action_type)(game, player, action)
+                       action: game_schema.Action,
+                       payload: PayloadType = None) -> ActionHandler:
+    action_handler_class = handlers.get(action.action_type)
+    action_handler = action_handler_class(game, player, action, payload)
     return action_handler
