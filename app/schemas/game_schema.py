@@ -162,6 +162,7 @@ class GameStatus(APIModel):
 
 
 class MyGameResponse(APIModel):
+    game_id: str
     game_status: Optional[GameStatus]
     has_game: bool
 

@@ -26,6 +26,7 @@ async def my_game(request: Request):
         return MyGameResponse(game_status=None, has_game=False)
 
     return MyGameResponse(
+        game_id=game.id,
         game_status=generate_game_schema_from_game(request.user.username),
         has_game=True
     )
