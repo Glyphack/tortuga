@@ -43,6 +43,7 @@ class VoteCard(APIModel):
     fire: int
     water: int
     britain: int
+    england: int
     skull: int
     wheel: int
 
@@ -188,15 +189,18 @@ class VotePayload(APIModel):
     vote_card_index: int
 
 
+PayloadType = Optional[
+    Union[
+        ViewTwoEventCardsPayload,
+        MovePayload,
+        MaroonCrewMateToTortugaPayload,
+        CabinBoyMoveTreasurePayload,
+        VotePayload
+    ]
+]
+
+
 class DoActionRequest(APIModel):
     game_id: str
     action: Action
-    payload: Optional[
-        Union[
-            ViewTwoEventCardsPayload,
-            MovePayload,
-            MaroonCrewMateToTortugaPayload,
-            CabinBoyMoveTreasurePayload,
-            VotePayload
-        ]
-    ]
+    payload: PayloadType
