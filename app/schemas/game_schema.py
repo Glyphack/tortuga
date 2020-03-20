@@ -106,7 +106,7 @@ class Action(APIModel):
             "force another player to choose card"
         )
         MOVE = "move"
-        CAPTAIN_CALL_FOR_AN_ATTACK = "call for an attack"
+        CALL_FOR_AN_ATTACK = "call for an attack"
         MAROON_ANY_CREW_MATE_TO_TORTUGA = "maroon any crew mate to tortuga"
         FIRST_MATE_CALL_FOR_A_MUTINY = "first mate call for a mutiny"
         CABIN_BOYS_MOVE_TREASURE = "cabin boys move treasure"

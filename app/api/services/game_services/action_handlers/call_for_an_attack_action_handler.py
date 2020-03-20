@@ -19,7 +19,7 @@ class CallForAnAttackActionHandler(ActionHandler):
             captain=self.player
         )
         action = game_schema.Action(
-            action_type=game_schema.Action.ActionType.CAPTAIN_CALL_FOR_AN_ATTACK,
+            action_type=game_schema.Action.ActionType.CALL_FOR_AN_ATTACK,
             action_data=game_schema.CaptainCallForAttackData(
                 state=game_schema.State.InProgress,
                 participating_players=participating_players
