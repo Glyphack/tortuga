@@ -23,7 +23,7 @@ async def my_game(request: Request):
         return HTTPException(status_code=401)
     game = get_player_game(request.user.username)
     if game is None:
-        return MyGameResponse(game_status=None, has_game=False)
+        return MyGameResponse(game_id="", game_status=None, has_game=False)
 
     return MyGameResponse(
         game_id=game.id,
