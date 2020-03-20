@@ -50,8 +50,8 @@ class Chests:
 @dataclass
 class Game:
     id: str
-    players: List[str]
     players_info: Dict[str, Player]
+    host: str
     turn: str
     players_position: Dict[str, Positions]
     chests_position: Chests
