@@ -18,7 +18,6 @@ class VoteActionHandler(ActionHandler):
         self.game.last_action.action_data.participating_players.remove(
             self.player
         )
-        print(self.game.votes)
         if len(self.game.last_action.action_data.participating_players) == 0:
             if self.game.votes.fire < self.game.votes.water:
                 self.game.last_action.action_data.state = game_schema.State.Success
