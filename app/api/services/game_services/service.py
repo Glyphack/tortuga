@@ -187,7 +187,7 @@ def generate_game_schema_from_game(username: str):
     player_info = get_player_info_in_game(game, username)
     return game_schema.GameStatus(
         players_position=game.players_position,
-        chests_position=Chests(
+        chests_position=game_schema.Chests(
             tr_en=game.chests_position.tr_en,
             tr_fr=game.chests_position.tr_fr,
             fd_fr=game.chests_position.fd_fr,
