@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from fastapi.routing import APIRouter
 from starlette.requests import Request
 
-from app.api.services.game_service import (
+from app.api.services.game_services.service import (
     get_player_game,
     handle_call_for_an_attack_action, handle_attack_vote_action,
     remove_game, is_game_host,

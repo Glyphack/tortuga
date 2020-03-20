@@ -1,7 +1,7 @@
 import uuid
 
 from fastapi import APIRouter, Request, HTTPException
-from app.api.services.game_service import create_new_game
+from app.api.services.game_services.service import create_new_game
 from app.api.services.lobby_service import can_join_lobby, lobbies
 from app.schemas.auth import User
 from app.schemas.lobby import (
