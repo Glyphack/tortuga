@@ -43,6 +43,7 @@ class VoteCard(APIModel):
     fire: int
     water: int
     britain: int
+    england: int
     skull: int
     wheel: int
 
@@ -106,7 +107,7 @@ class Action(APIModel):
             "force another player to choose card"
         )
         MOVE = "move"
-        CAPTAIN_CALL_FOR_AN_ATTACK = "call for an attack"
+        CALL_FOR_AN_ATTACK = "call for an attack"
         MAROON_ANY_CREW_MATE_TO_TORTUGA = "maroon any crew mate to tortuga"
         FIRST_MATE_CALL_FOR_A_MUTINY = "first mate call for a mutiny"
         CABIN_BOYS_MOVE_TREASURE = "cabin boys move treasure"
@@ -189,15 +190,18 @@ class VotePayload(APIModel):
     vote_card_index: int
 
 
+PayloadType = Optional[
+    Union[
+        ViewTwoEventCardsPayload,
+        MovePayload,
+        MaroonCrewMateToTortugaPayload,
+        CabinBoyMoveTreasurePayload,
+        VotePayload
+    ]
+]
+
+
 class DoActionRequest(APIModel):
     game_id: str
     action: Action
-    payload: Optional[
-        Union[
-            ViewTwoEventCardsPayload,
-            MovePayload,
-            MaroonCrewMateToTortugaPayload,
-            CabinBoyMoveTreasurePayload,
-            VotePayload
-        ]
-    ]
+    payload: PayloadType
