@@ -55,6 +55,7 @@ class Game:
     turn: str
     players_position: Dict[str, Positions]
     chests_position: Chests
+    votes: Optional[Votes] = Votes()
     last_action: Optional[Action] = None
     last_votes: Optional[Votes] = None
     is_over: bool = False
