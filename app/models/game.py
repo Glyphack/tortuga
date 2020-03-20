@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from app.schemas.game import Action, VoteCard, EventCard, Positions
+from app.schemas.game_schema import Action, VoteCard, EventCard, Positions
 from typing import List, Dict, Optional
 
 
@@ -59,3 +59,9 @@ class Game:
     last_votes: Optional[Votes] = None
     is_over: bool = False
     winner: Optional[str] = None
+
+    def get_fd_caption(self) -> Optional[str]:
+        for player, position in self.players_position.items():
+            if position == Positions.FD1 or position == Positions.JR1:
+                return player
+        return None

@@ -86,7 +86,11 @@ async def start_game(request: Request, start_game_request: StartGameRequest):
         raise HTTPException(status_code=403,
                             detail="You cannot start this game")
     lobby.game_started = True
-    create_new_game(lobby.id, lobby.players, lobby.host.username)
+    create_new_game(
+        lobby.id,
+        [user.username for user in lobby.players],
+        lobby.host.username
+    )
 
 
 @router.get("/lobby/my-lobby", response_model=MyLobbyResponse)
