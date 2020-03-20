@@ -1,9 +1,8 @@
 import uuid
-from typing import Dict
 
 from fastapi import APIRouter, Request, HTTPException
 from app.api.services.game_service import create_new_game
-from app.api.services.lobby_service import can_join_lobby
+from app.api.services.lobby_service import can_join_lobby, lobbies
 from app.schemas.auth import User
 from app.schemas.lobby import (
     GetLobbyListResponse,
@@ -16,8 +15,6 @@ from app.schemas.lobby import (
     CreateLobbyResponse)
 
 router = APIRouter()
-
-lobbies: Dict[str, Lobby] = {}
 
 
 @router.get("/lobby", response_model=GetLobbyListResponse)
@@ -32,7 +29,7 @@ async def create_lobby(request: Request):
     if not request.user.is_authenticated:
         raise HTTPException(status_code=401)
     user = User(username=request.user.username)
-    if not can_join_lobby(User(username=request.user.username), lobbies):
+    if not can_join_lobby(User(username=request.user.username)):
         raise HTTPException(status_code=400, detail="Already in a lobby")
     lobby_id = uuid.uuid4().hex[:6].upper()
     lobby = Lobby(
@@ -52,7 +49,7 @@ async def create_lobby(request: Request):
 async def join_lobby(request: Request, join_lobby_request: JoinLobbyRequest):
     if not request.user.is_authenticated:
         raise HTTPException(status_code=401)
-    if not can_join_lobby(User(username=request.user.username), lobbies):
+    if not can_join_lobby(User(username=request.user.username)):
         raise HTTPException(status_code=400, detail="Already in a lobby")
     lobby = lobbies.get(join_lobby_request.lobby_id)
     if not lobby:
@@ -89,7 +86,7 @@ async def start_game(request: Request, start_game_request: StartGameRequest):
         raise HTTPException(status_code=403,
                             detail="You cannot start this game")
     lobby.game_started = True
-    create_new_game(lobby.id, lobby.players)
+    create_new_game(lobby.id, lobby.players, lobby.host.username)
 
 
 @router.get("/lobby/my-lobby", response_model=MyLobbyResponse)
