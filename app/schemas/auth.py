@@ -1,22 +1,22 @@
-from pydantic.main import BaseModel
+from fastapi_utils.api_model import APIModel
 
 
-class Token(BaseModel):
+class Token(APIModel):
     access_token: str
     token_type: str
 
 
-class TokenData(BaseModel):
+class TokenData(APIModel):
     username: str = None
 
 
-class User(BaseModel):
+class User(APIModel):
     username: str
 
 
-class VerifyTokenRequest(BaseModel):
+class VerifyTokenRequest(APIModel):
     token: str
 
 
-class VerifyTokenResponse(BaseModel):
+class VerifyTokenResponse(APIModel):
     valid: bool

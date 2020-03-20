@@ -1,12 +1,12 @@
 from enum import Enum
 from typing import Dict, List, Optional, Union
 
-from pydantic.main import BaseModel
+from fastapi_utils.api_model import APIModel
 
 from app.schemas.auth import User
 
 
-class Positions(Enum):
+class Positions(str, Enum):
     FD1 = "fd_1"
     FD2 = "fd_2"
     FD3 = "fd_3"
@@ -37,70 +37,67 @@ class Positions(Enum):
     SP = "sg_nt"
 
 
-class VoteCard(BaseModel):
-    class AttackVote(Enum):
-        CANNON = "cannon"
-        FIRE = "fire"
-        WATER = "water"
-
-    class BrawlVote(Enum):
-        BRITAIN = "britain"
-        FRANCE = "france"
-
-    class MutinyVote(Enum):
-        SKULL = "skull"
-        WHEEL = "wheel"
-
-    top: AttackVote
-    middle: BrawlVote
-    bottom: MutinyVote
+class VoteCard(APIModel):
+    cannon: int
+    fire: int
+    water: int
+    britain: int
+    skull: int
+    wheel: int
 
 
-class EventCard(BaseModel):
+class State(str, Enum):
+    Success = "success"
+    Failed = "failed"
+    InProgress = "in_progress"
+
+
+class EventCard(APIModel):
     description: str
 
 
-class ViewTwoEventCardsActionData(BaseModel):
+class ViewTwoEventCardsActionData(APIModel):
     who: User
 
 
-class RevealOneEventCardActionData(BaseModel):
+class RevealOneEventCardActionData(APIModel):
     who: User
 
 
-class ForceAnotherPlayerToChooseCardActionData(BaseModel):
+class ForceAnotherPlayerToChooseCardActionData(APIModel):
     player: User
     forced_player: User
 
 
-class CaptainCallForAttackActionData(BaseModel):
-    captain: User
+class CaptainCallForAttackData(APIModel):
+    state: State
+    participating_players: List[str] = []
 
 
-class MaroonAnyCrewMateToTortuga(BaseModel):
+class MaroonAnyCrewMateToTortuga(APIModel):
     captain: User
     crew: User
 
 
-class FirstMateCallForAMutiny(BaseModel):
+class FirstMateCallForAMutiny(APIModel):
     first_mate: User
 
 
-class CabinBoysMoveTreasureData(BaseModel):
+class CabinBoysMoveTreasureData(APIModel):
     cabin_boy: User
     from_where: str
     to_where: str
 
 
-class GovernorOfTortugaCallForBrawlData(BaseModel):
+class GovernorOfTortugaCallForBrawlData(APIModel):
     governor: str
 
 
-class PutChestData(BaseModel):
+class PutChestData(APIModel):
     where: Positions
 
 
-class Action(BaseModel):
+class Action(APIModel):
     class ActionType(Enum):
         VIEW_TWO_EVENT_CARDS = "view two event cards"
         REVEAL_ONE_EVENT_CARD = "reveal one event card"
@@ -116,12 +113,12 @@ class Action(BaseModel):
         VOTE = "vote"
         PUT_CHEST = "put chest"
 
-    action_type: ActionType
+    action_type: Union[ActionType]
     action_data: Union[
         ViewTwoEventCardsActionData,
         RevealOneEventCardActionData,
         ForceAnotherPlayerToChooseCardActionData,
-        CaptainCallForAttackActionData,
+        CaptainCallForAttackData,
         MaroonAnyCrewMateToTortuga,
         FirstMateCallForAMutiny,
         CabinBoysMoveTreasureData,
@@ -130,7 +127,7 @@ class Action(BaseModel):
     ] = None
 
 
-class PlayerGameInfo(BaseModel):
+class PlayerGameInfo(APIModel):
     class Role(Enum):
         CAPTAIN = "captain"
         FIRST_MATE = "first mate"
@@ -143,7 +140,7 @@ class PlayerGameInfo(BaseModel):
     role: Optional[Role]
 
 
-class Chests(BaseModel):
+class Chests(APIModel):
     fd_fr: int
     fd_en: int
     sg_nt: int
@@ -153,7 +150,7 @@ class Chests(BaseModel):
     tr_en: int
 
 
-class GameStatus(BaseModel):
+class GameStatus(APIModel):
     players_position: Dict[str, Positions]
     chests_position: Chests
     player_game_info: PlayerGameInfo
@@ -163,33 +160,33 @@ class GameStatus(BaseModel):
     winner: Optional[User] = None
 
 
-class MyGameResponse(BaseModel):
+class MyGameResponse(APIModel):
     game_status: Optional[GameStatus]
     has_game: bool
 
 
-class ViewTwoEventCardsPayload(BaseModel):
+class ViewTwoEventCardsPayload(APIModel):
     choices: List[int]
 
 
-class MovePayload(BaseModel):
+class MovePayload(APIModel):
     where: str
 
 
-class MaroonCrewMateToTortugaPayload(BaseModel):
+class MaroonCrewMateToTortugaPayload(APIModel):
     who: User
 
 
-class CabinBoyMoveTreasurePayload(BaseModel):
+class CabinBoyMoveTreasurePayload(APIModel):
     where: str
     to_where: str
 
 
-class VotePayload(BaseModel):
-    vote_card: VoteCard
+class VotePayload(APIModel):
+    vote_card_index: int
 
 
-class DoActionRequest(BaseModel):
+class DoActionRequest(APIModel):
     game_id: str
     action: Action
     payload: Union[

@@ -1,11 +1,11 @@
-from typing import List, Dict, Optional
+from typing import List, Optional
 
-from pydantic.main import BaseModel
+from fastapi_utils.api_model import APIModel
 
 from app.schemas.auth import User
 
 
-class Lobby(BaseModel):
+class Lobby(APIModel):
     id: str
     size: int
     occupy: int
@@ -14,32 +14,32 @@ class Lobby(BaseModel):
     game_started: bool = False
 
 
-class GetLobbyListResponse(BaseModel):
+class GetLobbyListResponse(APIModel):
     lobbies: List[Lobby]
 
 
-class JoinLobbyRequest(BaseModel):
+class JoinLobbyRequest(APIModel):
     lobby_id: str
 
 
-class JoinLobbyResponse(BaseModel):
+class JoinLobbyResponse(APIModel):
     success: bool
     lobby: Lobby
 
 
-class MyLobbyResponse(BaseModel):
+class MyLobbyResponse(APIModel):
     lobby: Optional[Lobby]
     can_start: bool
     has_lobby: bool
 
 
-class CreateLobbyResponse(BaseModel):
+class CreateLobbyResponse(APIModel):
     lobby: Lobby
 
 
-class LeaveLobbyRequest(BaseModel):
+class LeaveLobbyRequest(APIModel):
     lobby_id: str
 
 
-class StartGameRequest(BaseModel):
+class StartGameRequest(APIModel):
     lobby_id: str
