@@ -2,6 +2,7 @@ from enum import Enum
 from typing import Dict, List, Optional, Union
 
 from fastapi_utils.api_model import APIModel
+from pydantic.main import BaseModel
 
 from app.schemas.auth import User
 
@@ -140,7 +141,7 @@ class PlayerGameInfo(APIModel):
     role: Optional[Role]
 
 
-class Chests(APIModel):
+class Chests(BaseModel):
     fd_fr: int
     fd_en: int
     sg_nt: int
