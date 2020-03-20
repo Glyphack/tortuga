@@ -10,6 +10,9 @@ uvicorn = "*"
 fastapi = "*"
 gunicorn = "*"
 pyjwt = "*"
+fastapi-utils = "*"
+pytest = "*"
+requests = "*"
 
 [requires]
 python_version = "3.7"
