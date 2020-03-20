@@ -1,23 +1,8 @@
-import pytest
-
-from app.models.game import Game
+from app.tests.api.game.base import BaseGameTestCase
 
 
-class TestCallForAnAttackAction:
-    @pytest.fixture(autouse=True)
-    def _setup(self, client, game: Game):
-        self.client = client
-        self.game = game
-
-    @property
-    def do_action_url(self):
-        return "api/v1/game/action"
-
-    @property
-    def game_status_url(self):
-        return "api/v1/game/my-game"
-
-    def test_call_for_an_attack(self, auth_header_generator):
+class TestCallForAnAttackAction(BaseGameTestCase):
+    def test_call_for_an_attack(self):
         request = {
             "game_id": "1",
             "action": {
@@ -27,7 +12,7 @@ class TestCallForAnAttackAction:
             "payload": None
         }
 
-        headers = auth_header_generator(self.game.get_fd_caption())
+        headers = self.auth_header(self.game.get_fd_caption())
         self.client.post(
             self.do_action_url, json=request, headers=headers
         )
