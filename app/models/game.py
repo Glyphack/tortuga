@@ -6,13 +6,13 @@ from typing import List, Dict, Optional
 
 @dataclass
 class Votes:
-    cannons: int
-    fire: int
-    water: int
-    britain: int
-    france: int
-    skull: int
-    wheel: int
+    cannons: int = 0
+    fire: int = 0
+    water: int = 0
+    britain: int = 0
+    france: int = 0
+    skull: int = 0
+    wheel: int = 0
 
 
 @dataclass
