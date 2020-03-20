@@ -4,10 +4,10 @@ from starlette.requests import Request
 
 from app.api.services.game_services.service import (
     get_player_game,
-    handle_call_for_an_attack_action, handle_attack_vote_action,
+    handle_attack_vote_action,
     remove_game, is_game_host,
-    generate_game_schema_from_game
-)
+    generate_game_schema_from_game,
+    get_action_handler)
 from app.schemas.game_schema import (
     MyGameResponse,
     DoActionRequest,
@@ -40,13 +40,12 @@ async def do_action(request: Request, action_request: DoActionRequest):
     if game is None:
         return MyGameResponse(game_status=None, has_game=False)
 
-    if action_request.action.action_type == Action.ActionType.CAPTAIN_CALL_FOR_AN_ATTACK:
-        handle_call_for_an_attack_action(game, request.user.username)
-    elif action_request.action.action_type == Action.ActionType.VOTE:
-        handle_attack_vote_action(
-            game, request.user.username,
-            DoActionRequest.payload.vote_card_index
-        )
+    get_action_handler(
+        game,
+        request.user.username,
+        action_request.action
+    ).execute()
+
     return
 
 

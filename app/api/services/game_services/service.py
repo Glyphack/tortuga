@@ -1,6 +1,10 @@
 import random
-from typing import List, Dict, Type
+from typing import List, Dict
 
+from app.api.services.game_services.action_handlers import handlers
+from app.api.services.game_services.action_handlers.action_handler import (
+    ActionHandler
+)
 from app.api.services.lobby_service import remove_lobby
 from app.models.game import Game, Player, Chests, Votes
 from app.schemas import game_schema
@@ -45,7 +49,10 @@ def _give_treasure_to_captains(players_info: Dict[str, Player],
                                positions: Dict[str, game_schema.Positions]):
     updated_players_info = players_info.copy()
     for player, position in positions.items():
-        if position == game_schema.Positions.FD1.value or position == game_schema.Positions.JR1.value:
+        if (
+                position == game_schema.Positions.FD1.value or
+                position == game_schema.Positions.JR1.value
+        ):
             updated_players_info[player].chests += 1
 
     return updated_players_info
@@ -83,7 +90,7 @@ def create_new_game(game_id: str, players: List[str], host: str) -> Game:
         is_over=False,
         turn=players[0],
         winner=None,
-        host=host
+        host=host,
     )
     game_statuses[game_id] = new_game
     return new_game
@@ -110,55 +117,10 @@ def next_turn(game: Game, current: str):
     game.turn = list(game.players_position.keys())[index]
 
 
-def get_attack_call_participating_players(
-        players_position: Dict[str, game_schema.Positions], captain: str):
-    positions = []
-    participating = []
-    if players_position.get(captain) == game_schema.Positions.JR1:
-        positions = [
-            game_schema.Positions.JR1,
-            game_schema.Positions.JR2,
-            game_schema.Positions.JR3,
-            game_schema.Positions.JR4,
-            game_schema.Positions.JR5
-        ]
-    elif players_position.get(captain) == game_schema.Positions.FD1:
-        positions = [
-            game_schema.Positions.FD1,
-            game_schema.Positions.FD2,
-            game_schema.Positions.FD3,
-            game_schema.Positions.FD4,
-            game_schema.Positions.FD5
-        ]
-    for player, position in players_position.items():
-        if position in positions:
-            participating.append(player)
-    return participating
-
-
-def handle_call_for_an_attack_action(game: Game, player: str):
-    assert (
-            game.players_position.get(player) == game_schema.Positions.JR1 or
-            game.players_position.get(player) == game_schema.Positions.FD1
-    )
-    participating_players = get_attack_call_participating_players(
-        game.players_position, player
-    )
-    action = game_schema.Action(
-        action_type=game_schema.Action.ActionType.CAPTAIN_CALL_FOR_AN_ATTACK,
-        action_data=game_schema.CaptainCallForAttackData(
-            state=game_schema.State.InProgress,
-            participating_players=participating_players
-        )
-    )
-    game.last_action = action
-    votes[game.id] = Votes()
-
-
 def handle_attack_vote_action(game: Game, player: str, card_index: int):
     assert (
-        game.last_action.action_type == game_schema.Action.ActionType.CAPTAIN_CALL_FOR_AN_ATTACK and
-        game.last_action.action_data.state == game_schema.State.InProgress
+            game.last_action.action_type == game_schema.Action.ActionType.CAPTAIN_CALL_FOR_AN_ATTACK and
+            game.last_action.action_data.state == game_schema.State.InProgress
     )
     vote_card = game.players_info.get(player).vote_cards[card_index]
     vote = votes.get(game.id)
@@ -207,3 +169,9 @@ def generate_game_schema_from_game(username: str):
         turn=User(username=game.turn),
         winner=game.winner
     )
+
+
+def get_action_handler(game: Game, player: str,
+                       action: game_schema.Action) -> ActionHandler:
+    action_handler = handlers.get(action.action_type)(game, player, action)
+    return action_handler
