@@ -16,6 +16,7 @@ players_game: Dict[str, str] = {}
 votes: Dict[str, Votes] = {}
 
 
+
 def _give_players_vote_cards(game: Game):
     for player_info in game.players_info.values():
         if player_info.vote_cards is None:
@@ -31,6 +32,31 @@ def _give_players_vote_cards(game: Game):
                 wheel=0
             )
         ])
+
+
+def _get_available_actions(role: Player.Role):
+    global_actions = [
+        game_schema.Action.ActionType.MOVE,
+        game_schema.Action.ActionType.VIEW_TWO_EVENT_CARDS,
+        game_schema.Action.ActionType.REVEAL_ONE_EVENT_CARD,
+        game_schema.Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD
+    ]
+    available_actions = []
+    available_actions.extend(global_actions)
+    if role == Player.Role.CAPTAIN:
+        available_actions.extend([
+            game_schema.Action.ActionType.CAPTAIN_CALL_FOR_AN_ATTACK,
+            game_schema.Action.ActionType.MAROON_ANY_CREW_MATE_TO_TORTUGA
+        ])
+    elif role == Player.Role.GOVERNOR_OF_TORTUGA:
+        available_actions.append(
+            game_schema.Action.ActionType.GOVERNOR_OF_TORTUGA_CALL_FOR_BRAWL
+        )
+    elif role == Player.Role.CABIN_BOY:
+        available_actions.append(
+            game_schema.Action.ActionType.CABIN_BOYS_MOVE_TREASURE
+        )
+    return available_actions
 
 
 def _generate_map(players: List[str]):
@@ -163,7 +189,8 @@ def generate_game_schema_from_game(username: str):
             team=player_info.team,
             vote_cards=player_info.vote_cards,
             event_cards=player_info.event_cards,
-            role=player_info.role
+            role=player_info.role,
+            available_actions=_get_available_actions(player_info.role)
         ),
         last_action=game.last_action,
         is_over=game.is_over,

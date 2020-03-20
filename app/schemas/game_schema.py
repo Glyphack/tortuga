@@ -140,6 +140,7 @@ class PlayerGameInfo(APIModel):
     vote_cards: Optional[List[VoteCard]] = None
     event_cards: Optional[List[EventCard]] = None
     role: Optional[Role]
+    available_actions: List[Action.ActionType]
 
 
 class Chests(BaseModel):
