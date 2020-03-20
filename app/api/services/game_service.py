@@ -136,8 +136,7 @@ def get_attack_call_participating_players(
     return participating
 
 
-def handle_call_for_an_attack_action(game: Game, player: str,
-                                     action: game_schema.Action):
+def handle_call_for_an_attack_action(game: Game, player: str):
     assert (
             game.players_position.get(player) == game_schema.Positions.JR1 or
             game.players_position.get(player) == game_schema.Positions.FD1
