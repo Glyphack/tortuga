@@ -37,21 +37,12 @@ class TestCallForAnAttackAction:
         )
 
         expected_response = {
-            'gameStatus': {
-                'playersPosition': {'p2': 'jr_1', 'p3': 'fd_1', 'p1': 'jr_2',
-                                    'p4': 'fd_2'},
-                'chestsPosition': {'fdFr': 0, 'fdEn': 0, 'sgNt': 4, 'jrFr': 0,
-                                   'jrEn': 0, 'trFr': 1, 'trEn': 1},
-                'playerGameInfo': {'team': 'dutch', 'voteCards': None,
-                                   'eventCards': None, 'role': None},
-                'lastAction': {
-                    'actionType': 'call for an attack',
-                    'actionData': {
-                        'state': 'in_progress',
-                        'participatingPlayers': ['p2', 'p1']}
-                },
-                'isOver': False, 'turn': {'username': 'p1'}, 'winner': None},
-            'hasGame': True
+            'actionType': 'call for an attack',
+            'actionData': {
+                'state': 'in_progress',
+                'participatingPlayers': self.game.last_action
+                .action_data.participating_players
+            }
         }
 
-        assert response.json() == expected_response
+        assert response.json()["gameStatus"]["lastAction"] == expected_response
