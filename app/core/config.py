@@ -20,3 +20,5 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 10  # 60 minutes * 24 hours * 8 days = 8
 BACKEND_CORS_ORIGINS = os.getenv(
     "BACKEND_CORS_ORIGINS"
 )
+
+SENTRY_DSN = os.getenv("SENTRY_DSN")
