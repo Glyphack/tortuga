@@ -24,3 +24,4 @@ class VoteActionHandler(ActionHandler):
                 self.game.last_action.action_data.state = game_schema.State.Success
             else:
                 self.game.last_action.action_data.state = game_schema.State.Failed
+            self.game.next_turn()

@@ -150,18 +150,6 @@ def get_player_info_in_game(game: Game, player_id: str) -> Player:
     return game.players_info[player_id]
 
 
-def next_turn(game: Game, current: str):
-    index = 0
-    for index, player in enumerate(game.players_position.keys()):
-        if player == current:
-            break
-        else:
-            index += 1
-    if index == len(game.players_position.keys()):
-        index = 0
-    game.turn = list(game.players_position.keys())[index]
-
-
 def remove_game(game_id: str):
     del game_statuses[game_id]
     remove_lobby(game_id)
