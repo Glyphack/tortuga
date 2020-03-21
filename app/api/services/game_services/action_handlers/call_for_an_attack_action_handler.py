@@ -36,21 +36,9 @@ class CallForAnAttackActionHandler(ActionHandler):
 
         participating = []
         if players_position.get(captain) == game_schema.Positions.JR1:
-            positions = [
-                game_schema.Positions.JR1,
-                game_schema.Positions.JR2,
-                game_schema.Positions.JR3,
-                game_schema.Positions.JR4,
-                game_schema.Positions.JR5
-            ]
+            positions = game_schema.Positions.jr_positions()
         elif players_position.get(captain) == game_schema.Positions.FD1:
-            positions = [
-                game_schema.Positions.FD1,
-                game_schema.Positions.FD2,
-                game_schema.Positions.FD3,
-                game_schema.Positions.FD4,
-                game_schema.Positions.FD5
-            ]
+            positions = game_schema.Positions.fd_positions()
         for player, position in players_position.items():
             if position in positions:
                 participating.append(player)
