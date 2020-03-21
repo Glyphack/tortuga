@@ -74,7 +74,6 @@ class Game:
     def next_turn(self):
         index = self.players.index(self.turn)
         index += 1
-        if index == len(self.players_position.keys()):
+        if index == len(self.players):
             index = 0
-
-        self.turn = list(self.players_position.keys())[index]
+        self.turn = self.players[index]
