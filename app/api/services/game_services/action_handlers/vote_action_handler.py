@@ -22,6 +22,9 @@ class VoteActionHandler(ActionHandler):
         if len(self.game.last_action.action_data.participating_players) == 0:
             if self.game.votes.fire < self.game.votes.water:
                 self.game.last_action.action_data.state = game_schema.State.Success
+                self.game.give_chest(
+                    self.game.last_action.action_data.which_captain
+                )
             else:
                 self.game.last_action.action_data.state = game_schema.State.Failed
             self.game.next_turn()
