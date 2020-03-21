@@ -12,7 +12,7 @@ class TestVoteAction(BaseGameTestCase):
         player_turn = self.game.turn
         for player in participating_players_copy:
             self._vote(player)
-
+        new_player_turn = self.game.turn
         response = self.client.get(
             self.game_status_url,
             headers=self.auth_header(self.game.get_fd_caption())
@@ -26,7 +26,7 @@ class TestVoteAction(BaseGameTestCase):
         }
 
         assert response["gameStatus"]["lastAction"] == expected_last_action
-        assert response["gameStatus"]["turn"]["username"] != player_turn
+        assert player_turn != new_player_turn
 
     def test_voting_twice(self):
         self._start_call_for_action()
@@ -38,9 +38,9 @@ class TestVoteAction(BaseGameTestCase):
 
     def test_player_should_not_vote(self):
         self._start_call_for_action()
-        not_voting_players = (
-                self.game.players -
-                self.game.last_action.action_data.participating_players
+        not_voting_players = list(
+                set(self.game.players) -
+                set(self.game.last_action.action_data.participating_players)
         )
         player = not_voting_players.pop()
         response = self._vote(player)
