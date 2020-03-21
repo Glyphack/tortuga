@@ -28,7 +28,7 @@ class BaseGameTestCase:
             },
             "payload": None
         }
-        headers = self.auth_header(self.game.get_fd_caption())
+        headers = self.auth_header(self.game.get_jr_caption())
         self.client.post(
             self.do_action_url, json=request, headers=headers
         )

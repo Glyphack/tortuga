@@ -15,14 +15,14 @@ class TestVoteAction(BaseGameTestCase):
         new_player_turn = self.game.turn
         response = self.client.get(
             self.game_status_url,
-            headers=self.auth_header(self.game.get_fd_caption())
+            headers=self.auth_header(self.game.get_jr_caption())
         ).json()
         expected_last_action = {
             'actionType': 'call for an attack',
             'actionData': {
                 'state': self.game.last_action.action_data.state.value,
                 'participatingPlayers': [],
-                "whichCaptain": {"username": self.game.get_fd_caption()}
+                "whichCaptain": {"username": self.game.get_jr_caption()}
             }
         }
 
