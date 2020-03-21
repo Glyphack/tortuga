@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e191c8f97515ffd2014725bf916cceb6527f2063b3b487dbe70ae4555e2f6b64"
+            "sha256": "61916b1476ee0646354f6da89da3a256b37001dd777f11b80add83f8b7ed085a"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -120,6 +120,14 @@
             "index": "pypi",
             "version": "==1.7.1"
         },
+        "python-dotenv": {
+            "hashes": [
+                "sha256:81822227f771e0cab235a2939f0f265954ac4763cafd806d845801c863bf372f",
+                "sha256:92b3123fb2d58a284f76cc92bfe4ee6c502c32ded73e8b051c4f6afc8b6751ed"
+            ],
+            "index": "pypi",
+            "version": "==0.12.0"
+        },
         "requests": {
             "hashes": [
                 "sha256:43999036bfa82904b6af1d99e4882b560e5e2c68e5c4b0aa03b655f3d7d73fee",
@@ -127,6 +135,14 @@
             ],
             "index": "pypi",
             "version": "==2.23.0"
+        },
+        "sentry-sdk": {
+            "hashes": [
+                "sha256:23808d571d2461a4ce3784ec12bbee5bdb8c026c143fe79d36cef8a6d653e71f",
+                "sha256:bb90a4e19c7233a580715fc986cc44be2c48fc10b31e71580a2037e1c94b6950"
+            ],
+            "index": "pypi",
+            "version": "==0.14.3"
         },
         "sqlalchemy": {
             "hashes": [

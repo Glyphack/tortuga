@@ -44,7 +44,7 @@ def _get_available_actions(player: Player):
     available_actions.extend(global_actions)
     if player.role == Player.Role.CAPTAIN:
         available_actions.extend([
-            game_schema.Action.ActionType.CAPTAIN_CALL_FOR_AN_ATTACK,
+            game_schema.Action.ActionType.CALL_FOR_AN_ATTACK,
             game_schema.Action.ActionType.MAROON_ANY_CREW_MATE_TO_TORTUGA
         ])
     elif player.role == Player.Role.GOVERNOR_OF_TORTUGA:
@@ -53,7 +53,7 @@ def _get_available_actions(player: Player):
         )
     elif player.role == Player.Role.CABIN_BOY:
         available_actions.append(
-            game_schema.Action.ActionType.CABIN_BOYS_MOVE_TREASURE
+            game_schema.Action.ActionType.GOVERNOR_OF_TORTUGA_CALL_FOR_BRAWL
         )
     if player.chests > 1:
         available_actions.append(
@@ -101,6 +101,7 @@ def _give_treasure_to_captains(players_info: Dict[str, Player],
                 position == game_schema.Positions.JR1.value
         ):
             updated_players_info[player].chests += 1
+            updated_players_info[player].role = game_schema.PlayerGameInfo.Role.CAPTAIN
 
     return updated_players_info
 
@@ -135,11 +136,12 @@ def create_new_game(game_id: str, players: List[str], host: str) -> Game:
         players_position=players_positions,
         last_action=None,
         is_over=False,
-        turn=players[0],
         winner=None,
         host=host,
     )
     _give_players_vote_cards(new_game)
+    new_game.turn = new_game.get_fd_caption()
+    print(new_game)
     game_statuses[game_id] = new_game
     return new_game
 

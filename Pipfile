@@ -15,6 +15,8 @@ gunicorn = "*"
 pyjwt = "*"
 fastapi-utils = "*"
 requests = "*"
+sentry-sdk = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.8"
