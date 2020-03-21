@@ -1,6 +1,7 @@
 from app.api.services.game_services.action_handlers.action_handler import (
     ActionHandler
 )
+from app.models.game import Votes
 from app.schemas import game_schema
 
 
@@ -27,4 +28,5 @@ class VoteActionHandler(ActionHandler):
                 )
             else:
                 self.game.last_action.action_data.state = game_schema.State.Failed
+            self.game.votes = Votes()
             self.game.next_turn()
