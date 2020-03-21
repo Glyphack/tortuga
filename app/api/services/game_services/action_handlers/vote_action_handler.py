@@ -8,7 +8,8 @@ class VoteActionHandler(ActionHandler):
     def execute(self):
         assert (
                 self.game.last_action.action_type == game_schema.Action.ActionType.CALL_FOR_AN_ATTACK and
-                self.game.last_action.action_data.state == game_schema.State.InProgress
+                self.game.last_action.action_data.state == game_schema.State.InProgress and
+                self.player in self.game.last_action.action_data.participating_players
         )
         vote_card = self.game.players_info.get(self.player).vote_cards.pop(
             self.payload.vote_card_index - 1
@@ -23,5 +24,3 @@ class VoteActionHandler(ActionHandler):
                 self.game.last_action.action_data.state = game_schema.State.Success
             else:
                 self.game.last_action.action_data.state = game_schema.State.Failed
-
-
