@@ -77,3 +77,6 @@ class Game:
         if index == len(self.players):
             index = 0
         self.turn = self.players[index]
+
+    def give_chest(self, player):
+        self.players_info.get(player).chests += 1
