@@ -1,11 +1,13 @@
 from fastapi import FastAPI
 from starlette.middleware.authentication import AuthenticationMiddleware
 from starlette.middleware.cors import CORSMiddleware
+import sentry_sdk
 
 from app.core import config
 from app.api.api_v1 import api_router
 from app.middlewares.authentication import JWTAuthenticationBackend
 
+sentry_sdk.init(dsn=config.SENTRY_DSN)
 app = FastAPI(title="tortugack", version="0.1.0")
 
 # CORS
