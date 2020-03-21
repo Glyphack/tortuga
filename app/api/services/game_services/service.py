@@ -33,7 +33,7 @@ def _give_players_vote_cards(game: Game):
         ])
 
 
-def _get_available_actions(role: Player.Role):
+def _get_available_actions(player: Player):
     global_actions = [
         game_schema.Action.ActionType.MOVE,
         game_schema.Action.ActionType.VIEW_TWO_EVENT_CARDS,
@@ -42,18 +42,22 @@ def _get_available_actions(role: Player.Role):
     ]
     available_actions = []
     available_actions.extend(global_actions)
-    if role == Player.Role.CAPTAIN:
+    if player.role == Player.Role.CAPTAIN:
         available_actions.extend([
             game_schema.Action.ActionType.CAPTAIN_CALL_FOR_AN_ATTACK,
             game_schema.Action.ActionType.MAROON_ANY_CREW_MATE_TO_TORTUGA
         ])
-    elif role == Player.Role.GOVERNOR_OF_TORTUGA:
+    elif player.role == Player.Role.GOVERNOR_OF_TORTUGA:
         available_actions.append(
             game_schema.Action.ActionType.GOVERNOR_OF_TORTUGA_CALL_FOR_BRAWL
         )
-    elif role == Player.Role.CABIN_BOY:
+    elif player.role == Player.Role.CABIN_BOY:
         available_actions.append(
             game_schema.Action.ActionType.CABIN_BOYS_MOVE_TREASURE
+        )
+    if player.chests > 1:
+        available_actions.append(
+            game_schema.Action.ActionType.PUT_CHEST
         )
     return available_actions
 
@@ -177,7 +181,7 @@ def generate_game_schema_from_game(username: str):
             vote_cards=player_info.vote_cards,
             event_cards=player_info.event_cards,
             role=player_info.role,
-            available_actions=_get_available_actions(player_info.role)
+            available_actions=_get_available_actions(player_info)
         ),
         last_action=game.last_action,
         is_over=game.is_over,
