@@ -37,13 +37,19 @@ async def do_action(request: Request, action_request: DoActionRequest):
     game = get_player_game(request.user.username)
     if game is None:
         return MyGameResponse(game_status=None, has_game=False)
-
-    get_action_handler(
-        game,
-        request.user.username,
-        action_request.action,
-        payload=action_request.payload
-    ).execute()
+    try:
+        get_action_handler(
+            game,
+            request.user.username,
+            action_request.action,
+            payload=action_request.payload
+        ).execute()
+    except AssertionError:
+        raise HTTPException(
+            status_code=400,
+            detail="Something went wrong perhaps you "
+                   "should not do this action now"
+        )
 
     return
 
