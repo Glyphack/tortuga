@@ -72,6 +72,7 @@ class ForceAnotherPlayerToChooseCardActionData(APIModel):
 
 
 class CaptainCallForAttackData(APIModel):
+    which_captain: User
     state: State
     participating_players: List[str] = []
 
@@ -141,6 +142,7 @@ class PlayerGameInfo(APIModel):
     event_cards: Optional[List[EventCard]] = None
     role: Optional[Role]
     available_actions: List[Action.ActionType]
+    chests: int = 0
 
 
 class Chests(BaseModel):
