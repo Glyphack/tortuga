@@ -37,6 +37,14 @@ class Positions(str, Enum):
     TR_FR = "tr_fr"
     SP = "sg_nt"
 
+    @classmethod
+    def fd_positions(cls):
+        return [cls.FD1, cls.FD2, cls.FD3, cls.FD4, cls.FD5]
+
+    @classmethod
+    def jr_positions(cls):
+        return [cls.JR1, cls.JR2, cls.JR3, cls.JR4, cls.JR5]
+
 
 class VoteCard(APIModel):
     cannon: int
@@ -192,13 +200,22 @@ class VotePayload(APIModel):
     vote_card_index: int
 
 
+class PutChestPayload(APIModel):
+    class Team(str, Enum):
+        britain = "BRITAIN"
+        france = "FRANCE"
+
+    which_team: Team
+
+
 PayloadType = Optional[
     Union[
         ViewTwoEventCardsPayload,
         MovePayload,
         MaroonCrewMateToTortugaPayload,
         CabinBoyMoveTreasurePayload,
-        VotePayload
+        VotePayload,
+        PutChestPayload
     ]
 ]
 
