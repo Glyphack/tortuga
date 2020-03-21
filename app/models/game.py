@@ -61,9 +61,9 @@ class Game:
     is_over: bool = False
     winner: Optional[str] = None
 
-    def get_fd_caption(self) -> Optional[str]:
+    def get_jr_caption(self) -> Optional[str]:
         for player, position in self.players_position.items():
-            if position == Positions.FD1 or position == Positions.JR1:
+            if position == Positions.JR1:
                 return player
         return None
 
@@ -78,5 +78,5 @@ class Game:
             index = 0
         self.turn = self.players[index]
 
-    def give_chest(self, player):
+    def give_chest(self, player: str):
         self.players_info.get(player).chests += 1
