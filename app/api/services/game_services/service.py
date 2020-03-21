@@ -16,7 +16,6 @@ players_game: Dict[str, str] = {}
 votes: Dict[str, Votes] = {}
 
 
-
 def _give_players_vote_cards(game: Game):
     for player_info in game.players_info.values():
         if player_info.vote_cards is None:
@@ -148,18 +147,6 @@ def get_player_game(username) -> Game:
 
 def get_player_info_in_game(game: Game, player_id: str) -> Player:
     return game.players_info[player_id]
-
-
-def next_turn(game: Game, current: str):
-    index = 0
-    for index, player in enumerate(game.players_position.keys()):
-        if player == current:
-            break
-        else:
-            index += 1
-    if index == len(game.players_position.keys()):
-        index = 0
-    game.turn = list(game.players_position.keys())[index]
 
 
 def remove_game(game_id: str):
