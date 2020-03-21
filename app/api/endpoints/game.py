@@ -36,7 +36,7 @@ async def do_action(request: Request, action_request: DoActionRequest):
         return HTTPException(status_code=401)
     game = get_player_game(request.user.username)
     if game is None:
-        return MyGameResponse(game_status=None, has_game=False)
+        raise HTTPException(status_code=400)
     try:
         get_action_handler(
             game,
