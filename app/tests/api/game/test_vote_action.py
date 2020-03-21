@@ -9,6 +9,7 @@ class TestVoteAction(BaseGameTestCase):
         participating_players_copy = (
             self.game.last_action.action_data.participating_players.copy()
         )
+        player_turn = self.game.turn
         for player in participating_players_copy:
             self._vote(player)
 
@@ -16,7 +17,7 @@ class TestVoteAction(BaseGameTestCase):
             self.game_status_url,
             headers=self.auth_header(self.game.get_fd_caption())
         ).json()
-        expected_response = {
+        expected_last_action = {
             'actionType': 'call for an attack',
             'actionData': {
                 'state': self.game.last_action.action_data.state.value,
@@ -24,7 +25,8 @@ class TestVoteAction(BaseGameTestCase):
             }
         }
 
-        assert response["gameStatus"]["lastAction"] == expected_response
+        assert response["gameStatus"]["lastAction"] == expected_last_action
+        assert response["gameStatus"]["turn"]["username"] != player_turn
 
     def test_voting_twice(self):
         self._start_call_for_action()
@@ -36,8 +38,11 @@ class TestVoteAction(BaseGameTestCase):
 
     def test_player_should_not_vote(self):
         self._start_call_for_action()
-        players = self.game.players_position.keys() - self.game.last_action.action_data.participating_players
-        player = players.pop()
+        not_voting_players = (
+                self.game.players -
+                self.game.last_action.action_data.participating_players
+        )
+        player = not_voting_players.pop()
         response = self._vote(player)
         assert response.status_code == 400
 
