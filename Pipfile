@@ -5,6 +5,8 @@ verify_ssl = true
 
 [dev-packages]
 pycodestyle = "*"
+pytest-cov = "*"
+pytest = "*"
 
 [packages]
 uvicorn = "*"
@@ -12,7 +14,6 @@ fastapi = "*"
 gunicorn = "*"
 pyjwt = "*"
 fastapi-utils = "*"
-pytest = "*"
 requests = "*"
 
 [requires]
