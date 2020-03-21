@@ -21,7 +21,8 @@ class TestVoteAction(BaseGameTestCase):
             'actionType': 'call for an attack',
             'actionData': {
                 'state': self.game.last_action.action_data.state.value,
-                'participatingPlayers': []
+                'participatingPlayers': [],
+                "whichCaptain": {"username": self.game.get_fd_caption()}
             }
         }
 
@@ -62,33 +63,3 @@ class TestVoteAction(BaseGameTestCase):
         for player in participating_players_copy:
             self._vote(player)
         assert turn != self.game.turn
-
-    def _start_call_for_action(self):
-        request = {
-            "game_id": "1",
-            "action": {
-                "actionType": "call for an attack",
-                "actionData": None
-            },
-            "payload": None
-        }
-        headers = self.auth_header(self.game.get_fd_caption())
-        self.client.post(
-            self.do_action_url, json=request, headers=headers
-        )
-
-    def _vote(self, player: str) -> requests.Response:
-        request = {
-            "gameId": self.game.id,
-            "action": {
-                "actionType": "vote",
-            },
-            "payload": {
-                "voteCardIndex": 1
-            }
-        }
-        headers = self.auth_header(player)
-        response = self.client.post(
-            self.do_action_url, headers=headers, json=request
-        )
-        return response

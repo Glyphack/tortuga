@@ -3,20 +3,9 @@ from app.tests.api.game.base import BaseGameTestCase
 
 class TestCallForAnAttackAction(BaseGameTestCase):
     def test_call_for_an_attack(self):
-        request = {
-            "game_id": "1",
-            "action": {
-                "actionType": "call for an attack",
-                "actionData": None
-            },
-            "payload": None
-        }
-
-        headers = self.auth_header(self.game.get_fd_caption())
-        self.client.post(
-            self.do_action_url, json=request, headers=headers
-        )
-
+        player = self.game.get_fd_caption()
+        self._call_for_an_attack(player)
+        headers = self.auth_header(player)
         response = self.client.get(
             self.game_status_url, headers=headers
         )
@@ -26,8 +15,10 @@ class TestCallForAnAttackAction(BaseGameTestCase):
             'actionData': {
                 'state': 'in_progress',
                 'participatingPlayers': self.game.last_action
-                .action_data.participating_players
-            }
+                    .action_data.participating_players,
+                "whichCaptain": {"username": self.game.get_fd_caption()}
+            },
+
         }
 
         assert response.json()["gameStatus"]["lastAction"] == expected_response
