@@ -140,8 +140,7 @@ def create_new_game(game_id: str, players: List[str], host: str) -> Game:
         host=host,
     )
     _give_players_vote_cards(new_game)
-    new_game.turn = new_game.get_fd_caption()
-    print(new_game)
+    new_game.turn = new_game.get_jr_caption()
     game_statuses[game_id] = new_game
     return new_game
 
