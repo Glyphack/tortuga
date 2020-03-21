@@ -16,7 +16,6 @@ players_game: Dict[str, str] = {}
 votes: Dict[str, Votes] = {}
 
 
-
 def _give_players_vote_cards(game: Game):
     for player_info in game.players_info.values():
         if player_info.vote_cards is None:
@@ -34,7 +33,7 @@ def _give_players_vote_cards(game: Game):
         ])
 
 
-def _get_available_actions(role: Player.Role):
+def _get_available_actions(role: game_schema.PlayerGameInfo.Role):
     global_actions = [
         game_schema.Action.ActionType.MOVE,
         game_schema.Action.ActionType.VIEW_TWO_EVENT_CARDS,
@@ -43,16 +42,16 @@ def _get_available_actions(role: Player.Role):
     ]
     available_actions = []
     available_actions.extend(global_actions)
-    if role == Player.Role.CAPTAIN:
+    if role == game_schema.PlayerGameInfo.Role.CAPTAIN:
         available_actions.extend([
-            game_schema.Action.ActionType.CAPTAIN_CALL_FOR_AN_ATTACK,
+            game_schema.Action.ActionType.CALL_FOR_AN_ATTACK,
             game_schema.Action.ActionType.MAROON_ANY_CREW_MATE_TO_TORTUGA
         ])
-    elif role == Player.Role.GOVERNOR_OF_TORTUGA:
+    elif role == game_schema.PlayerGameInfo.Role.GOVERNOR_OF_TORTUGA:
         available_actions.append(
             game_schema.Action.ActionType.GOVERNOR_OF_TORTUGA_CALL_FOR_BRAWL
         )
-    elif role == Player.Role.CABIN_BOY:
+    elif role == game_schema.PlayerGameInfo.Role.CABIN_BOY:
         available_actions.append(
             game_schema.Action.ActionType.CABIN_BOYS_MOVE_TREASURE
         )
@@ -98,6 +97,7 @@ def _give_treasure_to_captains(players_info: Dict[str, Player],
                 position == game_schema.Positions.JR1.value
         ):
             updated_players_info[player].chests += 1
+            updated_players_info[player].role = game_schema.PlayerGameInfo.Role.CAPTAIN
 
     return updated_players_info
 
