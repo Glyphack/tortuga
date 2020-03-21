@@ -66,3 +66,14 @@ class Game:
             if position == Positions.FD1 or position == Positions.JR1:
                 return player
         return None
+
+    @property
+    def players(self):
+        return list(self.players_position.keys())
+
+    def next_turn(self):
+        index = self.players.index(self.turn)
+        index += 1
+        if index == len(self.players):
+            index = 0
+        self.turn = self.players[index]
