@@ -90,8 +90,31 @@ class Game:
 
     @property
     def first_empty_tortuga_slot(self):
-        tg_positions = Positions.tg_positions().copy()
+        tg_positions = Positions.tr_positions().copy()
         for player, position in self.players_position.items():
             if position in tg_positions:
                 tg_positions.remove(position)
         return tg_positions[0]
+
+    def is_empty(self, position: Positions):
+        for _, position_occupied in self.players_position.items():
+            if position == position_occupied:
+                return False
+        return True
+
+    def set_position(self, player: str, position: Positions):
+        if position == Positions.JR:
+            jr_positions = Positions.jr_positions().copy()
+            for _, p in self.players_position.items():
+                if p in jr_positions:
+                    jr_positions.remove(p)
+            position = jr_positions[0]
+        elif position == Positions.FD:
+            fd_positions = Positions.fd_positions().copy()
+            for _, p in self.players_position.items():
+                if p in fd_positions:
+                    fd_positions.remove(p)
+            position = fd_positions[0]
+        elif position == Positions.TR:
+            position = self.first_empty_tortuga_slot
+        self.players_position[player] = position

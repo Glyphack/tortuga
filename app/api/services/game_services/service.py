@@ -81,15 +81,15 @@ def _generate_map(players: List[str]):
     shuffled_players = players.copy()
     random.shuffle(shuffled_players)
     positions = [e.value for e in game_schema.Positions]
-    jr_head = 8
-    fl_head = 0
+    jr_head = 10
+    fd_head = 1
     for index, player in enumerate(shuffled_players):
         if index % 2 == 0:
             players_position[player] = positions[jr_head]
             jr_head += 1
         else:
-            players_position[player] = positions[fl_head]
-            fl_head += 1
+            players_position[player] = positions[fd_head]
+            fd_head += 1
     return players_position
 
 

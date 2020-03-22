@@ -8,6 +8,7 @@ from app.schemas.auth import User
 
 
 class Positions(str, Enum):
+    FD = "fd"
     FD1 = "fd_1"
     FD2 = "fd_2"
     FD3 = "fd_3"
@@ -16,6 +17,7 @@ class Positions(str, Enum):
     FD_EN = "fd_en"
     FD_FR = "fd_fr"
     FD_B = "fd_b"
+    JR = "jr"
     JR1 = "jr_1"
     JR2 = "jr_2"
     JR3 = "jr_3"
@@ -24,6 +26,7 @@ class Positions(str, Enum):
     JR_EN = "jr_en"
     JR_FR = "jr_fr"
     JR_B = "jr_b"
+    TR = "tr"
     TR1 = "tr_1"
     TR2 = "tr_2"
     TR3 = "tr_3"
@@ -46,7 +49,7 @@ class Positions(str, Enum):
         return [cls.JR1, cls.JR2, cls.JR3, cls.JR4, cls.JR5]
 
     @classmethod
-    def tg_positions(cls):
+    def tr_positions(cls):
         return [
             cls.TR1, cls.TR2, cls.TR3, cls.TR4, cls.TR5,
             cls.TR6, cls.TR7, cls.TR8, cls.TR9
@@ -191,7 +194,13 @@ class ViewTwoEventCardsPayload(APIModel):
 
 
 class MovePayload(APIModel):
-    where: str
+    move_where: Union[
+        Positions.TR,
+        Positions.FD,
+        Positions.JR,
+        Positions.JR_B,
+        Positions.FD_B
+    ]
 
 
 class MaroonCrewMateToTortugaPayload(APIModel):
