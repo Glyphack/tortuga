@@ -62,6 +62,7 @@ class Game:
         for player, position in self.players_position.items():
             if position == Positions.JR1:
                 return player
+        print("ookkk")
         return None
 
     @property
@@ -103,4 +104,16 @@ class Game:
         return True
 
     def set_position(self, player: str, position: Positions):
+        if position == Positions.JR:
+            fd_positions = Positions.jr_positions().copy()
+            for player, position in self.players_position.items():
+                if position in fd_positions:
+                    fd_positions.remove(position)
+            return fd_positions[0]
+        elif position == Positions.FD:
+            fd_positions = Positions.fd_positions().copy()
+            for player, position in self.players_position.items():
+                if position in fd_positions:
+                    fd_positions.remove(position)
+            return fd_positions[0]
         self.players_position[player] = position
