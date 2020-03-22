@@ -182,7 +182,8 @@ def generate_game_schema_from_game(username: str):
             vote_cards=player_info.vote_cards,
             event_cards=player_info.event_cards,
             role=player_info.role,
-            available_actions=_get_available_actions(player_info)
+            available_actions=_get_available_actions(player_info),
+            chests=player_info.chests
         ),
         last_action=game.last_action,
         is_over=game.is_over,
