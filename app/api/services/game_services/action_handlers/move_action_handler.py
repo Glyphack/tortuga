@@ -7,12 +7,11 @@ class MoveActionHandler(ActionHandler):
         move_where = self.payload.move_where
         player_position = self.game.players_position.get(self.player)
         assert self.game.is_empty(move_where)
-
         if player_position in Positions.jr_positions():
             assert move_where == Positions.JR_B
         elif player_position in Positions.fd_positions():
             assert move_where == Positions.FD_B
-        elif player_position in Positions.tg_positions():
+        elif player_position in Positions.tr_positions():
             assert move_where in [Positions.FD_B, Positions.JR_B]
         elif player_position == Positions.JR_B:
             assert move_where in [Positions.TR, Positions.JR]

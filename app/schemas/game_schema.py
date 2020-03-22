@@ -49,7 +49,7 @@ class Positions(str, Enum):
         return [cls.JR1, cls.JR2, cls.JR3, cls.JR4, cls.JR5]
 
     @classmethod
-    def tg_positions(cls):
+    def tr_positions(cls):
         return [
             cls.TR1, cls.TR2, cls.TR3, cls.TR4, cls.TR5,
             cls.TR6, cls.TR7, cls.TR8, cls.TR9
