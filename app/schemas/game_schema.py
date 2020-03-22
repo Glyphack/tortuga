@@ -94,7 +94,7 @@ class CaptainCallForAttackData(APIModel):
 
 
 class MaroonAnyCrewMateToTortugaActionData(APIModel):
-    marooned_crew: User
+    marooned_crew: str
 
 
 class FirstMateCallForAMutinyActionData(APIModel):
