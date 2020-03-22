@@ -15,5 +15,5 @@ handlers: Dict[Action.ActionType, Type[ActionHandler]] = {
     Action.ActionType.PUT_CHEST: PutChestActionHandler,
     Action.ActionType.MAROON_ANY_CREW_MATE_TO_TORTUGA: MaroonCrewActionHandler,
     Action.ActionType.MOVE: MoveActionHandler,
-    Action.ActionType.CALL_FOR_BRAWL: CallForAnAttackActionHandler
+    Action.ActionType.CALL_FOR_BRAWL: CallForBrawlActionHandler
 }

@@ -13,7 +13,7 @@ class CallForBrawlActionHandler(ActionHandler):
         action = game_schema.Action(
             action_type=game_schema.Action.ActionType.CALL_FOR_BRAWL,
             action_data=game_schema.CallForBrawlActionData(
-                governer=self.player,
+                governor=self.player,
                 participating_players=participating_players,
                 state=game_schema.State.InProgress
             )
