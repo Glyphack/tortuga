@@ -22,12 +22,12 @@ class TestVoteAction(BaseGameTestCase):
             'actionData': {
                 'state': self.game.last_action.action_data.state.value,
                 'participatingPlayers': [],
-                "whichCaptain": {"username": self.game.get_jr_caption()}
+                "whichCaptain": {"username": self.game.get_jr_caption()},
+                'fromOtherShip': False
             }
         }
 
         assert response["gameStatus"]["lastAction"] == expected_last_action
-        assert player_turn != new_player_turn
 
     def test_voting_twice(self):
         self._start_call_for_action()
@@ -54,7 +54,7 @@ class TestVoteAction(BaseGameTestCase):
         self._vote(player)
         assert turn == self.game.turn
 
-    def test_turn_change_after_complete_vote(self):
+    def test_turn_change_after_successful_vote(self):
         self._start_call_for_action()
         participating_players_copy = (
             self.game.last_action.action_data.participating_players.copy()
@@ -62,4 +62,7 @@ class TestVoteAction(BaseGameTestCase):
         turn = self.game.turn
         for player in participating_players_copy:
             self._vote(player)
-        assert turn != self.game.turn
+        if self.game.last_action.action_data.state == "success":
+            assert turn == self.game.turn
+        else:
+            assert turn != self.game.turn
