@@ -26,6 +26,11 @@ class TestPutChestAction(BaseGameTestCase):
 
         assert france_chests_before + 1 == game.chests_position.jr_fr
 
+    def test_available_action_put_chest(self):
+        response = self._get_my_game(self.game.get_jr_caption()).json()
+        assert response["gameStatus"]["playerGameInfo"][
+                   "availableActions"] == ["put chest"]
+
 
 @pytest.fixture()
 def game_success_full_attack(game: Game):
