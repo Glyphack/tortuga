@@ -75,3 +75,21 @@ class Game:
 
     def give_chest(self, player: str):
         self.players_info.get(player).chests += 1
+
+    def on_same_ship(self, player1: str, player2: str):
+        ship_slots_positions = [
+            Positions.jr_positions(), Positions.fd_positions()
+        ]
+        return any(
+            self.players_position.get(player1) in ship and
+            self.players_position.get(player2) in ship
+            for ship in ship_slots_positions
+        )
+
+    @property
+    def first_empty_tortuga_slot(self):
+        tg_positions = Positions.tg_positions().copy()
+        for player, position in self.players_position.items():
+            if position in tg_positions:
+                tg_positions.remove(position)
+        return tg_positions[0]
