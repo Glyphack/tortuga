@@ -82,6 +82,7 @@ class ForceAnotherPlayerToChooseCardActionData(APIModel):
 class CaptainCallForAttackData(APIModel):
     which_captain: User
     state: State
+    from_other_ship: bool
     participating_players: List[str] = []
 
 
@@ -206,6 +207,7 @@ class PutChestPayload(APIModel):
         france = "FRANCE"
 
     which_team: Team
+    from_which_team: Optional[Team]
 
 
 PayloadType = Optional[
