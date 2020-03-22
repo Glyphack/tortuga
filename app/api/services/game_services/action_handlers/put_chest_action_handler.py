@@ -11,6 +11,20 @@ class PutChestActionHandler(ActionHandler):
         player_pos: Positions = self.game.players_position.get(
             self.player
         )
+        if not self.game.last_action.action_data.from_other_ship:
+            self.game.chests_position.sg_nt -= 1
+        else:
+            if player_pos in Positions.fd_positions():
+                if self.payload.from_which_team == PutChestPayload.Team.france:
+                    self.game.chests_position.jr_fr -= 1
+                elif self.payload.from_which_team == PutChestPayload.Team.britain:
+                    self.game.chests_position.jr_en -= 1
+            elif player_pos in Positions.jr_positions():
+                if self.payload.from_which_team == PutChestPayload.Team.france:
+                    self.game.chests_position.fd_fr -= 1
+                elif self.payload.from_which_team == PutChestPayload.Team.britain:
+                    self.game.chests_position.fd_en -= 1
+
         if team == PutChestPayload.Team.britain:
             if player_pos in Positions.fd_positions():
                 self.game.chests_position.fd_en += 1
@@ -21,4 +35,5 @@ class PutChestActionHandler(ActionHandler):
                 self.game.chests_position.fd_fr += 1
             elif player_pos in Positions.jr_positions():
                 self.game.chests_position.jr_fr += 1
+
         self.game.players_info.get(self.player).chests -= 1
