@@ -26,7 +26,7 @@ def _give_players_vote_cards(game: Game):
                 fire=random.randint(1, 2),
                 water=random.randint(1, 100),
                 britain=0,
-                england=0,
+                france=0,
                 skull=0,
                 wheel=0
             )
@@ -63,11 +63,11 @@ def _get_available_actions(player: Player, game: Game):
         ])
     elif player.role == PlayerGameInfo.Role.GOVERNOR_OF_TORTUGA:
         available_actions.append(
-            game_schema.Action.ActionType.GOVERNOR_OF_TORTUGA_CALL_FOR_BRAWL
+            game_schema.Action.ActionType.CALL_FOR_BRAWL
         )
     elif player.role == PlayerGameInfo.Role.CABIN_BOY:
         available_actions.append(
-            game_schema.Action.ActionType.GOVERNOR_OF_TORTUGA_CALL_FOR_BRAWL
+            game_schema.Action.ActionType.CALL_FOR_BRAWL
         )
     if player.chests > 1:
         available_actions.append(
