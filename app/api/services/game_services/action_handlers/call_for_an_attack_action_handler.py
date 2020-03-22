@@ -18,12 +18,17 @@ class CallForAnAttackActionHandler(ActionHandler):
             players_position=self.game.players_position,
             captain=self.player
         )
+        from_other_ship = True
+        if self.game.chests_position.sg_nt > 0:
+            from_other_ship = False
+
         action = game_schema.Action(
             action_type=game_schema.Action.ActionType.CALL_FOR_AN_ATTACK,
             action_data=game_schema.CaptainCallForAttackData(
                 state=game_schema.State.InProgress,
                 participating_players=participating_players,
-                which_captain=game_schema.User(username=self.player)
+                which_captain=game_schema.User(username=self.player),
+                from_other_ship=from_other_ship
             )
         )
         self.game.last_action = action
