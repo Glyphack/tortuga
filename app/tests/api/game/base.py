@@ -16,7 +16,7 @@ class BaseGameTestCase:
         return "api/v1/game/action"
 
     @property
-    def game_status_url(self):
+    def my_game_url(self):
         return "api/v1/game/my-game"
 
     def _start_call_for_action(self):
@@ -60,6 +60,6 @@ class BaseGameTestCase:
         }
 
         headers = self.auth_header(player)
-        self.client.post(
+        response = self.client.post(
             self.do_action_url, json=request, headers=headers
         )

@@ -14,7 +14,7 @@ class TestVoteAction(BaseGameTestCase):
             self._vote(player)
         new_player_turn = self.game.turn
         response = self.client.get(
-            self.game_status_url,
+            self.my_game_url,
             headers=self.auth_header(self.game.get_jr_caption())
         ).json()
         expected_last_action = {
