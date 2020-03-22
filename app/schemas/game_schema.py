@@ -110,8 +110,10 @@ class CabinBoysMoveTreasureActionData(APIModel):
     to_where: str
 
 
-class GovernorOfTortugaCallForBrawlActionData(APIModel):
+class CallForBrawlActionData(APIModel):
     governor: str
+    participating_players: List[str]
+    state: State
 
 
 class PutChestActionData(APIModel):
@@ -130,7 +132,7 @@ class Action(APIModel):
         MAROON_ANY_CREW_MATE_TO_TORTUGA = "maroon any crew mate to tortuga"
         FIRST_MATE_CALL_FOR_A_MUTINY = "first mate call for a mutiny"
         CABIN_BOYS_MOVE_TREASURE = "cabin boys move treasure"
-        GOVERNOR_OF_TORTUGA_CALL_FOR_BRAWL = "call for brawl"
+        CALL_FOR_BRAWL = "call for brawl"
         VOTE = "vote"
         PUT_CHEST = "put chest"
 
@@ -143,7 +145,7 @@ class Action(APIModel):
         MaroonAnyCrewMateToTortugaActionData,
         FirstMateCallForAMutinyActionData,
         CabinBoysMoveTreasureActionData,
-        GovernorOfTortugaCallForBrawlActionData,
+        CallForBrawlActionData,
         PutChestActionData
     ] = None
 
