@@ -95,3 +95,9 @@ class Game:
             if position in tg_positions:
                 tg_positions.remove(position)
         return tg_positions[0]
+
+    def is_empty(self, position: Positions):
+        for _, position_occupied in self.players_position.items():
+            if position == position_occupied:
+                return False
+        return True
