@@ -7,7 +7,7 @@ class TestCallForAnAttackAction(BaseGameTestCase):
         self._call_for_an_attack(player)
         headers = self.auth_header(player)
         response = self.client.get(
-            self.game_status_url, headers=headers
+            self.my_game_url, headers=headers
         )
 
         expected_response = {

@@ -1,5 +1,6 @@
 import pytest
 import requests
+from requests import Response
 
 from app.models.game import Game
 
@@ -16,7 +17,7 @@ class BaseGameTestCase:
         return "api/v1/game/action"
 
     @property
-    def game_status_url(self):
+    def my_game_url(self):
         return "api/v1/game/my-game"
 
     def _start_call_for_action(self):
@@ -60,6 +61,12 @@ class BaseGameTestCase:
         }
 
         headers = self.auth_header(player)
-        self.client.post(
+        response = self.client.post(
             self.do_action_url, json=request, headers=headers
         )
+        return response
+
+    def _get_my_game(self, player) -> Response:
+        headers = self.auth_header(player)
+        response = self.client.get(self.my_game_url, headers=headers)
+        return response
