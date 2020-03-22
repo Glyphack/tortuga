@@ -24,7 +24,7 @@ def _give_players_vote_cards(game: Game):
             VoteCard(
                 cannon=0,
                 fire=random.randint(1, 2),
-                water=random.randint(1, 2),
+                water=random.randint(1, 100),
                 britain=0,
                 england=0,
                 skull=0,
