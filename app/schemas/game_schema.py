@@ -61,7 +61,7 @@ class VoteCard(APIModel):
     fire: int
     water: int
     britain: int
-    england: int
+    france: int
     skull: int
     wheel: int
 
