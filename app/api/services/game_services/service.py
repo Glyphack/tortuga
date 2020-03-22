@@ -9,7 +9,7 @@ from app.api.services.lobby_service import remove_lobby
 from app.models.game import Game, Player, Chests, Votes
 from app.schemas import game_schema
 from app.schemas.auth import User
-from app.schemas.game_schema import PayloadType, VoteCard
+from app.schemas.game_schema import PayloadType, VoteCard, PlayerGameInfo
 
 game_statuses: Dict[str, Game] = {}
 players_game: Dict[str, str] = {}
@@ -42,16 +42,16 @@ def _get_available_actions(player: Player):
     ]
     available_actions = []
     available_actions.extend(global_actions)
-    if player.role == Player.Role.CAPTAIN:
+    if player.role == PlayerGameInfo.Role.CAPTAIN:
         available_actions.extend([
             game_schema.Action.ActionType.CALL_FOR_AN_ATTACK,
             game_schema.Action.ActionType.MAROON_ANY_CREW_MATE_TO_TORTUGA
         ])
-    elif player.role == Player.Role.GOVERNOR_OF_TORTUGA:
+    elif player.role == PlayerGameInfo.Role.GOVERNOR_OF_TORTUGA:
         available_actions.append(
             game_schema.Action.ActionType.GOVERNOR_OF_TORTUGA_CALL_FOR_BRAWL
         )
-    elif player.role == Player.Role.CABIN_BOY:
+    elif player.role == PlayerGameInfo.Role.CABIN_BOY:
         available_actions.append(
             game_schema.Action.ActionType.GOVERNOR_OF_TORTUGA_CALL_FOR_BRAWL
         )
