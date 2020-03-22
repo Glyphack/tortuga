@@ -45,6 +45,13 @@ class Positions(str, Enum):
     def jr_positions(cls):
         return [cls.JR1, cls.JR2, cls.JR3, cls.JR4, cls.JR5]
 
+    @classmethod
+    def tg_positions(cls):
+        return [
+            cls.TR1, cls.TR2, cls.TR3, cls.TR4, cls.TR5,
+            cls.TR6, cls.TR7, cls.TR8, cls.TR9
+        ]
+
 
 class VoteCard(APIModel):
     cannon: int
@@ -86,26 +93,25 @@ class CaptainCallForAttackData(APIModel):
     participating_players: List[str] = []
 
 
-class MaroonAnyCrewMateToTortuga(APIModel):
-    captain: User
-    crew: User
+class MaroonAnyCrewMateToTortugaActionData(APIModel):
+    marooned_crew: str
 
 
-class FirstMateCallForAMutiny(APIModel):
+class FirstMateCallForAMutinyActionData(APIModel):
     first_mate: User
 
 
-class CabinBoysMoveTreasureData(APIModel):
+class CabinBoysMoveTreasureActionData(APIModel):
     cabin_boy: User
     from_where: str
     to_where: str
 
 
-class GovernorOfTortugaCallForBrawlData(APIModel):
+class GovernorOfTortugaCallForBrawlActionData(APIModel):
     governor: str
 
 
-class PutChestData(APIModel):
+class PutChestActionData(APIModel):
     where: Positions
 
 
@@ -131,11 +137,11 @@ class Action(APIModel):
         RevealOneEventCardActionData,
         ForceAnotherPlayerToChooseCardActionData,
         CaptainCallForAttackData,
-        MaroonAnyCrewMateToTortuga,
-        FirstMateCallForAMutiny,
-        CabinBoysMoveTreasureData,
-        GovernorOfTortugaCallForBrawlData,
-        PutChestData
+        MaroonAnyCrewMateToTortugaActionData,
+        FirstMateCallForAMutinyActionData,
+        CabinBoysMoveTreasureActionData,
+        GovernorOfTortugaCallForBrawlActionData,
+        PutChestActionData
     ] = None
 
 
@@ -189,7 +195,7 @@ class MovePayload(APIModel):
 
 
 class MaroonCrewMateToTortugaPayload(APIModel):
-    who: User
+    crew_to_maroon: str
 
 
 class CabinBoyMoveTreasurePayload(APIModel):

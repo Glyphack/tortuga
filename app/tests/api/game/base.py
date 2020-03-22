@@ -66,6 +66,22 @@ class BaseGameTestCase:
         )
         return response
 
+    def _maroon_crew(self, captain: str, player: str):
+        request = {
+            "gameId": "1",
+            "action": {
+                "actionType": "maroon any crew mate to tortuga",
+            },
+            "payload": {
+                "crewToMaroon": player
+            }
+        }
+        headers = self.auth_header(captain)
+        response = self.client.post(
+            self.do_action_url, json=request, headers=headers
+        )
+        return response
+
     def _get_my_game(self, player) -> Response:
         headers = self.auth_header(player)
         response = self.client.get(self.my_game_url, headers=headers)
