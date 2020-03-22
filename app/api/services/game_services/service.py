@@ -24,7 +24,7 @@ def _give_players_vote_cards(game: Game):
             VoteCard(
                 cannon=0,
                 fire=random.randint(1, 2),
-                water=random.randint(1, 2),
+                water=random.randint(1, 100),
                 britain=0,
                 england=0,
                 skull=0,
@@ -33,14 +33,28 @@ def _give_players_vote_cards(game: Game):
         ])
 
 
-def _get_available_actions(player: Player):
+def _get_available_actions(player: Player, game: Game):
+    available_actions = []
+    if game.last_action:
+        if game.last_action.action_type == game_schema.Action.ActionType.CALL_FOR_AN_ATTACK:
+            if player.id in game.last_action.action_data.participating_players:
+                available_actions = [game_schema.Action.ActionType.VOTE]
+                return available_actions
+            if (
+                    player.id == game.last_action.action_data.which_captain and
+                    game.last_action.action_data.state == game_schema.State.Success
+            ):
+                available_actions = [game_schema.Action.ActionType.PUT_CHEST]
+                return available_actions
+    if player.chests > 0:
+        available_actions = [game_schema.Action.ActionType.PUT_CHEST]
+        return available_actions
     global_actions = [
         game_schema.Action.ActionType.MOVE,
         game_schema.Action.ActionType.VIEW_TWO_EVENT_CARDS,
         game_schema.Action.ActionType.REVEAL_ONE_EVENT_CARD,
         game_schema.Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD
     ]
-    available_actions = []
     available_actions.extend(global_actions)
     if player.role == PlayerGameInfo.Role.CAPTAIN:
         available_actions.extend([
@@ -101,7 +115,8 @@ def _give_treasure_to_captains(players_info: Dict[str, Player],
                 position == game_schema.Positions.JR1.value
         ):
             updated_players_info[player].chests += 1
-            updated_players_info[player].role = game_schema.PlayerGameInfo.Role.CAPTAIN
+            updated_players_info[
+                player].role = game_schema.PlayerGameInfo.Role.CAPTAIN
 
     return updated_players_info
 
@@ -182,7 +197,8 @@ def generate_game_schema_from_game(username: str):
             vote_cards=player_info.vote_cards,
             event_cards=player_info.event_cards,
             role=player_info.role,
-            available_actions=_get_available_actions(player_info)
+            available_actions=_get_available_actions(player_info, game),
+            chests=player_info.chests
         ),
         last_action=game.last_action,
         is_over=game.is_over,

@@ -11,8 +11,13 @@ class PutChestActionHandler(ActionHandler):
         player_pos: Positions = self.game.players_position.get(
             self.player
         )
-        if self.game.last_action.action_type == Action.ActionType.CALL_FOR_AN_ATTACK:
-            self.remove_other_chest_if_call_for_attack(player_pos)
+        if self.game.last_action:
+            if (
+                    self.game.last_action.action_type == Action.ActionType.CALL_FOR_AN_ATTACK and
+                    self.game.last_action.action_data.which_captain == self.player
+            ):
+                self.remove_other_chest_if_call_for_attack(player_pos)
+            self.game.next_turn()
 
         if team == PutChestPayload.Team.britain:
             if player_pos in Positions.fd_positions():
