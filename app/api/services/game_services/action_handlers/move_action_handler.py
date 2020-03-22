@@ -16,7 +16,7 @@ class MoveActionHandler(ActionHandler):
         elif player_position == Positions.JR_B:
             assert move_where in [Positions.TR, Positions.JR]
         elif player_position == Positions.FD_B:
-            assert move_where in [Positions.FD, Positions.TG]
+            assert move_where in [Positions.FD, Positions.TR]
 
         self.game.set_position(self.player, move_where)
         self.game.next_turn()
