@@ -196,13 +196,7 @@ class ViewTwoEventCardsPayload(APIModel):
 
 
 class MovePayload(APIModel):
-    move_where: Union[
-        Positions.TR,
-        Positions.FD,
-        Positions.JR,
-        Positions.JR_B,
-        Positions.FD_B
-    ]
+    move_where: Positions
 
 
 class MaroonCrewMateToTortugaPayload(APIModel):
