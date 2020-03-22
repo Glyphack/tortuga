@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 from enum import Enum
-from app.schemas.game_schema import Action, VoteCard, EventCard, Positions, \
+from app.schemas.game_schema import (
+    Action, VoteCard, EventCard, Positions,
     PlayerGameInfo
+)
 from typing import List, Dict, Optional
 
 
