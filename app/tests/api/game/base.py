@@ -3,6 +3,7 @@ import requests
 from requests import Response
 
 from app.models.game import Game
+from app.schemas.game_schema import Positions
 
 
 class BaseGameTestCase:
@@ -66,7 +67,7 @@ class BaseGameTestCase:
         )
         return response
 
-    def _maroon_crew(self, captain: str, player: str):
+    def _maroon_crew(self, captain: str, player: str) -> Response:
         request = {
             "gameId": "1",
             "action": {
@@ -81,6 +82,21 @@ class BaseGameTestCase:
             self.do_action_url, json=request, headers=headers
         )
         return response
+
+    def _move_action(self, player_to_move: str, position: Positions) -> Response:
+        request = {
+            "gameId": 1,
+            "action": {
+                "actionType": "move",
+            },
+            "payload": {
+                "move_where": position
+            }
+        }
+
+        headers = self.auth_header(player_to_move)
+        return self.client.post(url=self.do_action_url, json=request,
+                                headers=headers)
 
     def _get_my_game(self, player) -> Response:
         headers = self.auth_header(player)
