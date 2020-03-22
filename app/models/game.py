@@ -101,3 +101,6 @@ class Game:
             if position == position_occupied:
                 return False
         return True
+
+    def set_position(self, player: str, position: Positions):
+        self.players_position[player] = position
