@@ -35,6 +35,7 @@ def _give_players_vote_cards(game: Game):
 
 def _get_available_actions(player: Player, game: Game):
     available_actions = []
+    player_position = game.players_position[player.id]
     if game.last_action:
         if game.last_action.action_type == game_schema.Action.ActionType.CALL_FOR_AN_ATTACK:
             if player.id in game.last_action.action_data.participating_players:
@@ -66,22 +67,17 @@ def _get_available_actions(player: Player, game: Game):
         game_schema.Action.ActionType.CALL_FOR_BRAWL
     ]
     available_actions.extend(global_actions)
-    if player.role == PlayerGameInfo.Role.CAPTAIN:
+    if player_position in [
+        game_schema.Positions.FD1, game_schema.Positions.JR1
+    ]:
         available_actions.extend([
             game_schema.Action.ActionType.CALL_FOR_AN_ATTACK,
-            game_schema.Action.ActionType.MAROON_ANY_CREW_MATE_TO_TORTUGA
+            game_schema.Action.ActionType.MAROON_ANY_CREW_MATE_TO_TORTUGA,
+            game_schema.Action.ActionType.MOVE_TREASURE
         ])
-    elif player.role == PlayerGameInfo.Role.GOVERNOR_OF_TORTUGA:
+    if player_position == game_schema.Positions.TR1:
         available_actions.append(
             game_schema.Action.ActionType.CALL_FOR_BRAWL
-        )
-    elif player.role == PlayerGameInfo.Role.CABIN_BOY:
-        available_actions.append(
-            game_schema.Action.ActionType.CALL_FOR_BRAWL
-        )
-    if player.chests > 1:
-        available_actions.append(
-            game_schema.Action.ActionType.PUT_CHEST
         )
     return available_actions
 
@@ -125,8 +121,6 @@ def _give_treasure_to_captains(players_info: Dict[str, Player],
                 position == game_schema.Positions.JR1.value
         ):
             updated_players_info[player].chests += 1
-            updated_players_info[
-                player].role = game_schema.PlayerGameInfo.Role.CAPTAIN
 
     return updated_players_info
 
@@ -206,7 +200,7 @@ def generate_game_schema_from_game(username: str):
             team=player_info.team,
             vote_cards=player_info.vote_cards,
             event_cards=player_info.event_cards,
-            role=player_info.role,
+            role=None,
             available_actions=_get_available_actions(player_info, game),
             chests=player_info.chests
         ),

@@ -7,6 +7,11 @@ from pydantic.main import BaseModel
 from app.schemas.auth import User
 
 
+class TreasureHoldTeams(str, Enum):
+    britain = "BRITAIN"
+    france = "FRANCE"
+
+
 class Positions(str, Enum):
     FD = "fd"
     FD1 = "fd_1"
@@ -106,10 +111,10 @@ class CallForMutinyActionData(APIModel):
     state: State
 
 
-class CabinBoysMoveTreasureActionData(APIModel):
-    cabin_boy: User
-    from_where: str
-    to_where: str
+class MoveTreasureActionData(APIModel):
+    cabin_boy: str
+    from_hold: TreasureHoldTeams
+    to_hold: TreasureHoldTeams
 
 
 class CallForBrawlActionData(APIModel):
@@ -133,7 +138,7 @@ class Action(APIModel):
         CALL_FOR_AN_ATTACK = "call for an attack"
         MAROON_ANY_CREW_MATE_TO_TORTUGA = "maroon any crew mate to tortuga"
         CALL_FOR_A_MUTINY = "call for a mutiny"
-        CABIN_BOYS_MOVE_TREASURE = "cabin boys move treasure"
+        MOVE_TREASURE = "move treasure"
         CALL_FOR_BRAWL = "call for brawl"
         VOTE = "vote"
         PUT_CHEST = "put chest"
@@ -146,7 +151,7 @@ class Action(APIModel):
         CaptainCallForAttackData,
         MaroonAnyCrewMateToTortugaActionData,
         CallForMutinyActionData,
-        CabinBoysMoveTreasureActionData,
+        MoveTreasureActionData,
         CallForBrawlActionData,
         PutChestActionData
     ] = None
@@ -205,9 +210,8 @@ class MaroonCrewMateToTortugaPayload(APIModel):
     crew_to_maroon: str
 
 
-class CabinBoyMoveTreasurePayload(APIModel):
-    where: str
-    to_where: str
+class MoveTreasurePayload(APIModel):
+    from_hold: TreasureHoldTeams
 
 
 class VotePayload(APIModel):
@@ -228,7 +232,7 @@ PayloadType = Optional[
         ViewTwoEventCardsPayload,
         MovePayload,
         MaroonCrewMateToTortugaPayload,
-        CabinBoyMoveTreasurePayload,
+        MoveTreasurePayload,
         VotePayload,
         PutChestPayload
     ]
