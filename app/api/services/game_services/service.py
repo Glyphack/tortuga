@@ -77,7 +77,7 @@ def _get_available_actions(player: Player, game: Game):
         game_schema.Positions.JR4, game_schema.Positions.FD4
     ]:
         available_actions.append(
-            game_schema.Action.ActionType.CALL_FOR_BRAWL
+            game_schema.Action.ActionType.MOVE_TREASURE
         )
     return available_actions
 
