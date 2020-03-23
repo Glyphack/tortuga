@@ -100,8 +100,10 @@ class MaroonAnyCrewMateToTortugaActionData(APIModel):
     marooned_crew: str
 
 
-class FirstMateCallForAMutinyActionData(APIModel):
-    first_mate: User
+class CallForAMutinyActionData(APIModel):
+    captain: str
+    participating_players: List[str] = []
+    state: State
 
 
 class CabinBoysMoveTreasureActionData(APIModel):
@@ -143,7 +145,7 @@ class Action(APIModel):
         ForceAnotherPlayerToChooseCardActionData,
         CaptainCallForAttackData,
         MaroonAnyCrewMateToTortugaActionData,
-        FirstMateCallForAMutinyActionData,
+        CallForAMutinyActionData,
         CabinBoysMoveTreasureActionData,
         CallForBrawlActionData,
         PutChestActionData
