@@ -29,7 +29,6 @@ class Player:
     team: str
     vote_cards: List[VoteCard] = None
     event_cards: List[EventCard] = None
-    role: Optional[PlayerGameInfo.Role] = None
     chests: int = 0
 
 
