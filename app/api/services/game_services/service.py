@@ -51,7 +51,7 @@ def _get_available_actions(player: Player, game: Game):
             if player.id in game.last_action.action_data.participating_players:
                 available_actions = [game_schema.Action.ActionType.VOTE]
                 return available_actions
-        if game.last_action.action_data == game_schema.Action.ActionType.CALL_FOR_A_MUTINY:
+        if game.last_action.action_type == game_schema.Action.ActionType.CALL_FOR_A_MUTINY:
             if player.id in game.last_action.action_data.participating_players:
                 available_actions = [game_schema.Action.ActionType.VOTE]
                 return available_actions
