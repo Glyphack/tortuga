@@ -214,7 +214,6 @@ class MaroonCrewMateToTortugaPayload(APIModel):
 
 class MoveTreasurePayload(APIModel):
     from_hold: TreasureHoldTeams
-    to_hold: TreasureHoldTeams
 
 
 class VotePayload(APIModel):
