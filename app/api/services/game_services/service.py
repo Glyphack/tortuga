@@ -74,7 +74,7 @@ def _get_available_actions(player: Player, game: Game):
             game_schema.Action.ActionType.CALL_FOR_BRAWL
         )
     elif player_position in [
-        game_schema.Positions.JR4, game_schema.Positions.FD4
+        game_schema.Positions.JR1, game_schema.Positions.FD1
     ]:
         available_actions.append(
             game_schema.Action.ActionType.MOVE_TREASURE

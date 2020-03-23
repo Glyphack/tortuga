@@ -7,7 +7,7 @@ class MoveTreasureActionHandler(ActionHandler):
     def execute(self):
         player_position = self.game.players_position[self.player]
         if player_position in Positions.jr_positions():
-            assert player_position == Positions.JR4
+            assert player_position == Positions.JR1
             if self.payload.from_hold == TreasureHoldTeams.britain:
                 if self.game.chests_position.jr_en <= 0:
                     raise AssertionError("no chests here")
@@ -19,7 +19,7 @@ class MoveTreasureActionHandler(ActionHandler):
                 self.game.chests_position.jr_fr -= 1
                 self.game.chests_position.jr_en += 1
         elif player_position in Positions.fd_positions():
-            assert player_position == Positions.FD4
+            assert player_position == Positions.FD1
             if self.payload.from_hold == TreasureHoldTeams.britain:
                 if self.game.chests_position.fd_en <= 0:
                     raise AssertionError("no chests here")
