@@ -25,8 +25,8 @@ def _give_players_vote_cards(game: Game):
                 cannon=0,
                 fire=random.randint(1, 2),
                 water=random.randint(1, 100),
-                britain=0,
-                england=0,
+                britain=random.randint(1, 4),
+                france=random.randint(1, 3),
                 skull=0,
                 wheel=0
             )
@@ -47,6 +47,10 @@ def _get_available_actions(player: Player, game: Game):
             ):
                 available_actions = [game_schema.Action.ActionType.PUT_CHEST]
                 return available_actions
+        if game.last_action.action_type == game_schema.Action.ActionType.CALL_FOR_BRAWL:
+            if player.id in game.last_action.action_data.participating_players:
+                available_actions = [game_schema.Action.ActionType.VOTE]
+                return available_actions
     if player.chests > 0:
         available_actions = [game_schema.Action.ActionType.PUT_CHEST]
         return available_actions
@@ -54,7 +58,8 @@ def _get_available_actions(player: Player, game: Game):
         game_schema.Action.ActionType.MOVE,
         game_schema.Action.ActionType.VIEW_TWO_EVENT_CARDS,
         game_schema.Action.ActionType.REVEAL_ONE_EVENT_CARD,
-        game_schema.Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD
+        game_schema.Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD,
+        game_schema.Action.ActionType.CALL_FOR_BRAWL
     ]
     available_actions.extend(global_actions)
     if player_position in [
@@ -66,13 +71,13 @@ def _get_available_actions(player: Player, game: Game):
         ])
     elif player_position == game_schema.Positions.TR1:
         available_actions.append(
-            game_schema.Action.ActionType.GOVERNOR_OF_TORTUGA_CALL_FOR_BRAWL
+            game_schema.Action.ActionType.CALL_FOR_BRAWL
         )
     elif player_position in [
         game_schema.Positions.JR4, game_schema.Positions.FD4
     ]:
         available_actions.append(
-            game_schema.Action.ActionType.GOVERNOR_OF_TORTUGA_CALL_FOR_BRAWL
+            game_schema.Action.ActionType.CALL_FOR_BRAWL
         )
     return available_actions
 

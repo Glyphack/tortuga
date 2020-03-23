@@ -6,17 +6,12 @@ from app.tests.api.game.base import BaseGameTestCase
 class TestVoteAction(BaseGameTestCase):
     def test_vote_on_call_for_action(self):
         self._start_call_for_action()
-        participating_players_copy = (
+        participating_players = (
             self.game.last_action.action_data.participating_players.copy()
         )
-        player_turn = self.game.turn
-        for player in participating_players_copy:
+        for player in participating_players:
             self._vote(player)
-        new_player_turn = self.game.turn
-        response = self.client.get(
-            self.my_game_url,
-            headers=self.auth_header(self.game.get_jr_caption())
-        ).json()
+        response = self._get_my_game(self.game.get_jr_caption()).json()
         expected_last_action = {
             'actionType': 'call for an attack',
             'actionData': {

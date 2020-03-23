@@ -114,6 +114,18 @@ class BaseGameTestCase:
         return self.client.post(url=self.do_action_url, json=json,
                                 headers=headers)
 
+    def _call_brawl_action(self, player: str) -> Response:
+        request = {
+            "gameId": "1",
+            "action": {
+                "actionType": "call for brawl"
+            }
+        }
+
+        headers = self.auth_header(player)
+        return self.client.post(url=self.do_action_url, json=request,
+                                headers=headers)
+
     def _get_my_game(self, player) -> Response:
         headers = self.auth_header(player)
         response = self.client.get(self.my_game_url, headers=headers)

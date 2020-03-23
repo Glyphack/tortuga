@@ -66,7 +66,7 @@ class VoteCard(APIModel):
     fire: int
     water: int
     britain: int
-    england: int
+    france: int
     skull: int
     wheel: int
 
@@ -115,8 +115,10 @@ class MoveTreasureActionData(APIModel):
     to_hold: TreasureHoldTeams
 
 
-class GovernorOfTortugaCallForBrawlActionData(APIModel):
+class CallForBrawlActionData(APIModel):
     governor: str
+    participating_players: List[str]
+    state: State
 
 
 class PutChestActionData(APIModel):
@@ -135,7 +137,7 @@ class Action(APIModel):
         MAROON_ANY_CREW_MATE_TO_TORTUGA = "maroon any crew mate to tortuga"
         FIRST_MATE_CALL_FOR_A_MUTINY = "first mate call for a mutiny"
         MOVE_TREASURE = "move treasure"
-        GOVERNOR_OF_TORTUGA_CALL_FOR_BRAWL = "call for brawl"
+        CALL_FOR_BRAWL = "call for brawl"
         VOTE = "vote"
         PUT_CHEST = "put chest"
 
@@ -148,7 +150,7 @@ class Action(APIModel):
         MaroonAnyCrewMateToTortugaActionData,
         FirstMateCallForAMutinyActionData,
         MoveTreasureActionData,
-        GovernorOfTortugaCallForBrawlActionData,
+        CallForBrawlActionData,
         PutChestActionData
     ] = None
 
@@ -199,13 +201,7 @@ class ViewTwoEventCardsPayload(APIModel):
 
 
 class MovePayload(APIModel):
-    move_where: Union[
-        Positions.TR,
-        Positions.FD,
-        Positions.JR,
-        Positions.JR_B,
-        Positions.FD_B
-    ]
+    move_where: Positions
 
 
 class MaroonCrewMateToTortugaPayload(APIModel):
