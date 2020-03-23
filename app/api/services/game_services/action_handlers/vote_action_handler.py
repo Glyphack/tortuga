@@ -12,9 +12,9 @@ class VoteActionHandler(ActionHandler):
         is_voting_active = (
                 last_action.action_type ==
                 game_schema.Action.ActionType.CALL_FOR_AN_ATTACK or
-                last_action.action_data ==
+                last_action.action_type ==
                 game_schema.Action.ActionType.CALL_FOR_BRAWL or
-                last_action.action_data ==
+                last_action.action_type ==
                 game_schema.Action.ActionType.FIRST_MATE_CALL_FOR_A_MUTINY
         )
         assert (
