@@ -88,12 +88,25 @@ class Game:
         )
 
     @property
-    def first_empty_tortuga_slot(self):
+    def tortuga_first_empty_slot(self):
         tg_positions = Positions.tr_positions().copy()
-        for player, position in self.players_position.items():
-            if position in tg_positions:
-                tg_positions.remove(position)
-        return tg_positions[0]
+        return self.get_first_empty_slot(tg_positions)
+
+    @property
+    def jr_ship_first_empty_slot(self):
+        jr_positions = Positions.jr_positions().copy()
+        return self.get_first_empty_slot(jr_positions)
+
+    @property
+    def fd_ship_first_empty_slot(self):
+        fd_positions = Positions.fd_positions().copy()
+        return self.get_first_empty_slot(fd_positions)
+
+    def get_first_empty_slot(self, position_list):
+        for _, p in self.players_position.items():
+            if p in position_list:
+                position_list.remove(p)
+        return position_list[0]
 
     def is_empty(self, position: Positions):
         for _, position_occupied in self.players_position.items():
@@ -103,17 +116,9 @@ class Game:
 
     def set_position(self, player: str, position: Positions):
         if position == Positions.JR:
-            jr_positions = Positions.jr_positions().copy()
-            for _, p in self.players_position.items():
-                if p in jr_positions:
-                    jr_positions.remove(p)
-            position = jr_positions[0]
+            position = self.jr_ship_first_empty_slot
         elif position == Positions.FD:
-            fd_positions = Positions.fd_positions().copy()
-            for _, p in self.players_position.items():
-                if p in fd_positions:
-                    fd_positions.remove(p)
-            position = fd_positions[0]
+            position = self.fd_ship_first_empty_slot
         elif position == Positions.TR:
-            position = self.first_empty_tortuga_slot
+            position = self.tortuga_first_empty_slot
         self.players_position[player] = position
