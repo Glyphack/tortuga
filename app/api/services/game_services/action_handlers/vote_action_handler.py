@@ -15,7 +15,7 @@ class VoteActionHandler(ActionHandler):
                 last_action.action_type ==
                 game_schema.Action.ActionType.CALL_FOR_BRAWL or
                 last_action.action_type ==
-                game_schema.Action.ActionType.FIRST_MATE_CALL_FOR_A_MUTINY
+                game_schema.Action.ActionType.CALL_FOR_A_MUTINY
         )
         assert (
                 is_voting_active and
