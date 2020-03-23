@@ -1,7 +1,7 @@
 from app.schemas.game_schema import (
-    PlayerGameInfo, Action,
-    MaroonAnyCrewMateToTortugaActionData
-)
+    Action,
+    MaroonAnyCrewMateToTortugaActionData,
+    Positions)
 from .action_handler import ActionHandler
 
 
@@ -9,8 +9,13 @@ class MaroonCrewActionHandler(ActionHandler):
     def execute(self):
         player_to_maroon: str = self.payload.crew_to_maroon
         assert (
-                self.game.players_info.get(
-                    self.player).role == PlayerGameInfo.Role.CAPTAIN and
+                (
+                        self.game.players_position[
+                            self.player] == Positions.JR1 or
+                        self.game.players_position[
+                            self.player] == Positions.FD1
+
+                ) and
                 self.game.on_same_ship(self.player, player_to_maroon)
         )
 

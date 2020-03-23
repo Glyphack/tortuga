@@ -3,7 +3,7 @@ import requests
 from requests import Response
 
 from app.models.game import Game
-from app.schemas.game_schema import Positions
+from app.schemas.game_schema import Positions, TreasureHoldTeams
 
 
 class BaseGameTestCase:
@@ -97,6 +97,21 @@ class BaseGameTestCase:
 
         headers = self.auth_header(player_to_move)
         return self.client.post(url=self.do_action_url, json=request,
+                                headers=headers)
+
+    def _move_treasure_action(self, player: str, from_hold: TreasureHoldTeams):
+        json = {
+            "gameId": "1",
+            "action": {
+                "actionType": "move treasure",
+            },
+            "payload": {
+                "from_hold": from_hold
+            }
+        }
+
+        headers = self.auth_header(player)
+        return self.client.post(url=self.do_action_url, json=json,
                                 headers=headers)
 
     def _call_brawl_action(self, player: str) -> Response:
