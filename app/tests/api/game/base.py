@@ -83,7 +83,8 @@ class BaseGameTestCase:
         )
         return response
 
-    def _move_action(self, player_to_move: str, position: Positions) -> Response:
+    def _move_action(self, player_to_move: str,
+                     position: Positions) -> Response:
         request = {
             "gameId": 1,
             "action": {
@@ -95,6 +96,18 @@ class BaseGameTestCase:
         }
 
         headers = self.auth_header(player_to_move)
+        return self.client.post(url=self.do_action_url, json=request,
+                                headers=headers)
+
+    def _call_brawl_action(self, player: str) -> Response:
+        request = {
+            "gameId": "1",
+            "action": {
+                "actionType": "call for brawl"
+            }
+        }
+
+        headers = self.auth_header(player)
         return self.client.post(url=self.do_action_url, json=request,
                                 headers=headers)
 
