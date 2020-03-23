@@ -23,6 +23,8 @@ class TestCallForBrawlAction(BaseGameTestCase):
         self.game.players_position[player] = Positions.TR1
         self.game.players_info[player].vote_cards[0].france = 10
         self._call_brawl_action(player)
+        response = self._get_my_game(player).json()
+        assert response["gameStatus"]["playerGameInfo"]["availableActions"] == ["vote"]
         self._vote(player)
         response = self._get_my_game(player).json()
         expected_last_action = {
