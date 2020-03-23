@@ -64,7 +64,6 @@ def _get_available_actions(player: Player, game: Game):
         game_schema.Action.ActionType.VIEW_TWO_EVENT_CARDS,
         game_schema.Action.ActionType.REVEAL_ONE_EVENT_CARD,
         game_schema.Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD,
-        game_schema.Action.ActionType.CALL_FOR_BRAWL
     ]
     available_actions.extend(global_actions)
     if player_position in [
