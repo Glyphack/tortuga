@@ -112,7 +112,7 @@ class FirstMateCallForAMutinyActionData(APIModel):
 class MoveTreasureActionData(APIModel):
     cabin_boy: str
     from_hold: TreasureHoldTeams
-    to_where: TreasureHoldTeams
+    to_hold: TreasureHoldTeams
 
 
 class GovernorOfTortugaCallForBrawlActionData(APIModel):

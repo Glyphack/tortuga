@@ -32,12 +32,17 @@ class MoveTreasureActionHandler(ActionHandler):
                 self.game.chests_position.fd_en += 1
         else:
             raise AssertionError("You are not a cabin boy.")
+        if self.payload.from_hold == TreasureHoldTeams.france:
+            to_hold = TreasureHoldTeams.britain
+        else:
+            to_hold = TreasureHoldTeams.france
 
         self.game.last_action = Action(
             action_type=Action.ActionType.MOVE_TREASURE,
             action_data=MoveTreasureActionData(
                 cabin_boy=self.player,
                 from_hold=self.payload.from_hold,
+                to_hold=to_hold
             )
         )
         self.game.next_turn()
