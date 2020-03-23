@@ -67,17 +67,12 @@ def _get_available_actions(player: Player, game: Game):
     ]:
         available_actions.extend([
             game_schema.Action.ActionType.CALL_FOR_AN_ATTACK,
-            game_schema.Action.ActionType.MAROON_ANY_CREW_MATE_TO_TORTUGA
+            game_schema.Action.ActionType.MAROON_ANY_CREW_MATE_TO_TORTUGA,
+            game_schema.Action.ActionType.MOVE_TREASURE
         ])
-    elif player_position == game_schema.Positions.TR1:
+    if player_position == game_schema.Positions.TR1:
         available_actions.append(
             game_schema.Action.ActionType.CALL_FOR_BRAWL
-        )
-    elif player_position in [
-        game_schema.Positions.JR1, game_schema.Positions.FD1
-    ]:
-        available_actions.append(
-            game_schema.Action.ActionType.MOVE_TREASURE
         )
     return available_actions
 
