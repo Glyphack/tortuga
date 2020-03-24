@@ -4,7 +4,7 @@ from .base import BaseGameTestCase
 
 class TestCallForBrawlAction(BaseGameTestCase):
     def test_call_for_action_change_last_action(self):
-        player = self.game.players[2]
+        player = self.game.turn
         self.game.players_position[player] = Positions.TR1
         self._call_brawl_action(player)
         response = self._get_my_game(player).json()
@@ -19,7 +19,7 @@ class TestCallForBrawlAction(BaseGameTestCase):
         assert response["gameStatus"]["lastAction"] == expected_last_action
 
     def test_vote_completes_brawl(self):
-        player = self.game.players[2]
+        player = self.game.turn
         self.game.players_position[player] = Positions.TR1
         self.game.players_info[player].vote_cards[0].france = 10
         self._call_brawl_action(player)
