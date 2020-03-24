@@ -21,7 +21,7 @@ def _give_players_vote_cards(game: Game):
         if player_info.vote_cards is None:
             player_info.vote_cards = []
         for _ in range(0, 3):
-            player_info.vote_cards.append([
+            player_info.vote_cards.append(
                 VoteCard(
                     cannon=0,
                     fire=random.randint(1, 2),
@@ -31,7 +31,7 @@ def _give_players_vote_cards(game: Game):
                     skull=random.randint(1, 3),
                     wheel=random.randint(1, 5)
                 )
-            ])
+            )
 
 
 def _get_available_actions(player: Player, game: Game):
