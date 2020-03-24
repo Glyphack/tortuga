@@ -85,6 +85,8 @@ async def start_game(request: Request, start_game_request: StartGameRequest):
     if lobby.host != user:
         raise HTTPException(status_code=403,
                             detail="You cannot start this game")
+    if len(lobby.players) < 2:
+        raise HTTPException(status_code=400, detail="Not enough players")
     lobby.game_started = True
     create_new_game(
         lobby.id,
@@ -104,7 +106,7 @@ async def my_lobby(request: Request):
     for lobby in lobbies.values():
         if user in lobby.players:
             found_lobby = lobby
-            can_start = user == lobby.host
+            can_start = ((user == lobby.host) and (len(lobby.players) >= 2))
             if lobby.game_started is False:
                 has_lobby = True
             break
