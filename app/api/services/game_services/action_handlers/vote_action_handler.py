@@ -3,7 +3,7 @@ from app.api.services.game_services.action_handlers.action_handler import (
 )
 from app.models.game import Votes
 from app.schemas import game_schema
-from app.schemas.game_schema import VoteCard
+from app.schemas.game_schema import VoteCard, State, Positions
 
 
 class VoteActionHandler(ActionHandler):
@@ -15,7 +15,7 @@ class VoteActionHandler(ActionHandler):
                 last_action.action_type ==
                 game_schema.Action.ActionType.CALL_FOR_BRAWL or
                 last_action.action_type ==
-                game_schema.Action.ActionType.FIRST_MATE_CALL_FOR_A_MUTINY
+                game_schema.Action.ActionType.CALL_FOR_A_MUTINY
         )
         assert (
                 is_voting_active and
@@ -30,6 +30,8 @@ class VoteActionHandler(ActionHandler):
             self.handle_call_for_attack_vote(vote_card)
         elif last_action.action_type == game_schema.Action.ActionType.CALL_FOR_BRAWL:
             self.handle_call_for_brawl_vote(vote_card)
+        elif last_action.action_type == game_schema.Action.ActionType.CALL_FOR_A_MUTINY:
+            self.handle_call_for_mutiny_vote(vote_card)
 
     def handle_call_for_attack_vote(self, vote_card: VoteCard):
         last_action = self.game.last_action
@@ -68,3 +70,20 @@ class VoteActionHandler(ActionHandler):
                 last_action.action_data.state = game_schema.State.Success
             self.game.next_turn()
             self.game.votes = Votes()
+
+    def handle_call_for_mutiny_vote(self, vote_card):
+        last_action = self.game.last_action
+        self.game.votes.wheel += vote_card.wheel
+        self.game.votes.skull += vote_card.skull
+        last_action.action_data.participating_players.remove(
+            self.player
+        )
+        if len(last_action.action_data.participating_players) == 0:
+            if self.game.votes.skull > self.game.votes.wheel:
+                self.game.last_action.action_data.state = State.Success
+                self.game.set_position(
+                    last_action.action_data.captain, Positions.TR
+                )
+            else:
+                self.game.last_action.action_data.state = State.Failed
+            self.game.next_turn()

@@ -20,7 +20,7 @@ class MaroonCrewActionHandler(ActionHandler):
         )
 
         self.game.players_position[player_to_maroon] = (
-            self.game.first_empty_tortuga_slot
+            self.game.tortuga_first_empty_slot
         )
         self.game.last_action = Action(
             action_type=Action.ActionType.MAROON_ANY_CREW_MATE_TO_TORTUGA,

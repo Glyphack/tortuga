@@ -105,8 +105,10 @@ class MaroonAnyCrewMateToTortugaActionData(APIModel):
     marooned_crew: str
 
 
-class FirstMateCallForAMutinyActionData(APIModel):
-    first_mate: User
+class CallForMutinyActionData(APIModel):
+    captain: str
+    participating_players: List[str] = []
+    state: State
 
 
 class MoveTreasureActionData(APIModel):
@@ -135,7 +137,7 @@ class Action(APIModel):
         MOVE = "move"
         CALL_FOR_AN_ATTACK = "call for an attack"
         MAROON_ANY_CREW_MATE_TO_TORTUGA = "maroon any crew mate to tortuga"
-        FIRST_MATE_CALL_FOR_A_MUTINY = "first mate call for a mutiny"
+        CALL_FOR_A_MUTINY = "call for a mutiny"
         MOVE_TREASURE = "move treasure"
         CALL_FOR_BRAWL = "call for brawl"
         VOTE = "vote"
@@ -148,7 +150,7 @@ class Action(APIModel):
         ForceAnotherPlayerToChooseCardActionData,
         CaptainCallForAttackData,
         MaroonAnyCrewMateToTortugaActionData,
-        FirstMateCallForAMutinyActionData,
+        CallForMutinyActionData,
         MoveTreasureActionData,
         CallForBrawlActionData,
         PutChestActionData

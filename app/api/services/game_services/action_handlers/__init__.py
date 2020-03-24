@@ -9,6 +9,7 @@ from .maroon_crew_to_tortuga import MaroonCrewActionHandler
 from .move_action_handler import MoveActionHandler
 from .move_treasure_action_hanlder import MoveTreasureActionHandler
 from .call_for_brawl_action_handler import CallForBrawlActionHandler
+from .call_for_mutiny_action_handler import CallForMutinyActionHandler
 
 handlers: Dict[Action.ActionType, Type[ActionHandler]] = {
     Action.ActionType.CALL_FOR_AN_ATTACK: CallForAnAttackActionHandler,
@@ -17,5 +18,6 @@ handlers: Dict[Action.ActionType, Type[ActionHandler]] = {
     Action.ActionType.MAROON_ANY_CREW_MATE_TO_TORTUGA: MaroonCrewActionHandler,
     Action.ActionType.MOVE: MoveActionHandler,
     Action.ActionType.MOVE_TREASURE: MoveTreasureActionHandler,
-    Action.ActionType.CALL_FOR_BRAWL: CallForBrawlActionHandler
+    Action.ActionType.CALL_FOR_BRAWL: CallForBrawlActionHandler,
+    Action.ActionType.CALL_FOR_A_MUTINY: CallForMutinyActionHandler
 }
