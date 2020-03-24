@@ -36,8 +36,6 @@ def _give_players_vote_cards(game: Game):
 
 def _get_available_actions(player: Player, game: Game):
     available_actions = []
-    if player.id != game.turn:
-        return available_actions
     player_position = game.players_position[player.id]
     if game.last_action:
         if game.last_action.action_type == game_schema.Action.ActionType.CALL_FOR_AN_ATTACK:
@@ -58,7 +56,8 @@ def _get_available_actions(player: Player, game: Game):
             if player.id in game.last_action.action_data.participating_players:
                 available_actions = [game_schema.Action.ActionType.VOTE]
                 return available_actions
-
+    if player.id != game.turn:
+        return available_actions
     if player.chests > 0:
         available_actions = [game_schema.Action.ActionType.PUT_CHEST]
         return available_actions
