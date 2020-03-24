@@ -36,6 +36,8 @@ def _give_players_vote_cards(game: Game):
 
 def _get_available_actions(player: Player, game: Game):
     available_actions = []
+    if player.id != game.turn:
+        return available_actions
     player_position = game.players_position[player.id]
     if game.last_action:
         if game.last_action.action_type == game_schema.Action.ActionType.CALL_FOR_AN_ATTACK:

@@ -37,6 +37,8 @@ async def do_action(request: Request, action_request: DoActionRequest):
     game = get_player_game(request.user.username)
     if game is None:
         raise HTTPException(status_code=400)
+    if game.turn != request.user.username:
+        raise HTTPException(status_code=400, detail="It's not your turn")
     try:
         get_action_handler(
             game,
