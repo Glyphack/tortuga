@@ -20,17 +20,18 @@ def _give_players_vote_cards(game: Game):
     for player_info in game.players_info.values():
         if player_info.vote_cards is None:
             player_info.vote_cards = []
-        player_info.vote_cards.extend([
-            VoteCard(
-                cannon=0,
-                fire=random.randint(1, 2),
-                water=random.randint(1, 100),
-                britain=random.randint(1, 4),
-                france=random.randint(1, 3),
-                skull=random.randint(1, 3),
-                wheel=random.randint(1, 5)
-            )
-        ])
+        for _ in range(0, 3):
+            player_info.vote_cards.append([
+                VoteCard(
+                    cannon=0,
+                    fire=random.randint(1, 2),
+                    water=random.randint(1, 100),
+                    britain=random.randint(1, 4),
+                    france=random.randint(1, 3),
+                    skull=random.randint(1, 3),
+                    wheel=random.randint(1, 5)
+                )
+            ])
 
 
 def _get_available_actions(player: Player, game: Game):
