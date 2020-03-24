@@ -10,7 +10,7 @@ from app.api.services.game_services.service import (
 from app.schemas.game_schema import (
     MyGameResponse,
     DoActionRequest,
-)
+    Action)
 
 router = APIRouter()
 
@@ -37,6 +37,11 @@ async def do_action(request: Request, action_request: DoActionRequest):
     game = get_player_game(request.user.username)
     if game is None:
         raise HTTPException(status_code=400)
+    if (
+            game.turn != request.user.username and
+            action_request.action.action_type != Action.ActionType.VOTE
+    ):
+        raise HTTPException(status_code=400, detail="It's not your turn")
     try:
         get_action_handler(
             game,

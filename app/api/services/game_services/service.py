@@ -56,7 +56,8 @@ def _get_available_actions(player: Player, game: Game):
             if player.id in game.last_action.action_data.participating_players:
                 available_actions = [game_schema.Action.ActionType.VOTE]
                 return available_actions
-
+    if player.id != game.turn:
+        return available_actions
     if player.chests > 0:
         available_actions = [game_schema.Action.ActionType.PUT_CHEST]
         return available_actions
