@@ -1,6 +1,4 @@
 import json
-import os
-import random
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Dict
@@ -33,7 +31,6 @@ class EventCardsManager:
 
     @classmethod
     def load_event_cards(cls):
-        # print("loadedddd")
         base_path = Path(__file__).parent
         file_path = (base_path / "../data/event_cards.json").resolve()
         with file_path.open() as f:
