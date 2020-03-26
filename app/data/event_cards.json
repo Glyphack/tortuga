@@ -3,7 +3,14 @@
     "spanish-armada": {
       "title": "Spanish Armada",
       "image_url": "https://www.ultraboardgames.com/tortuga-1667/gfx/c2.jpg",
-      "description": "The game ends when the Spanish Armada card is revealed."
+      "description": "The game ends when the Spanish Armada card is revealed.",
+      "count": 1
+    },
+    "letter-of-marque": {
+      "title": "Letter of Marque",
+      "image_url": "https://www.ultraboardgames.com/tortuga-1667/gfx/c10.jpg",
+      "description": "Revealer moves any player currently on Tortuga or a Rowboat to the back of the line of either ship. Revealer may also save this card and use it as a future action.\n\nUsing it as a future action costs that entire future turn. In 2-player games (where you get 2 actions each turn instead of 1), if you reveal a Letter of Marque and immediately use it, that counts as 1 action.\n\nIf you reveal and save a Letter of Marque, that counts as 1 action. If you play a Letter of Marque that was saved in an earlier turn, that also counts as 1 action.",
+      "count": 3
     }
   }
 }
