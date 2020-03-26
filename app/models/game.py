@@ -140,3 +140,9 @@ class Game:
             self.winner = Team.DUTCH
         else:
             self.winner = Team.FRANCE
+
+    def get_available_even_cards_count(self):
+        if len(self.event_cards) > 5:
+            return 5
+        else:
+            return len(self.event_cards)
