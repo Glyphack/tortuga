@@ -78,7 +78,7 @@ class State(str, Enum):
 
 
 class EventCard(APIModel):
-    id: str
+    slug: str
     title: str
     description: str
     image_url: str
