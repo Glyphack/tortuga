@@ -143,7 +143,7 @@ class Game:
 
         self.is_over = True
 
-    def get_available_event_cards_count(self):
+    def get_event_cards_deck_count(self):
         if len(self.event_cards) > 5:
             return 5
         else:
