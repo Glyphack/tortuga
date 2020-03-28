@@ -216,7 +216,7 @@ def generate_game_schema_from_game(username: str):
             available_actions=_get_available_actions(player_info, game),
             chests=player_info.chests
         ),
-        available_event_cards_count=game.get_available_even_cards_count(),
+        available_event_cards_count=game.get_available_event_cards_count(),
         last_action=game.last_action,
         is_over=game.is_over,
         turn=User(username=game.turn),
