@@ -78,11 +78,14 @@ class State(str, Enum):
 
 
 class EventCard(APIModel):
+    slug: str
+    title: str
     description: str
+    image_url: str
 
 
 class ViewTwoEventCardsActionData(APIModel):
-    who: User
+    who_viewed: str
 
 
 class RevealOneEventCardActionData(APIModel):
@@ -142,6 +145,8 @@ class Action(APIModel):
         CALL_FOR_BRAWL = "call for brawl"
         VOTE = "vote"
         PUT_CHEST = "put chest"
+        CHOOSE_EVENT_CARD_OPTION = "CHOOSE-EVENT-CARD-OPTION"
+        USE_EVENT_CARD = "USE-EVENT-CARD"
 
     action_type: ActionType
     action_data: Union[
@@ -167,6 +172,7 @@ class PlayerGameInfo(APIModel):
     team: str
     vote_cards: Optional[List[VoteCard]] = None
     event_cards: Optional[List[EventCard]] = None
+    seen_event_cards: Optional[List[EventCard]] = None
     role: Optional[Role]
     available_actions: List[Action.ActionType]
     chests: int = 0
@@ -186,6 +192,7 @@ class GameStatus(APIModel):
     players_position: Dict[str, Positions]
     chests_position: Chests
     player_game_info: PlayerGameInfo
+    event_cards_deck_count: int
     last_action: Optional[Action] = None
     is_over: bool = False
     turn: User
@@ -199,7 +206,7 @@ class MyGameResponse(APIModel):
 
 
 class ViewTwoEventCardsPayload(APIModel):
-    choices: List[int]
+    event_cards_indexes: List[int]
 
 
 class MovePayload(APIModel):
@@ -227,6 +234,14 @@ class PutChestPayload(APIModel):
     from_which_team: Optional[Team]
 
 
+class ChooseEventCardOptionPayload(APIModel):
+    option_index: int
+
+
+class UseEventCardPayload(APIModel):
+    event_card_index: int
+
+
 PayloadType = Optional[
     Union[
         ViewTwoEventCardsPayload,
@@ -234,7 +249,9 @@ PayloadType = Optional[
         MaroonCrewMateToTortugaPayload,
         MoveTreasurePayload,
         VotePayload,
-        PutChestPayload
+        PutChestPayload,
+        ChooseEventCardOptionPayload,
+        UseEventCardPayload
     ]
 ]
 
