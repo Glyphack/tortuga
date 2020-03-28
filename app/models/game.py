@@ -1,3 +1,4 @@
+import random
 from dataclasses import dataclass
 from enum import Enum
 from app.schemas.game_schema import (
@@ -50,6 +51,7 @@ class Game:
     host: str
     players_position: Dict[str, Positions]
     chests_position: Chests
+    players_participated_in_vote : List[Player]
     votes: Optional[Votes] = Votes()
     turn: str = ""
     last_action: Optional[Action] = None
@@ -122,3 +124,8 @@ class Game:
         elif position == Positions.TR:
             position = self.tortuga_first_empty_slot
         self.players_position[player] = position
+
+    def give_vote_cards_back_to_players(self):
+        random.shuffle(self.votes)
+        for player in self.players_participated_in_vote:
+            player.vote_cards.append(self.votes.pop())
