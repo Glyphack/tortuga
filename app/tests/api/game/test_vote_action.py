@@ -18,9 +18,12 @@ class TestVoteAction(BaseGameTestCase):
                 'state': self.game.last_action.action_data.state.value,
                 'participatingPlayers': [],
                 "whichCaptain": {"username": self.game.get_jr_caption()},
-                'fromOtherShip': False
+                'fromOtherShip': False,
             }
         }
+        assert len(response["gameStatus"]["lastAction"]["actionData"][
+                       "voteResults"]) > 0
+        del response["gameStatus"]["lastAction"]["actionData"]["voteResults"]
 
         assert response["gameStatus"]["lastAction"] == expected_last_action
 
@@ -83,3 +86,12 @@ class TestVoteAction(BaseGameTestCase):
             self.game.players_info[participating_players_copy[0]].vote_cards
         )
         assert vote_cards_after == vote_cards_before
+
+    def test_vote_on_call_for_mutiny_returns_vote_results(self):
+        player = self.game.players[2]
+        self.game.turn = player
+        self._call_for_mutiny_action(player)
+        self._vote(player)
+        response = self._get_my_game(player).json()
+        assert len(response["gameStatus"]["lastAction"]["actionData"][
+                       "voteResults"]) > 0

@@ -13,7 +13,8 @@ class TestCallForBrawlAction(BaseGameTestCase):
             'actionData': {
                 'governor': player,
                 'participatingPlayers': [player],
-                'state': 'in_progress'
+                'state': 'in_progress',
+                "voteResults": []
             }
         }
         assert response["gameStatus"]["lastAction"] == expected_last_action
@@ -35,5 +36,10 @@ class TestCallForBrawlAction(BaseGameTestCase):
                 'state': 'success'
             }
         }
+
+        assert len(
+            response["gameStatus"]["lastAction"]["actionData"]["voteResults"]
+        ) > 0
+        del response["gameStatus"]["lastAction"]["actionData"]["voteResults"]
         assert response["gameStatus"]["lastAction"] == expected_last_action
         assert response["gameStatus"]["chestsPosition"]["tr_fr"] == 2
