@@ -11,8 +11,8 @@ from app.schemas.game_schema import (
 from typing import List, Dict, Optional
 
 
-class Team(Enum):
-    ENGLAND = "england"
+class Team(str, Enum):
+    BRITAIN = "britain"
     FRANCE = "france"
     DUTCH = "dutch"
 
