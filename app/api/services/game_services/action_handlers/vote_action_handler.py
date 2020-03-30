@@ -25,6 +25,8 @@ class VoteActionHandler(ActionHandler):
         vote_card = self.game.players_info.get(self.player).vote_cards.pop(
             self.payload.vote_card_index - 1
         )
+        self.game.votes.participated_players.append(self.player)
+        self.game.votes.vote_cards.append(vote_card)
 
         if last_action.action_type == game_schema.Action.ActionType.CALL_FOR_AN_ATTACK:
             self.handle_call_for_attack_vote(vote_card)
@@ -48,8 +50,7 @@ class VoteActionHandler(ActionHandler):
                 )
             else:
                 last_action.action_data.state = game_schema.State.Failed
-                self.game.next_turn()
-            self.game.votes = Votes()
+            self.game.end_voting()
 
     def handle_call_for_brawl_vote(self, vote_card):
         last_action = self.game.last_action
@@ -69,7 +70,7 @@ class VoteActionHandler(ActionHandler):
                 self.game.chests_position.tr_fr += 1
                 last_action.action_data.state = game_schema.State.Success
             self.game.next_turn()
-            self.game.votes = Votes()
+            self.game.end_voting()
 
     def handle_call_for_mutiny_vote(self, vote_card):
         last_action = self.game.last_action
@@ -87,3 +88,4 @@ class VoteActionHandler(ActionHandler):
             else:
                 self.game.last_action.action_data.state = State.Failed
             self.game.next_turn()
+            self.game.end_voting()
