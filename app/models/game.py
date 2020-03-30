@@ -1,6 +1,7 @@
 import random
 from dataclasses import dataclass
-from enum import Enum
+
+from fastapi_utils.enums import StrEnum
 
 from app.models.votes import Votes, generate_vote_card
 
@@ -11,7 +12,7 @@ from app.schemas.game_schema import (
 from typing import List, Dict, Optional
 
 
-class Team(str, Enum):
+class Team(StrEnum):
     BRITAIN = "britain"
     FRANCE = "france"
     DUTCH = "dutch"
