@@ -8,6 +8,7 @@ from app.api.services.game_services.action_handlers.action_handler import (
 from app.api.services.lobby_service import remove_lobby
 from app.models.game import Game, Player, Chests
 from app.models import votes
+from app.models.votes import Votes
 from app.schemas import game_schema
 from app.schemas.auth import User
 from app.schemas.game_schema import PayloadType
@@ -25,6 +26,7 @@ def _setup_vote_cards(game: Game):
                 votes.generate_vote_card()
             )
     game.vote_deck = votes.generate_vote_card()
+    game.votes = Votes()
 
 
 def _get_available_actions(player: Player, game: Game):
