@@ -28,3 +28,4 @@ class MaroonCrewActionHandler(ActionHandler):
                 marooned_crew=player_to_maroon
             )
         )
+        self.game.next_turn()

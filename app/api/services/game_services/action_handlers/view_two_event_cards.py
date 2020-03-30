@@ -9,7 +9,7 @@ class ViewTwoEventCardsActionHandler(ActionHandler):
         for event_card_index in self.payload.event_cards_indexes:
             seen_event_cards.append(
                 EventCardsManager.get(
-                    self.game.event_cards[event_card_index-1]
+                    self.game.event_cards[event_card_index - 1]
                 )
             )
 
@@ -18,3 +18,4 @@ class ViewTwoEventCardsActionHandler(ActionHandler):
             action_data=ViewTwoEventCardsActionData(who_viewed=self.player)
         )
         self.game.players_info[self.player].seen_event_cards = seen_event_cards
+        self.game.next_turn()
