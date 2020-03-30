@@ -68,3 +68,14 @@ class TestVoteAction(BaseGameTestCase):
             response = self._get_my_game(player).json()
             assert response["gameStatus"]["playerGameInfo"][
                        "availableActions"] == ["vote"]
+
+    def test_vote_cards_return_to_players(self):
+        self._start_call_for_action()
+        participating_players_copy = (
+            self.game.last_action.action_data.participating_players.copy()
+        )
+        vote_cards_before = len(self.game.players_info["p3"].vote_cards)
+        for player in participating_players_copy:
+            self._vote(player)
+        vote_cards_after = len(self.game.players_info["p3"].vote_cards)
+        assert vote_cards_after == vote_cards_before
