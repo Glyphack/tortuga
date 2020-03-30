@@ -3,23 +3,27 @@ from dataclasses import dataclass
 from enum import Enum
 
 from app.models.votes import Votes, generate_vote_card
+
+from app.models.event_cards import EventCard
 from app.schemas.game_schema import (
-    Action, VoteCard, EventCard, Positions
+    Action, VoteCard, Positions
 )
 from typing import List, Dict, Optional
 
 
+class Team(Enum):
+    ENGLAND = "england"
+    FRANCE = "france"
+    DUTCH = "dutch"
+
+
 @dataclass
 class Player:
-    class Team(Enum):
-        ENGLAND = "england"
-        FRANCE = "france"
-        DUTCH = "dutch"
-
     id: str
     team: str
     vote_cards: List[VoteCard] = None
     event_cards: List[EventCard] = None
+    seen_event_cards: List[EventCard] = None
     chests: int = 0
 
 
@@ -33,6 +37,12 @@ class Chests:
     tr_fr: int
     tr_en: int
 
+    def get_france_count(self):
+        return self.fd_fr + self.jr_fr + self.tr_fr
+
+    def get_britain_count(self):
+        return self.fd_en + self.jr_en + self.tr_en
+
 
 @dataclass
 class Game:
@@ -41,6 +51,7 @@ class Game:
     host: str
     players_position: Dict[str, Positions]
     chests_position: Chests
+    event_cards: List[str]
     vote_deck: VoteCard = None
     votes: Optional[Votes] = Votes()
     turn: str = ""
@@ -130,3 +141,19 @@ class Game:
         self.next_turn()
         self.votes = Votes()
         self.vote_deck = generate_vote_card()
+
+    def finish_game(self):
+        if self.chests_position.get_britain_count() > self.chests_position.get_france_count():
+            self.winner = Team.BRITAIN
+        elif self.chests_position.get_france_count() == self.chests_position.get_britain_count():
+            self.winner = Team.DUTCH
+        else:
+            self.winner = Team.FRANCE
+
+        self.is_over = True
+
+    def get_event_cards_deck_count(self):
+        if len(self.event_cards) > 5:
+            return 5
+        else:
+            return len(self.event_cards)

@@ -6,9 +6,10 @@ from app.api.services.game_services.action_handlers.action_handler import (
     ActionHandler
 )
 from app.api.services.lobby_service import remove_lobby
+from app.models.event_cards import EventCardsManager
 from app.models.game import Game, Player, Chests
 from app.models import votes
-from app.models.votes import Votes
+from app.models.votes import Votes, Team
 from app.schemas import game_schema
 from app.schemas.auth import User
 from app.schemas.game_schema import PayloadType
@@ -122,6 +123,12 @@ def _give_treasure_to_captains(players_info: Dict[str, Player],
     return updated_players_info
 
 
+def _get_random_event_cards():
+    event_cards = EventCardsManager.get_all_slugs()
+    random.shuffle(event_cards)
+    return event_cards
+
+
 def create_new_game(game_id: str, players: List[str], host: str) -> Game:
     players_info: Dict[str, Player] = {}
     players_copy = players.copy()
@@ -129,27 +136,29 @@ def create_new_game(game_id: str, players: List[str], host: str) -> Game:
     if len(players_copy) // 2 != 0:
         dutch = players_copy[0]
         players_copy.remove(dutch)
-        dutch = Player(id=dutch, team=Player.Team.DUTCH.value)
+        dutch = Player(id=dutch, team=Team.DUTCH.value)
         players_info[dutch.id] = dutch
         players_game[dutch.id] = game_id
 
     for index, player in enumerate(players_copy):
         if index % 2 != 0:
-            player_team = Player.Team.ENGLAND.value
+            player_team = Team.BRITAIN.value
         else:
-            player_team = Player.Team.FRANCE.value
+            player_team = Team.FRANCE.value
         players_info[player] = Player(id=player, team=player_team)
         players_game[player] = game_id
 
     players_positions = _generate_map(players)
     chests_position = _generate_chests_positions()
     players_info = _give_treasure_to_captains(players_info, players_positions)
+    event_cards = _get_random_event_cards()
 
     new_game = Game(
         id=game_id,
         players_info=players_info,
         chests_position=chests_position,
         players_position=players_positions,
+        event_cards=event_cards,
         last_action=None,
         is_over=False,
         winner=None,
@@ -197,10 +206,12 @@ def generate_game_schema_from_game(username: str):
             team=player_info.team,
             vote_cards=player_info.vote_cards,
             event_cards=player_info.event_cards,
+            seen_event_cards=player_info.seen_event_cards,
             role=None,
             available_actions=_get_available_actions(player_info, game),
             chests=player_info.chests
         ),
+        event_cards_deck_count=game.get_event_cards_deck_count(),
         last_action=game.last_action,
         is_over=game.is_over,
         turn=User(username=game.turn),

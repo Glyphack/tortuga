@@ -78,7 +78,7 @@ class State(str, Enum):
 
 
 class EventCard(APIModel):
-    id: str
+    slug: str
     title: str
     description: str
     image_url: str
@@ -192,6 +192,7 @@ class GameStatus(APIModel):
     players_position: Dict[str, Positions]
     chests_position: Chests
     player_game_info: PlayerGameInfo
+    event_cards_deck_count: int
     last_action: Optional[Action] = None
     is_over: bool = False
     turn: User
