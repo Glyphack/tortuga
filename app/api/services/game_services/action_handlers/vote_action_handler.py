@@ -1,7 +1,6 @@
 from app.api.services.game_services.action_handlers.action_handler import (
     ActionHandler
 )
-from app.models.game import Votes
 from app.schemas import game_schema
 from app.schemas.game_schema import VoteCard, State, Positions
 
@@ -29,6 +28,8 @@ class VoteActionHandler(ActionHandler):
         last_action.action_data.participating_players.remove(
             self.player
         )
+        self.game.votes.participated_players.append(self.player)
+        self.game.votes.vote_cards.append(vote_card)
 
         if last_action.action_type == game_schema.Action.ActionType.CALL_FOR_AN_ATTACK:
             self.handle_call_for_attack_vote(vote_card)
@@ -36,9 +37,6 @@ class VoteActionHandler(ActionHandler):
             self.handle_call_for_brawl_vote(vote_card)
         elif last_action.action_type == game_schema.Action.ActionType.CALL_FOR_A_MUTINY:
             self.handle_call_for_mutiny_vote(vote_card)
-
-        self.game.votes.participated_players.append(self.player)
-        self.game.votes.vote_cards.append(vote_card)
 
     def handle_call_for_attack_vote(self, vote_card: VoteCard):
         last_action = self.game.last_action
@@ -60,7 +58,9 @@ class VoteActionHandler(ActionHandler):
                 )
             else:
                 last_action.action_data.state = game_schema.State.Failed
-            last_action.action_data.vote_results = self.game.votes.vote_cards
+            self.game.last_action.action_data.vote_results.extend(
+                self.game.votes.vote_cards
+            )
             self.game.end_voting()
             self.game.next_turn()
 
@@ -81,7 +81,9 @@ class VoteActionHandler(ActionHandler):
                 self.game.chests_position.tr_en -= 1
                 self.game.chests_position.tr_fr += 1
                 last_action.action_data.state = game_schema.State.Success
-            last_action.action_data.vote_results = self.game.votes.vote_cards
+            self.game.last_action.action_data.vote_results.extend(
+                self.game.votes.vote_cards
+            )
             self.game.end_voting()
             self.game.next_turn()
 
@@ -100,6 +102,8 @@ class VoteActionHandler(ActionHandler):
                 )
             else:
                 self.game.last_action.action_data.state = State.Failed
-            last_action.action_data.vote_results = self.game.votes.vote_cards
+            self.game.last_action.action_data.vote_results.extend(
+                self.game.votes.vote_cards
+            )
             self.game.end_voting()
             self.game.next_turn()
