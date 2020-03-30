@@ -7,9 +7,9 @@ from app.api.services.game_services.action_handlers.action_handler import (
 )
 from app.api.services.lobby_service import remove_lobby
 from app.models.event_cards import EventCardsManager
-from app.models.game import Game, Player, Chests
+from app.models.game import Game, Player, Chests, Team
 from app.models import votes
-from app.models.votes import Votes, Team
+from app.models.votes import Votes
 from app.schemas import game_schema
 from app.schemas.auth import User
 from app.schemas.game_schema import PayloadType
