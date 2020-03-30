@@ -74,8 +74,12 @@ class TestVoteAction(BaseGameTestCase):
         participating_players_copy = (
             self.game.last_action.action_data.participating_players.copy()
         )
-        vote_cards_before = len(self.game.players_info["p3"].vote_cards)
+        vote_cards_before = len(
+            self.game.players_info[participating_players_copy[0]].vote_cards
+        )
         for player in participating_players_copy:
             self._vote(player)
-        vote_cards_after = len(self.game.players_info["p3"].vote_cards)
+        vote_cards_after = len(
+            self.game.players_info[participating_players_copy[0]].vote_cards
+        )
         assert vote_cards_after == vote_cards_before
