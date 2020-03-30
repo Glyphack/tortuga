@@ -102,6 +102,7 @@ class CaptainCallForAttackData(APIModel):
     state: State
     from_other_ship: bool
     participating_players: List[str] = []
+    vote_results: List[VoteCard] = []
 
 
 class MaroonAnyCrewMateToTortugaActionData(APIModel):
@@ -110,8 +111,9 @@ class MaroonAnyCrewMateToTortugaActionData(APIModel):
 
 class CallForMutinyActionData(APIModel):
     captain: str
-    participating_players: List[str] = []
     state: State
+    participating_players: List[str] = []
+    vote_results: List[VoteCard] = []
 
 
 class MoveTreasureActionData(APIModel):
@@ -122,8 +124,9 @@ class MoveTreasureActionData(APIModel):
 
 class CallForBrawlActionData(APIModel):
     governor: str
-    participating_players: List[str]
     state: State
+    participating_players: List[str]
+    vote_results: List[VoteCard] = []
 
 
 class PutChestActionData(APIModel):
