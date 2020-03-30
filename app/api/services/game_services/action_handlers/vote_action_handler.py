@@ -60,7 +60,9 @@ class VoteActionHandler(ActionHandler):
                 )
             else:
                 last_action.action_data.state = game_schema.State.Failed
+            last_action.action_data.vote_results = self.game.votes.vote_cards
             self.game.end_voting()
+            self.game.next_turn()
 
     def handle_call_for_brawl_vote(self, vote_card):
         last_action = self.game.last_action
@@ -79,8 +81,9 @@ class VoteActionHandler(ActionHandler):
                 self.game.chests_position.tr_en -= 1
                 self.game.chests_position.tr_fr += 1
                 last_action.action_data.state = game_schema.State.Success
-            self.game.next_turn()
+            last_action.action_data.vote_results = self.game.votes.vote_cards
             self.game.end_voting()
+            self.game.next_turn()
 
     def handle_call_for_mutiny_vote(self, vote_card):
         last_action = self.game.last_action
@@ -97,5 +100,6 @@ class VoteActionHandler(ActionHandler):
                 )
             else:
                 self.game.last_action.action_data.state = State.Failed
-            self.game.next_turn()
+            last_action.action_data.vote_results = self.game.votes.vote_cards
             self.game.end_voting()
+            self.game.next_turn()
