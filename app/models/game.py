@@ -1,22 +1,13 @@
 import random
 from dataclasses import dataclass
 from enum import Enum
+
+from app.models.votes import Votes
 from app.schemas.game_schema import (
     Action, VoteCard, EventCard, Positions,
     PlayerGameInfo
 )
 from typing import List, Dict, Optional
-
-
-@dataclass
-class Votes:
-    cannons: int = 0
-    fire: int = 0
-    water: int = 0
-    britain: int = 0
-    france: int = 0
-    skull: int = 0
-    wheel: int = 0
 
 
 @dataclass
@@ -51,7 +42,7 @@ class Game:
     host: str
     players_position: Dict[str, Positions]
     chests_position: Chests
-    players_participated_in_vote : List[Player]
+    vote_deck: VoteCard = None
     votes: Optional[Votes] = Votes()
     turn: str = ""
     last_action: Optional[Action] = None
@@ -64,6 +55,9 @@ class Game:
             if position == Positions.JR1:
                 return player
         return None
+
+    def get_player_info(self, username):
+        return self.players_info[username]
 
     @property
     def players(self):
@@ -125,7 +119,14 @@ class Game:
             position = self.tortuga_first_empty_slot
         self.players_position[player] = position
 
-    def give_vote_cards_back_to_players(self):
-        random.shuffle(self.votes)
-        for player in self.players_participated_in_vote:
-            player.vote_cards.append(self.votes.pop())
+    def give_vote_cards_back_after_vote(self):
+        random.shuffle(self.votes.vote_cards)
+        for player in self.votes.participated_players:
+            self.get_player_info(player).vote_cards.append(
+                self.votes.vote_cards.pop()
+            )
+
+    def end_voting(self):
+        self.give_vote_cards_back_after_vote()
+        self.next_turn()
+        self.votes = Votes()
