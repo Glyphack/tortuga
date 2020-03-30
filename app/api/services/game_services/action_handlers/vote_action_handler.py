@@ -48,7 +48,7 @@ class VoteActionHandler(ActionHandler):
                 )
             else:
                 last_action.action_data.state = game_schema.State.Failed
-                self.game.next_turn()
+            self.game.next_turn()
             self.game.votes = Votes()
 
     def handle_call_for_brawl_vote(self, vote_card):
