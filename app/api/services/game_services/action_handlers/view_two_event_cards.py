@@ -18,3 +18,4 @@ class ViewTwoEventCardsActionHandler(ActionHandler):
             action_data=ViewTwoEventCardsActionData(who_viewed=self.player)
         )
         self.game.players_info[self.player].seen_event_cards = seen_event_cards
+        self.game.next_turn()
