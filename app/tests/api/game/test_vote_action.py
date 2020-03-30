@@ -57,10 +57,7 @@ class TestVoteAction(BaseGameTestCase):
         turn = self.game.turn
         for player in participating_players_copy:
             self._vote(player)
-        if self.game.last_action.action_data.state == "success":
-            assert turn == self.game.turn
-        else:
-            assert turn != self.game.turn
+        assert turn != self.game.turn
 
     def test_available_action_is_voting(self):
         self._start_call_for_action()
