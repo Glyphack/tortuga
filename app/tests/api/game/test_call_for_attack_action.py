@@ -17,7 +17,8 @@ class TestCallForAnAttackAction(BaseGameTestCase):
                 'participatingPlayers': self.game.last_action
                     .action_data.participating_players,
                 "whichCaptain": {"username": self.game.get_jr_caption()},
-                'fromOtherShip': False
+                'fromOtherShip': False,
+                "voteResults": []
             },
 
         }
