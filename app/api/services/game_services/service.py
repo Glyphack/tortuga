@@ -62,7 +62,6 @@ def _get_available_actions(player: Player, game: Game):
         game_schema.Action.ActionType.VIEW_TWO_EVENT_CARDS,
         game_schema.Action.ActionType.REVEAL_ONE_EVENT_CARD,
         game_schema.Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD,
-        game_schema.Action.ActionType.CALL_FOR_A_MUTINY
     ]
     available_actions.extend(global_actions)
     if player_position in [
@@ -71,11 +70,18 @@ def _get_available_actions(player: Player, game: Game):
         available_actions.extend([
             game_schema.Action.ActionType.CALL_FOR_AN_ATTACK,
             game_schema.Action.ActionType.MAROON_ANY_CREW_MATE_TO_TORTUGA,
-            game_schema.Action.ActionType.MOVE_TREASURE
         ])
+    if player_position in game.cabin_boy_slots:
+        available_actions.append(
+            game_schema.Action.ActionType.MOVE_TREASURE
+        )
     if player_position == game_schema.Positions.TR1:
         available_actions.append(
             game_schema.Action.ActionType.CALL_FOR_BRAWL
+        )
+    if player_position in [game_schema.Positions.JR2, game_schema.Positions.FD2]:
+        available_actions.append(
+            game_schema.Action.ActionType.CALL_FOR_A_MUTINY
         )
     return available_actions
 
