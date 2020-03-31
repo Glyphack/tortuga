@@ -7,32 +7,27 @@ from app.api.services.game_services.action_handlers.action_handler import (
 )
 from app.api.services.lobby_service import remove_lobby
 from app.models.event_cards import EventCardsManager
-from app.models.game import Game, Player, Chests, Votes, Team
+from app.models.game import Game, Player, Chests, Team
+from app.models import votes
+from app.models.votes import Votes
 from app.schemas import game_schema
 from app.schemas.auth import User
-from app.schemas.game_schema import PayloadType, VoteCard
+from app.schemas.game_schema import PayloadType
 
 game_statuses: Dict[str, Game] = {}
 players_game: Dict[str, str] = {}
-votes: Dict[str, Votes] = {}
 
 
-def _give_players_vote_cards(game: Game):
+def _setup_vote_cards(game: Game):
     for player_info in game.players_info.values():
         if player_info.vote_cards is None:
             player_info.vote_cards = []
         for _ in range(0, 3):
             player_info.vote_cards.append(
-                VoteCard(
-                    cannon=0,
-                    fire=random.randint(1, 2),
-                    water=random.randint(1, 100),
-                    britain=random.randint(1, 4),
-                    france=random.randint(1, 3),
-                    skull=random.randint(1, 3),
-                    wheel=random.randint(1, 5)
-                )
+                votes.generate_vote_card()
             )
+    game.vote_deck = votes.generate_vote_card()
+    game.votes = Votes()
 
 
 def _get_available_actions(player: Player, game: Game):
@@ -169,7 +164,7 @@ def create_new_game(game_id: str, players: List[str], host: str) -> Game:
         winner=None,
         host=host,
     )
-    _give_players_vote_cards(new_game)
+    _setup_vote_cards(new_game)
     new_game.turn = new_game.get_jr_caption()
     game_statuses[game_id] = new_game
     return new_game

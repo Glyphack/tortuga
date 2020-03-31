@@ -1,5 +1,9 @@
+import random
 from dataclasses import dataclass
-from enum import Enum
+
+from fastapi_utils.enums import StrEnum
+
+from app.models.votes import Votes, generate_vote_card
 
 from app.models.event_cards import EventCard
 from app.schemas.game_schema import (
@@ -8,19 +12,8 @@ from app.schemas.game_schema import (
 from typing import List, Dict, Optional
 
 
-@dataclass
-class Votes:
-    cannons: int = 0
-    fire: int = 0
-    water: int = 0
-    britain: int = 0
-    france: int = 0
-    skull: int = 0
-    wheel: int = 0
-
-
-class Team(str, Enum):
-    BRITAIN = "england"
+class Team(StrEnum):
+    BRITAIN = "britain"
     FRANCE = "france"
     DUTCH = "dutch"
 
@@ -60,6 +53,7 @@ class Game:
     players_position: Dict[str, Positions]
     chests_position: Chests
     event_cards: List[str]
+    vote_deck: VoteCard = None
     votes: Optional[Votes] = Votes()
     turn: str = ""
     last_action: Optional[Action] = None
@@ -72,6 +66,9 @@ class Game:
             if position == Positions.JR1:
                 return player
         return None
+
+    def get_player_info(self, username):
+        return self.players_info[username]
 
     @property
     def players(self):
@@ -132,6 +129,19 @@ class Game:
         elif position == Positions.TR:
             position = self.tortuga_first_empty_slot
         self.players_position[player] = position
+
+    def give_vote_cards_back_after_vote(self):
+        random.shuffle(self.votes.vote_cards)
+        for player in self.votes.participated_players:
+            self.get_player_info(player).vote_cards.append(
+                self.votes.vote_cards.pop()
+            )
+
+    def end_voting(self):
+        self.give_vote_cards_back_after_vote()
+        self.next_turn()
+        self.votes = Votes()
+        self.vote_deck = generate_vote_card()
 
     def finish_game(self):
         if self.chests_position.get_britain_count() > self.chests_position.get_france_count():
