@@ -158,3 +158,17 @@ class Game:
             return 5
         else:
             return len(self.event_cards)
+
+    @property
+    def cabin_boy_slots(self) -> List[Positions]:
+        jr_cabin_boy = None
+        fd_cabin_boy = None
+        for p in Positions.jr_positions():
+            if p not in self.players_position.values():
+                break
+            jr_cabin_boy = p
+        for p in Positions.fd_positions():
+            if p not in self.players_position.values():
+                break
+            fd_cabin_boy = p
+        return [jr_cabin_boy, fd_cabin_boy]
