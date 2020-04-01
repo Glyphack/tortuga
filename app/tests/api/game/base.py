@@ -155,6 +155,20 @@ class BaseGameTestCase:
         return self.client.post(url=self.do_action_url, json=request,
                                 headers=headers)
 
+    def _reveal_event_card_action(self, player, index):
+        request = {
+            "gameId": 1,
+            "action": {
+                "actionType": "reveal one event card",
+            },
+            "payload": {
+                "event_card_index": index
+            }
+        }
+        headers = self.auth_header(player)
+        return self.client.post(url=self.do_action_url, json=request,
+                                headers=headers)
+
     def _get_my_game(self, player) -> Response:
         headers = self.auth_header(player)
 
