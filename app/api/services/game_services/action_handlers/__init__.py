@@ -11,6 +11,7 @@ from .move_treasure_action_hanlder import MoveTreasureActionHandler
 from .call_for_brawl_action_handler import CallForBrawlActionHandler
 from .call_for_mutiny_action_handler import CallForMutinyActionHandler
 from .view_two_event_cards import ViewTwoEventCardsActionHandler
+from .reveal_event_card_action_handler import RevealEventCardActionHandler
 
 handlers: Dict[Action.ActionType, Type[ActionHandler]] = {
     Action.ActionType.CALL_FOR_AN_ATTACK: CallForAnAttackActionHandler,
@@ -21,5 +22,6 @@ handlers: Dict[Action.ActionType, Type[ActionHandler]] = {
     Action.ActionType.MOVE_TREASURE: MoveTreasureActionHandler,
     Action.ActionType.CALL_FOR_BRAWL: CallForBrawlActionHandler,
     Action.ActionType.CALL_FOR_A_MUTINY: CallForMutinyActionHandler,
-    Action.ActionType.VIEW_TWO_EVENT_CARDS: ViewTwoEventCardsActionHandler
+    Action.ActionType.VIEW_TWO_EVENT_CARDS: ViewTwoEventCardsActionHandler,
+    Action.ActionType.REVEAL_EVENT_CARD: RevealEventCardActionHandler
 }
