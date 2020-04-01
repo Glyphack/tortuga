@@ -1,7 +1,9 @@
 from app.models.event_cards import EventCardsManager
 from app.schemas.game_schema import Action, RevealOneEventCardActionData
 from .action_handler import ActionHandler
-from .event_card_handlers import event_card_handler
+from app.api.services.game_services.event_card_handlers import (
+    event_card_handler
+)
 
 
 class RevealEventCardActionHandler(ActionHandler):
