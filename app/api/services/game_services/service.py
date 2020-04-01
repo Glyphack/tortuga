@@ -60,7 +60,7 @@ def _get_available_actions(player: Player, game: Game):
     global_actions = [
         game_schema.Action.ActionType.MOVE,
         game_schema.Action.ActionType.VIEW_TWO_EVENT_CARDS,
-        game_schema.Action.ActionType.REVEAL_ONE_EVENT_CARD,
+        game_schema.Action.ActionType.REVEAL_EVENT_CARD,
         game_schema.Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD,
     ]
     available_actions.extend(global_actions)

@@ -89,7 +89,9 @@ class ViewTwoEventCardsActionData(APIModel):
 
 
 class RevealOneEventCardActionData(APIModel):
-    who: User
+    who: str
+    event_card: EventCard
+    options: List[str]
 
 
 class ForceAnotherPlayerToChooseCardActionData(APIModel):
@@ -136,7 +138,7 @@ class PutChestActionData(APIModel):
 class Action(APIModel):
     class ActionType(Enum):
         VIEW_TWO_EVENT_CARDS = "view two event cards"
-        REVEAL_ONE_EVENT_CARD = "reveal one event card"
+        REVEAL_EVENT_CARD = "reveal one event card"
         FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD = (
             "force another player to choose card"
         )
@@ -245,6 +247,10 @@ class UseEventCardPayload(APIModel):
     event_card_index: int
 
 
+class RevealEventCardPayload(APIModel):
+    event_card_index: int
+
+
 PayloadType = Optional[
     Union[
         ViewTwoEventCardsPayload,
@@ -254,7 +260,8 @@ PayloadType = Optional[
         VotePayload,
         PutChestPayload,
         ChooseEventCardOptionPayload,
-        UseEventCardPayload
+        UseEventCardPayload,
+        RevealEventCardPayload
     ]
 ]
 
