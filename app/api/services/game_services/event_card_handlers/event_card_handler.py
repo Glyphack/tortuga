@@ -1,3 +1,4 @@
+import abc
 from typing import List
 
 from app.models.game import Game
@@ -9,12 +10,21 @@ class EventCardHandler:
         self.game = game
         self.player = player
         self.payload = payload
+        self.option = None
 
+    @abc.abstractmethod
     def reveal(self):
         raise NotImplemented
 
+    def set_option(self, option):
+        self.option = self.options[option]
+
+    @property
+    @abc.abstractmethod
     def options(self) -> List:
         raise NotImplemented
 
-    def set_option(self):
-        raise NotImplemented
+    @property
+    @abc.abstractmethod
+    def can_keep(self):
+        return False
