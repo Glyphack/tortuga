@@ -89,14 +89,24 @@ class ViewTwoEventCardsActionData(APIModel):
 
 
 class RevealOneEventCardActionData(APIModel):
-    who: str
+    player: str
     event_card: EventCard
-    options: List[str]
+    can_keep: bool
 
 
 class ForceAnotherPlayerToChooseCardActionData(APIModel):
-    player: User
-    forced_player: User
+    player: str
+    forced_player: str
+
+
+class SeeEventCardOptionsActionData(APIModel):
+    options: List[str]
+
+
+class UseEventCardActionData(APIModel):
+    who: str
+    event_card: str
+    message: str
 
 
 class CaptainCallForAttackData(APIModel):
@@ -142,6 +152,9 @@ class Action(APIModel):
         FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD = (
             "force another player to choose card"
         )
+        KEEP_EVENT_CARD = "KEEP-EVENT-CARD"
+        SEE_EVENT_CARD_OPTIONS = "SEE-EVENT-CARD-OPTIONS"
+        USE_EVENT_CARD = "USE-EVENT-CARD"
         MOVE = "move"
         CALL_FOR_AN_ATTACK = "call for an attack"
         MAROON_ANY_CREW_MATE_TO_TORTUGA = "maroon any crew mate to tortuga"
@@ -150,14 +163,13 @@ class Action(APIModel):
         CALL_FOR_BRAWL = "call for brawl"
         VOTE = "vote"
         PUT_CHEST = "put chest"
-        CHOOSE_EVENT_CARD_OPTION = "CHOOSE-EVENT-CARD-OPTION"
-        USE_EVENT_CARD = "USE-EVENT-CARD"
 
     action_type: ActionType
     action_data: Union[
         ViewTwoEventCardsActionData,
         RevealOneEventCardActionData,
         ForceAnotherPlayerToChooseCardActionData,
+        SeeEventCardOptionsActionData,
         CaptainCallForAttackData,
         MaroonAnyCrewMateToTortugaActionData,
         CallForMutinyActionData,
@@ -239,16 +251,17 @@ class PutChestPayload(APIModel):
     from_which_team: Optional[Team]
 
 
-class ChooseEventCardOptionPayload(APIModel):
-    option_index: int
+class RevealEventCardPayload(APIModel):
+    event_card_index: int
+
+
+class SeeEventCardOptionsPayload(APIModel):
+    event_card_slug = str
 
 
 class UseEventCardPayload(APIModel):
-    event_card_index: int
-
-
-class RevealEventCardPayload(APIModel):
-    event_card_index: int
+    event_card_slug: str
+    event_card_option_index: int
 
 
 PayloadType = Optional[
@@ -259,9 +272,9 @@ PayloadType = Optional[
         MoveTreasurePayload,
         VotePayload,
         PutChestPayload,
-        ChooseEventCardOptionPayload,
+        RevealEventCardPayload,
+        SeeEventCardOptionsPayload,
         UseEventCardPayload,
-        RevealEventCardPayload
     ]
 ]
 
