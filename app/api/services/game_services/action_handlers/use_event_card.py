@@ -5,8 +5,9 @@ from ..event_card_handlers import event_card_handler
 
 class UseEventCardActionHandler(ActionHandler):
     def execute(self):
-        event_card = event_card_handler[self.payload.event_card_slug](
-            self.game, self.player, self.payload
+        event_card = event_card_handler[self.payload.event_card_to_use](
+            self.game, self.player, self.payload,
+            self.payload.event_card_option_index - 1
         )
         event_card.set_option(self.payload.event_card_option_index - 1)
         event_card.reveal()
