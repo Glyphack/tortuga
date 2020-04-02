@@ -14,5 +14,14 @@ class TestRevealEventCard(BaseGameTestCase):
         )
         assert game.turn != player
 
-    def test_reveal_card_with_options(self):
-        pass
+    def test_reveal_card_with_options(self, game: Game):
+        game.event_cards = ["letter-of-marque"]
+        player = game.turn
+        self._reveal_event_card_action(player, 1)
+        assert player == game.turn
+        assert (
+                game.last_action.action_data.can_keep ==
+                True
+        )
+
+

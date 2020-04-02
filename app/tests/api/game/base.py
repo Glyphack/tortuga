@@ -6,6 +6,8 @@ from requests import Response
 
 from app.models.game import Game
 from app.schemas import game_schema
+from app.schemas.game_schema import Action, DoActionRequest, \
+    SeeEventCardOptionsPayload, UseEventCardPayload
 
 
 class BaseGameTestCase:
@@ -169,8 +171,47 @@ class BaseGameTestCase:
         return self.client.post(url=self.do_action_url, json=request,
                                 headers=headers)
 
+    def _keep_event_card_action(self, player):
+        request = DoActionRequest(
+            action=Action(
+                action_type=Action.ActionType.KEEP_EVENT_CARD,
+            ),
+            game_id="1",
+        )
+        headers = self.auth_header(player)
+        return self.client.post(url=self.do_action_url, data=request.json(),
+                                headers=headers)
+
+    def see_event_card_options(self, player, slug):
+        request = DoActionRequest(
+            action=Action(
+                action_type=Action.ActionType.SEE_EVENT_CARD_OPTIONS,
+            ),
+            game_id="1",
+            payload=SeeEventCardOptionsPayload(
+                event_card_to_see_slug=slug
+            )
+        )
+        headers = self.auth_header(player)
+        return self.client.post(url=self.do_action_url, data=request.json(),
+                                headers=headers)
+
+    def use_event_card_action(self, player, slug: str, option):
+        request = DoActionRequest(
+            action=Action(
+                action_type=Action.ActionType.USE_EVENT_CARD
+            ),
+            game_id="1",
+            payload=UseEventCardPayload(
+                event_card_option_index=option,
+                event_card_to_use=slug,
+            )
+        )
+        headers = self.auth_header(player)
+        self.client.post(self.do_action_url, data=request.json(),
+                         headers=headers)
+
     def _get_my_game(self, player) -> Response:
         headers = self.auth_header(player)
-
         response = self.client.get(self.my_game_url, headers=headers)
         return response
