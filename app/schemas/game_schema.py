@@ -256,11 +256,11 @@ class RevealEventCardPayload(APIModel):
 
 
 class SeeEventCardOptionsPayload(APIModel):
-    event_card_slug = str
+    event_card_to_see_slug: str
 
 
 class UseEventCardPayload(APIModel):
-    event_card_slug: str
+    event_card_to_use: str
     event_card_option_index: int
 
 
@@ -282,4 +282,4 @@ PayloadType = Optional[
 class DoActionRequest(APIModel):
     game_id: str
     action: Action
-    payload: PayloadType
+    payload: PayloadType = None
