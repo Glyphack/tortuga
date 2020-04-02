@@ -14,15 +14,15 @@ class RevealEventCardActionHandler(ActionHandler):
         event_card_class = event_card_handler[event_card.slug](
             self.game, self.player, self.payload
         )
-        event_card_class.reveal()
         self.game.last_action = Action(
             action_type=Action.ActionType.REVEAL_EVENT_CARD,
             action_data=RevealOneEventCardActionData(
-                who=self.player,
+                player=self.player,
                 event_card=event_card,
-                options=event_card_class.options()
+                can_keep=event_card_class.can_keep
             )
         )
         self.game.event_cards.remove(event_card.slug)
-        if not event_card_class.options():
+        if not event_card_class.can_keep and not event_card_class.options:
             self.game.next_turn()
+            event_card_class.reveal()
