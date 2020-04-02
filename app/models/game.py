@@ -1,5 +1,5 @@
 import random
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from fastapi_utils.enums import StrEnum
 
@@ -22,9 +22,9 @@ class Team(StrEnum):
 class Player:
     id: str
     team: str
-    vote_cards: List[VoteCard] = None
-    event_cards: List[EventCard] = None
-    seen_event_cards: List[EventCard] = None
+    vote_cards: List[VoteCard] = field(default_factory=list)
+    event_cards: List[EventCard] = field(default_factory=list)
+    seen_event_cards: List[EventCard] = field(default_factory=list)
     chests: int = 0
 
 
