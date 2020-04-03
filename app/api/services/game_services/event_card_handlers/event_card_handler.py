@@ -6,18 +6,23 @@ from app.schemas.game_schema import PayloadType
 
 
 class EventCardHandler:
-    def __init__(self, game: Game, player: str, payload: PayloadType, option= None):
+    def __init__(self, game: Game, player: str, payload: PayloadType):
         self.game = game
         self.player = player
         self.payload = payload
-        self.option = option
+        self._chosen_option = None
 
     @abc.abstractmethod
     def reveal(self):
         raise NotImplemented
 
-    def set_option(self, option):
-        self.option = self.options[option - 1]
+    @property
+    def chosen_option(self):
+        return self._chosen_option
+
+    @chosen_option.setter
+    def chosen_option(self, value):
+        self._chosen_option = value
 
     @property
     @abc.abstractmethod
