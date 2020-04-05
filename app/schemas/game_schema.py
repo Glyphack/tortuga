@@ -214,7 +214,7 @@ class GameStatus(APIModel):
     last_action: Optional[Action] = None
     is_over: bool = False
     turn: User
-    winner: Optional[User] = None
+    winner: Optional[str] = None
 
 
 class MyGameResponse(APIModel):
