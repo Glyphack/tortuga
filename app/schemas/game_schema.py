@@ -92,6 +92,7 @@ class RevealOneEventCardActionData(APIModel):
     player: str
     event_card: EventCard
     can_keep: bool
+    event_card_options: List[str]
 
 
 class ForceAnotherPlayerToChooseCardActionData(APIModel):
@@ -261,7 +262,7 @@ class SeeEventCardOptionsPayload(APIModel):
 
 class UseEventCardPayload(APIModel):
     event_card_to_use: str
-    event_card_option_index: int
+    event_card_option_index: Optional[int]
 
 
 PayloadType = Optional[

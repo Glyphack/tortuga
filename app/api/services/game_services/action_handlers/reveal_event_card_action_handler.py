@@ -19,7 +19,8 @@ class RevealEventCardActionHandler(ActionHandler):
             action_data=RevealOneEventCardActionData(
                 player=self.player,
                 event_card=event_card,
-                can_keep=event_card_class.can_keep
+                can_keep=event_card_class.can_keep,
+                event_card_options=event_card_class.options
             )
         )
         self.game.event_cards.remove(event_card.slug)
