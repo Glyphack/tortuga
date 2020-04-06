@@ -1,4 +1,4 @@
-from .base import BaseGameTestCase
+from app.tests.api.game.base import BaseGameTestCase
 
 
 class TestMyGame(BaseGameTestCase):

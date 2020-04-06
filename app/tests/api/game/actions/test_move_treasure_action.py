@@ -1,5 +1,5 @@
 from app.schemas.game_schema import Positions, TreasureHoldTeams
-from .base import BaseGameTestCase
+from app.tests.api.game.base import BaseGameTestCase
 
 
 class TestMoveTreasureAction(BaseGameTestCase):

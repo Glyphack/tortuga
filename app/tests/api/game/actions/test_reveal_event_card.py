@@ -1,6 +1,6 @@
 from app.models.game import Game
 from app.schemas.game_schema import Action
-from .base import BaseGameTestCase
+from app.tests.api.game.base import BaseGameTestCase
 
 
 class TestRevealEventCard(BaseGameTestCase):

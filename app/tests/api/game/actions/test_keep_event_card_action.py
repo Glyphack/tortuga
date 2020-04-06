@@ -1,5 +1,5 @@
 from app.models.game import Game
-from .base import BaseGameTestCase
+from app.tests.api.game.base import BaseGameTestCase
 
 
 class TestKeepEventCardAction(BaseGameTestCase):
