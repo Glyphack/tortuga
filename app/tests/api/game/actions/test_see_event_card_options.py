@@ -8,5 +8,8 @@ class TestSeeEventCardOptions(BaseGameTestCase):
         event_card_slug = "letter-of-marque"
         game.event_cards = [event_card_slug]
         player = game.turn
+        game.next_turn()
         game.players_position[player] = Positions.TR1
-        self.see_event_card_options(player, event_card_slug)
+        self.see_event_card_options(game.turn, event_card_slug)
+        assert len(game.last_action.action_data.options) == 2
+        assert game.last_action.action_data.can_use is True
