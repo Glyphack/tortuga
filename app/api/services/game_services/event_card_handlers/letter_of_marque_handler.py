@@ -6,6 +6,18 @@ from .event_card_handler import EventCardHandler
 
 
 class LetterOfMarque(EventCardHandler):
+    @property
+    def can_use(self):
+        positions = [Positions.JR_B, Positions.FD_B]
+        positions.extend(Positions.tr_positions())
+        can_use = False
+        for player in self.game.players:
+            if player == self.player:
+                continue
+            if self.game.players_position[player] in positions:
+                can_use = True
+        return can_use
+
     def reveal(self):
         option_opr = self.options_operations[self.chosen_option]
         self.game.set_position(option_opr.who, option_opr.where)
