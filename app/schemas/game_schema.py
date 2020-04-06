@@ -101,6 +101,7 @@ class ForceAnotherPlayerToChooseCardActionData(APIModel):
 
 
 class SeeEventCardOptionsActionData(APIModel):
+    player: str
     options: List[str]
     can_use: bool
 

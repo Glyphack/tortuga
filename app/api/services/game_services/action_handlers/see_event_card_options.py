@@ -12,7 +12,8 @@ class SeeEventCardOptions(ActionHandler):
             action_type=Action.ActionType.SEE_EVENT_CARD_OPTIONS,
             action_data=SeeEventCardOptionsActionData(
                 options=event_card.options,
-                can_use=event_card.can_use
+                can_use=event_card.can_use,
+                player=self.player
             )
         )
         self.game.last_action = action
