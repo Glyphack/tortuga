@@ -11,5 +11,8 @@ class TestSeeEventCardOptions(BaseGameTestCase):
         game.next_turn()
         game.players_position[player] = Positions.TR1
         self.see_event_card_options(game.turn, event_card_slug)
-        assert len(game.last_action.action_data.options) == 2
-        assert game.last_action.action_data.can_use is True
+        response = self._get_my_game(game.turn).json()
+
+        action_data = response["gameStatus"]["lastAction"]["actionData"]
+        assert len(action_data["options"]) == 2
+        assert action_data["canUse"] is True
