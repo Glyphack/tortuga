@@ -33,3 +33,8 @@ class EventCardHandler:
     @abc.abstractmethod
     def can_keep(self):
         return False
+
+    @property
+    @abc.abstractmethod
+    def can_use(self):
+        raise NotImplemented
