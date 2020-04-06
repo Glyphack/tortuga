@@ -104,6 +104,7 @@ class SeeEventCardOptionsActionData(APIModel):
     player: str
     options: List[str]
     can_use: bool
+    event_card_slug: str
 
 
 class UseEventCardActionData(APIModel):
