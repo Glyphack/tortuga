@@ -10,5 +10,5 @@ class TestUseEventCard(BaseGameTestCase):
         player = game.turn
         game.players_position[player] = Positions.JR_B
         self._reveal_event_card_action(player, 1)
-        self.use_event_card_action(player, event_card_slug, 1)
+        self.use_event_card_action(player, event_card_slug, 0)
         assert game.players_position[player] in Positions.jr_positions()
