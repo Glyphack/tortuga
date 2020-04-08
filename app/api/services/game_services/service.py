@@ -44,14 +44,32 @@ def _get_available_actions(player: Player, game: Game):
             ):
                 available_actions = [game_schema.Action.ActionType.PUT_CHEST]
                 return available_actions
-        if game.last_action.action_type == game_schema.Action.ActionType.CALL_FOR_BRAWL:
+        elif game.last_action.action_type == game_schema.Action.ActionType.CALL_FOR_BRAWL:
             if player.id in game.last_action.action_data.participating_players:
                 available_actions = [game_schema.Action.ActionType.VOTE]
                 return available_actions
-        if game.last_action.action_type == game_schema.Action.ActionType.CALL_FOR_A_MUTINY:
+        elif game.last_action.action_type == game_schema.Action.ActionType.CALL_FOR_A_MUTINY:
             if player.id in game.last_action.action_data.participating_players:
                 available_actions = [game_schema.Action.ActionType.VOTE]
                 return available_actions
+        elif (
+                (
+                        game.last_action.action_type == game_schema.Action.ActionType.REVEAL_EVENT_CARD or
+                        game.last_action.action_type == game_schema.Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD
+                ) and
+                game.last_action.action_data.player == player.id
+        ):
+            if game.last_action.action_data.event_card_options:
+                available_actions.append(
+                    game_schema.Action.ActionType.USE_EVENT_CARD
+                )
+            if game.last_action.action_data.can_keep:
+                available_actions.append(
+                    game_schema.Action.ActionType.KEEP_EVENT_CARD
+                )
+            if available_actions:
+                return available_actions
+
     if player.id != game.turn:
         return available_actions
     if player.chests > 0:
@@ -60,7 +78,7 @@ def _get_available_actions(player: Player, game: Game):
     global_actions = [
         game_schema.Action.ActionType.MOVE,
         game_schema.Action.ActionType.VIEW_TWO_EVENT_CARDS,
-        game_schema.Action.ActionType.REVEAL_ONE_EVENT_CARD,
+        game_schema.Action.ActionType.REVEAL_EVENT_CARD,
         game_schema.Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD,
     ]
     available_actions.extend(global_actions)
@@ -79,7 +97,8 @@ def _get_available_actions(player: Player, game: Game):
         available_actions.append(
             game_schema.Action.ActionType.CALL_FOR_BRAWL
         )
-    if player_position in [game_schema.Positions.JR2, game_schema.Positions.FD2]:
+    if player_position in [game_schema.Positions.JR2,
+                           game_schema.Positions.FD2]:
         available_actions.append(
             game_schema.Action.ActionType.CALL_FOR_A_MUTINY
         )

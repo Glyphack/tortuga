@@ -89,12 +89,28 @@ class ViewTwoEventCardsActionData(APIModel):
 
 
 class RevealOneEventCardActionData(APIModel):
-    who: User
+    player: str
+    event_card: EventCard
+    can_keep: bool
+    event_card_options: List[str]
 
 
 class ForceAnotherPlayerToChooseCardActionData(APIModel):
-    player: User
-    forced_player: User
+    player: str
+    forced_player: str
+
+
+class SeeEventCardOptionsActionData(APIModel):
+    player: str
+    options: List[str]
+    can_use: bool
+    event_card_slug: str
+
+
+class UseEventCardActionData(APIModel):
+    who: str
+    event_card: str
+    message: str
 
 
 class CaptainCallForAttackData(APIModel):
@@ -136,10 +152,13 @@ class PutChestActionData(APIModel):
 class Action(APIModel):
     class ActionType(Enum):
         VIEW_TWO_EVENT_CARDS = "view two event cards"
-        REVEAL_ONE_EVENT_CARD = "reveal one event card"
+        REVEAL_EVENT_CARD = "reveal one event card"
         FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD = (
             "force another player to choose card"
         )
+        KEEP_EVENT_CARD = "KEEP-EVENT-CARD"
+        SEE_EVENT_CARD_OPTIONS = "SEE-EVENT-CARD-OPTIONS"
+        USE_EVENT_CARD = "USE-EVENT-CARD"
         MOVE = "move"
         CALL_FOR_AN_ATTACK = "call for an attack"
         MAROON_ANY_CREW_MATE_TO_TORTUGA = "maroon any crew mate to tortuga"
@@ -148,14 +167,13 @@ class Action(APIModel):
         CALL_FOR_BRAWL = "call for brawl"
         VOTE = "vote"
         PUT_CHEST = "put chest"
-        CHOOSE_EVENT_CARD_OPTION = "CHOOSE-EVENT-CARD-OPTION"
-        USE_EVENT_CARD = "USE-EVENT-CARD"
 
     action_type: ActionType
     action_data: Union[
         ViewTwoEventCardsActionData,
         RevealOneEventCardActionData,
         ForceAnotherPlayerToChooseCardActionData,
+        SeeEventCardOptionsActionData,
         CaptainCallForAttackData,
         MaroonAnyCrewMateToTortugaActionData,
         CallForMutinyActionData,
@@ -199,7 +217,7 @@ class GameStatus(APIModel):
     last_action: Optional[Action] = None
     is_over: bool = False
     turn: User
-    winner: Optional[User] = None
+    winner: Optional[str] = None
 
 
 class MyGameResponse(APIModel):
@@ -237,12 +255,17 @@ class PutChestPayload(APIModel):
     from_which_team: Optional[Team]
 
 
-class ChooseEventCardOptionPayload(APIModel):
-    option_index: int
+class RevealEventCardPayload(APIModel):
+    event_card_index: int
+
+
+class SeeEventCardOptionsPayload(APIModel):
+    event_card_to_see_slug: str
 
 
 class UseEventCardPayload(APIModel):
-    event_card_index: int
+    event_card_to_use: str
+    event_card_option_index: Optional[int]
 
 
 PayloadType = Optional[
@@ -253,8 +276,9 @@ PayloadType = Optional[
         MoveTreasurePayload,
         VotePayload,
         PutChestPayload,
-        ChooseEventCardOptionPayload,
-        UseEventCardPayload
+        RevealEventCardPayload,
+        SeeEventCardOptionsPayload,
+        UseEventCardPayload,
     ]
 ]
 
@@ -262,4 +286,4 @@ PayloadType = Optional[
 class DoActionRequest(APIModel):
     game_id: str
     action: Action
-    payload: PayloadType
+    payload: PayloadType = None

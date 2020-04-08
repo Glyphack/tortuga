@@ -3,7 +3,7 @@ import pytest
 from app.models.game import Game
 from app.schemas.auth import User
 from app.schemas.game_schema import Action, CaptainCallForAttackData, State
-from .base import BaseGameTestCase
+from app.tests.api.game.base import BaseGameTestCase
 
 
 class TestPutChestAction(BaseGameTestCase):

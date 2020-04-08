@@ -1,5 +1,5 @@
 from app.schemas.game_schema import Positions, TreasureHoldTeams
-from .base import BaseGameTestCase
+from app.tests.api.game.base import BaseGameTestCase
 
 
 class TestMoveTreasureAction(BaseGameTestCase):
@@ -16,8 +16,7 @@ class TestMoveTreasureAction(BaseGameTestCase):
         self.game.turn = self.game.players[2]
         player = self.game.turn
         self.game.chests_position.jr_fr = 1
-        r = self._move_treasure_action(player, TreasureHoldTeams.france)
-        print(r.json())
+        self._move_treasure_action(player, TreasureHoldTeams.france)
         assert self.game.turn != player
 
     def test_move_from_empty_hold(self):
