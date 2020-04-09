@@ -22,4 +22,7 @@ class KeepEventCardActionHandler(ActionHandler):
                 image_url=event_card.image_url
             )
         )
+        self.game.last_action = Action(
+            action_type=Action.ActionType.KEEP_EVENT_CARD,
+        )
         self.game.next_turn()

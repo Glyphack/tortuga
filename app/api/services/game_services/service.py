@@ -102,6 +102,10 @@ def _get_available_actions(player: Player, game: Game):
         available_actions.append(
             game_schema.Action.ActionType.CALL_FOR_A_MUTINY
         )
+    if player.event_cards:
+        available_actions.append(
+            game_schema.Action.ActionType.USE_EVENT_CARD
+        )
     return available_actions
 
 
