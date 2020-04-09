@@ -8,6 +8,10 @@ class SpanishArmadaCard(EventCardHandler):
         self.game.finish_game()
 
     @property
+    def can_use(self):
+        return False
+
+    @property
     def can_keep(self):
         return False
 

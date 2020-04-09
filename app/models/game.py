@@ -1,27 +1,19 @@
 import random
 from dataclasses import dataclass, field
 
-from fastapi_utils.enums import StrEnum
-
 from app.models.votes import Votes, generate_vote_card
 
 from app.models.event_cards import EventCard
 from app.schemas.game_schema import (
-    Action, VoteCard, Positions
+    Action, VoteCard, Positions, Team
 )
 from typing import List, Dict, Optional
-
-
-class Team(StrEnum):
-    BRITAIN = "britain"
-    FRANCE = "france"
-    DUTCH = "dutch"
 
 
 @dataclass
 class Player:
     id: str
-    team: str
+    team: Team
     vote_cards: List[VoteCard] = field(default_factory=list)
     event_cards: List[EventCard] = field(default_factory=list)
     seen_event_cards: List[EventCard] = field(default_factory=list)
@@ -59,7 +51,7 @@ class Game:
     last_action: Optional[Action] = None
     last_votes: Optional[Votes] = None
     is_over: bool = False
-    winner: Optional[str] = None
+    winner: Optional[Team] = None
 
     def get_jr_caption(self) -> Optional[str]:
         for player, position in self.players_position.items():
