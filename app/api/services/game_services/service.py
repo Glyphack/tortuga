@@ -7,12 +7,12 @@ from app.api.services.game_services.action_handlers.action_handler import (
 )
 from app.api.services.lobby_service import remove_lobby
 from app.models.event_cards import EventCardsManager
-from app.models.game import Game, Player, Chests, Team
+from app.models.game import Game, Player, Chests
 from app.models import votes
 from app.models.votes import Votes
 from app.schemas import game_schema
 from app.schemas.auth import User
-from app.schemas.game_schema import PayloadType
+from app.schemas.game_schema import PayloadType, Team
 
 game_statuses: Dict[str, Game] = {}
 players_game: Dict[str, str] = {}
@@ -220,7 +220,7 @@ def is_game_host(game: Game, player: str):
 def generate_game_schema_from_game(username: str):
     game = get_player_game(username)
     player_info = get_player_info_in_game(game, username)
-    return game_schema.GameStatus(
+    game_status = game_schema.GameStatus(
         players_position=game.players_position,
         chests_position=game_schema.Chests(
             tr_en=game.chests_position.tr_en,
@@ -244,8 +244,15 @@ def generate_game_schema_from_game(username: str):
         last_action=game.last_action,
         is_over=game.is_over,
         turn=User(username=game.turn),
-        winner=game.winner,
     )
+    if game.winner:
+        game_status.winner = game_schema.WinState(
+            winner_team=game.winner,
+            players_teams={
+                player: info.team for player, info in game.players_info.items()
+            }
+        )
+    return game_status
 
 
 def get_action_handler(game: Game, player: str,

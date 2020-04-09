@@ -2,6 +2,7 @@ from enum import Enum
 from typing import Dict, List, Optional, Union
 
 from fastapi_utils.api_model import APIModel
+from fastapi_utils.enums import StrEnum
 from pydantic.main import BaseModel
 
 from app.schemas.auth import User
@@ -10,6 +11,12 @@ from app.schemas.auth import User
 class TreasureHoldTeams(str, Enum):
     britain = "BRITAIN"
     france = "FRANCE"
+
+
+class Team(StrEnum):
+    BRITAIN = "britain"
+    FRANCE = "france"
+    DUTCH = "dutch"
 
 
 class Positions(str, Enum):
@@ -209,6 +216,11 @@ class Chests(BaseModel):
     tr_en: int
 
 
+class WinState(APIModel):
+    winner_team: Team
+    players_teams: Dict[str, Team]
+
+
 class GameStatus(APIModel):
     players_position: Dict[str, Positions]
     chests_position: Chests
@@ -217,7 +229,7 @@ class GameStatus(APIModel):
     last_action: Optional[Action] = None
     is_over: bool = False
     turn: User
-    winner: Optional[str] = None
+    winner: Optional[WinState]
 
 
 class MyGameResponse(APIModel):
