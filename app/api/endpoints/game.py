@@ -77,4 +77,4 @@ async def leave_game(request: Request):
     if game and username in game.players and game.is_over:
         del game.players_position[username]
     if len(game.players_position) == 0:
-        del game
+        remove_game(game.id)
