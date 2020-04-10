@@ -6,7 +6,7 @@ from app.api.services.game_services.service import (
     get_player_game,
     remove_game, is_game_host,
     generate_game_schema_from_game,
-    get_action_handler)
+    get_action_handler, leave_current_game)
 from app.schemas.game_schema import (
     MyGameResponse,
     DoActionRequest,
@@ -75,6 +75,4 @@ async def leave_game(request: Request):
     username = request.user.username
     game = get_player_game(username)
     if game and username in game.players and game.is_over:
-        del game.players_position[username]
-    if len(game.players_position) == 0:
-        remove_game(game.id)
+        leave_current_game(username)
