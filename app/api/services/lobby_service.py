@@ -18,7 +18,7 @@ def remove_lobby(lobby_id: str):
     del lobbies[lobby_id]
 
 
-def leave_lobby(lobby_id: str, user: User):
+def leave_current_lobby(lobby_id: str, user: User):
     lobby = lobbies[lobby_id]
     lobby.players.remove(user)
     lobby.occupy -= 1

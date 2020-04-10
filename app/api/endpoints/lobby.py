@@ -73,7 +73,7 @@ async def leave_lobby(request: Request,
     if user not in lobby.players:
         raise HTTPException(status_code=400)
 
-    lobby_service.leave_lobby(lobby.id, user)
+    lobby_service.leave_current_lobby(lobby.id, user)
 
 
 @router.post("/lobby/start")

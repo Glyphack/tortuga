@@ -208,7 +208,7 @@ def leave_current_game(username):
     game = players_game.get(username)
     del players_game[username]
     del game.players_position[username]
-    lobby_service.leave_lobby(
+    lobby_service.leave_current_lobby(
         game.id, game_schema.User(username=username)
     )
     if len(game.players_position) == 0:
