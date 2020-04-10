@@ -1,11 +1,11 @@
 import random
 from typing import List, Dict
 
+from app.api.services import lobby_service
 from app.api.services.game_services.action_handlers import handlers
 from app.api.services.game_services.action_handlers.action_handler import (
     ActionHandler
 )
-from app.api.services.lobby_service import remove_lobby
 from app.models.event_cards import EventCardsManager
 from app.models.game import Game, Player, Chests
 from app.models import votes
@@ -204,13 +204,23 @@ def get_player_game(username) -> Game:
     return game_statuses.get(game_id)
 
 
+def leave_current_game(username):
+    game = players_game.get(username)
+    del players_game[username]
+    del game.players_position[username]
+    lobby_service.leave_lobby(
+        game.id, game_schema.User(username=username)
+    )
+    if len(game.players_position) == 0:
+        remove_game(game.id)
+
+
 def get_player_info_in_game(game: Game, player_id: str) -> Player:
     return game.players_info[player_id]
 
 
 def remove_game(game_id: str):
     del game_statuses[game_id]
-    remove_lobby(game_id)
 
 
 def is_game_host(game: Game, player: str):
