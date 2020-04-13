@@ -205,7 +205,7 @@ def get_player_game(username) -> Game:
 
 
 def leave_current_game(username):
-    game = players_game.get(username)
+    game = get_player_game(username)
     del players_game[username]
     del game.players_position[username]
     lobby_service.leave_current_lobby(
