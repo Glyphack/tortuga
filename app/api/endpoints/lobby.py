@@ -1,9 +1,10 @@
 import uuid
 
 from fastapi import APIRouter, Request, HTTPException
+
+from app.api.services import lobby_service
 from app.api.services.game_services.service import create_new_game
-from app.api.services.lobby_service import can_join_lobby, lobbies, \
-    remove_lobby
+from app.api.services.lobby_service import can_join_lobby, lobbies
 from app.schemas.auth import User
 from app.schemas.lobby import (
     GetLobbyListResponse,
@@ -71,10 +72,8 @@ async def leave_lobby(request: Request,
     user = User(username=request.user.username)
     if user not in lobby.players:
         raise HTTPException(status_code=400)
-    lobby.players.remove(user)
-    lobby.occupy -= 1
-    if lobby.occupy == 0:
-        remove_lobby(lobby.id)
+
+    lobby_service.leave_current_lobby(lobby.id, user)
 
 
 @router.post("/lobby/start")

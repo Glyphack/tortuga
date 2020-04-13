@@ -6,7 +6,7 @@ from app.api.services.game_services.service import (
     get_player_game,
     remove_game, is_game_host,
     generate_game_schema_from_game,
-    get_action_handler)
+    get_action_handler, leave_current_game)
 from app.schemas.game_schema import (
     MyGameResponse,
     DoActionRequest,
@@ -66,3 +66,13 @@ async def stop_game(request: Request, game_id: str):
     username = request.user.username
     if is_game_host(get_player_game(username), username):
         remove_game(game_id)
+
+
+@router.get("/game/leave")
+async def leave_game(request: Request):
+    if not request.user.is_authenticated:
+        raise HTTPException(status_code=401)
+    username = request.user.username
+    game = get_player_game(username)
+    if game and username in game.players and game.is_over:
+        leave_current_game(username)
