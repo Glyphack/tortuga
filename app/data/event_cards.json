@@ -11,6 +11,12 @@
       "image_url": "https://www.ultraboardgames.com/tortuga-1667/gfx/c10.jpg",
       "description": "Revealer moves any player currently on Tortuga or a Rowboat to the back of the line of either ship. Revealer may also save this card and use it as a future action.\n\nUsing it as a future action costs that entire future turn. In 2-player games (where you get 2 actions each turn instead of 1), if you reveal a Letter of Marque and immediately use it, that counts as 1 action.\n\nIf you reveal and save a Letter of Marque, that counts as 1 action. If you play a Letter of Marque that was saved in an earlier turn, that also counts as 1 action.",
       "count": 3
+    },
+    "pistol": {
+      "title": "Pistol",
+      "image_url" : "https://www.ultraboardgames.com/tortuga-1667/gfx/c4.jpg",
+      "description": "Revealer points to another player. That player is marooned. Pistols can not be saved to use as a later action.",
+      "count": 3
     }
   }
 }
