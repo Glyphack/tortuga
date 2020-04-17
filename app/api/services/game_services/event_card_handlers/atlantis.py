@@ -17,9 +17,9 @@ class Atlantis(EventCardHandler):
         return self.available_move() is not None
 
     def available_move(self) -> Optional[Positions]:
-        if self.game.get_positon(self.player) in Positions.jr_positions():
+        if self.game.get_position(self.player) in Positions.jr_positions():
             return Positions.FD
-        elif self.game.get_positon(self.player) in Positions.fd_positions():
+        elif self.game.get_position(self.player) in Positions.fd_positions():
             return Positions.JR
         else:
             return None
