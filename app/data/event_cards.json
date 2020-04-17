@@ -17,6 +17,12 @@
       "image_url" : "https://www.ultraboardgames.com/tortuga-1667/gfx/c4.jpg",
       "description": "Revealer points to another player. That player is marooned. Pistols can not be saved to use as a later action.",
       "count": 3
+    },
+    "black-spot": {
+      "title": "Black Spot",
+      "image_url": "https://www.ultraboardgames.com/tortuga-1667/gfx/c3.jpg",
+      "description": "Revealer is marooned.",
+      "count": 3
     }
   }
 }
