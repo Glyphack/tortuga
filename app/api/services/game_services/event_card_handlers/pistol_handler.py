@@ -12,7 +12,7 @@ class Pistol(EventCardHandler):
 
     @property
     def can_use(self):
-        return self.affected_players
+        return len(self.affected_players) > 0
 
     @property
     def can_keep(self):
