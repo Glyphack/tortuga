@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 import pytest
 import requests
@@ -196,16 +196,20 @@ class BaseGameTestCase:
         return self.client.post(url=self.do_action_url, data=request.json(),
                                 headers=headers)
 
-    def use_event_card_action(self, player, slug: str, option):
+    def use_event_card_action(self, player, slug: str,
+                              option: Optional[int] = None):
+        payload = UseEventCardPayload(
+            event_card_to_use=slug,
+        )
+        if option is not None:
+            payload.event_card_option_index = option
+
         request = DoActionRequest(
             action=Action(
                 action_type=Action.ActionType.USE_EVENT_CARD
             ),
             game_id="1",
-            payload=UseEventCardPayload(
-                event_card_option_index=option,
-                event_card_to_use=slug,
-            )
+            payload=payload
         )
         headers = self.auth_header(player)
         self.client.post(self.do_action_url, data=request.json(),

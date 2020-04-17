@@ -122,6 +122,9 @@ class Game:
             position = self.tortuga_first_empty_slot
         self.players_position[player] = position
 
+    def get_position(self, player: str) -> Positions:
+        return self.players_position[player]
+
     def give_vote_cards_back_after_vote(self):
         random.shuffle(self.votes.vote_cards)
         for player in self.votes.participated_players:

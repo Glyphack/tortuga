@@ -23,6 +23,12 @@
       "image_url": "https://www.ultraboardgames.com/tortuga-1667/gfx/c3.jpg",
       "description": "Revealer is marooned.",
       "count": 3
+    },
+    "atlantis": {
+      "title": "Atlantis",
+      "image_url" : "",
+      "description": "Owner may move from one ship to the back of the line on the other ship immediately before any player's turn (including their own).",
+      "count": 1
     }
   }
 }

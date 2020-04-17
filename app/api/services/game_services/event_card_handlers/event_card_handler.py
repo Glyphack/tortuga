@@ -31,6 +31,11 @@ class EventCardHandler:
 
     @property
     @abc.abstractmethod
+    def options_operations(self) -> List:
+        raise NotImplemented
+
+    @property
+    @abc.abstractmethod
     def can_keep(self):
         return False
 
