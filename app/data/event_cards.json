@@ -14,7 +14,7 @@
     },
     "pistol": {
       "title": "Pistol",
-      "image_url" : "https://www.ultraboardgames.com/tortuga-1667/gfx/c4.jpg",
+      "image_url": "https://www.ultraboardgames.com/tortuga-1667/gfx/c4.jpg",
       "description": "Revealer points to another player. That player is marooned. Pistols can not be saved to use as a later action.",
       "count": 3
     },
@@ -26,8 +26,14 @@
     },
     "atlantis": {
       "title": "Atlantis",
-      "image_url" : "",
+      "image_url": "",
       "description": "Owner may move from one ship to the back of the line on the other ship immediately before any player's turn (including their own).",
+      "count": 1
+    },
+    "stormy-seas": {
+      "title": "Stormy Seas",
+      "image_url": "https://www.ultraboardgames.com/tortuga-1667/gfx/c6.jpg",
+      "description": "All treasure on the revealer's ship is returned to the Spanish Galleon (if on a ship) or the Tortuga treasures are returned to their original starting areas (if on Tortuga).",
       "count": 1
     }
   }
