@@ -212,7 +212,7 @@ class BaseGameTestCase:
             payload=payload
         )
         headers = self.auth_header(player)
-        self.client.post(self.do_action_url, data=request.json(),
+        return self.client.post(self.do_action_url, data=request.json(),
                          headers=headers)
 
     def _get_my_game(self, player) -> Response:
