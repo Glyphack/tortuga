@@ -13,15 +13,15 @@ class EventCardHandler:
         self._chosen_option = None
 
     @abc.abstractmethod
-    def reveal(self):
+    def reveal(self) -> None:
         raise NotImplemented
 
     @property
-    def chosen_option(self):
+    def chosen_option(self) -> int:
         return self._chosen_option
 
     @chosen_option.setter
-    def chosen_option(self, value):
+    def chosen_option(self, value) -> None:
         self._chosen_option = value
 
     @property
@@ -36,10 +36,10 @@ class EventCardHandler:
 
     @property
     @abc.abstractmethod
-    def can_keep(self):
+    def can_keep(self) -> bool:
         return False
 
     @property
     @abc.abstractmethod
-    def can_use(self):
+    def can_use(self) -> bool:
         raise NotImplemented
