@@ -13,9 +13,13 @@ class BlackSpot(EventCardHandler):
         return []
 
     @property
+    def options_operations(self) -> List:
+        return []
+
+    @property
     def can_keep(self):
         return False
 
     @property
     def can_use(self):
-        return True
+        return False
