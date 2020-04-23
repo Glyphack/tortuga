@@ -35,6 +35,12 @@
       "image_url": "https://www.ultraboardgames.com/tortuga-1667/gfx/c6.jpg",
       "description": "All treasure on the revealer's ship is returned to the Spanish Galleon (if on a ship) or the Tortuga treasures are returned to their original starting areas (if on Tortuga).",
       "count": 1
+    },
+    "eight-bells": {
+      "title": "Eight Bells",
+      "image_url": "https://www.ultraboardgames.com/tortuga-1667/gfx/c5.jpg",
+      "description": "All pawns on the revealer's boat or island are put into the pouch and drawn out randomly back onto that boat or island. There is no effect if the revealer is alone or is on a Rowboat.",
+      "count": 1
     }
   }
 }
