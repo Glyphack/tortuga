@@ -53,15 +53,15 @@ class Positions(str, Enum):
     SP = "sg_nt"
 
     @classmethod
-    def fd_positions(cls):
+    def fd_positions(cls) -> List["Positions"]:
         return [cls.FD1, cls.FD2, cls.FD3, cls.FD4, cls.FD5]
 
     @classmethod
-    def jr_positions(cls):
+    def jr_positions(cls) -> List["Positions"]:
         return [cls.JR1, cls.JR2, cls.JR3, cls.JR4, cls.JR5]
 
     @classmethod
-    def tr_positions(cls):
+    def tr_positions(cls) -> List["Positions"]:
         return [
             cls.TR1, cls.TR2, cls.TR3, cls.TR4, cls.TR5,
             cls.TR6, cls.TR7, cls.TR8, cls.TR9

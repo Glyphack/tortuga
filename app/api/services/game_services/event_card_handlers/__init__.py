@@ -2,6 +2,7 @@ from typing import Dict, Type
 
 from .atlantis import Atlantis
 from .black_spot import BlackSpot
+from .eight_bells import EightBells
 from .event_card_handler import EventCardHandler
 from .pistol_handler import Pistol
 from .spanish_armada import SpanishArmadaCard
@@ -14,5 +15,6 @@ event_card_handler: Dict[str, Type[EventCardHandler]] = {
     "pistol": Pistol,
     "black-spot": BlackSpot,
     "atlantis": Atlantis,
-    "stormy-seas": StormySeas
+    "stormy-seas": StormySeas,
+    "eight-bells": EightBells,
 }
