@@ -39,10 +39,12 @@ def _get_available_actions(player: Player, game: Game):
                 available_actions = [game_schema.Action.ActionType.VOTE]
                 return available_actions
             if (
-                    player.id == game.last_action.action_data.which_captain and
-                    game.last_action.action_data.state == game_schema.State.Success
+                    player.id == game.last_action.action_data.which_captain
             ):
-                available_actions = [game_schema.Action.ActionType.PUT_CHEST]
+                if game.last_action.action_data.state == game_schema.State.Success:
+                    available_actions = [game_schema.Action.ActionType.PUT_CHEST]
+                elif game.last_action.action_data.state == game_schema.State.InProgress:
+                    available_actions = []
                 return available_actions
         elif game.last_action.action_type == game_schema.Action.ActionType.CALL_FOR_BRAWL:
             if player.id in game.last_action.action_data.participating_players:
@@ -162,7 +164,7 @@ def create_new_game(game_id: str, players: List[str], host: str) -> Game:
     players_info: Dict[str, Player] = {}
     players_copy = players.copy()
     random.shuffle(players_copy)
-    if len(players_copy) // 2 != 0:
+    if len(players_copy) % 2 != 0:
         dutch = players_copy[0]
         players_copy.remove(dutch)
         dutch = Player(id=dutch, team=Team.DUTCH.value)
