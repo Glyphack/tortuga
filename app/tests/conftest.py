@@ -15,7 +15,8 @@ def client():
 def auth_header_generator():
     def _auth_header_generator(name):
         token = create_access_token({"username": name}).decode("utf-8")
-        header = {"Authorization": f"bearer {token}", "Content-Type": "application/json"}
+        header = {"Authorization": f"bearer {token}",
+                  "Content-Type": "application/json"}
         return header
 
     return _auth_header_generator
