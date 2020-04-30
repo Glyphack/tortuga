@@ -10,9 +10,7 @@ class EightBells(EventCardHandler):
         players = self.affected_players
         move_to = self.affected_positions[1]
         random.shuffle(players)
-        print(self.game.players_position)
         for player in self.affected_players:
-            print(self.game.players_position)
             del self.game.players_position[player]
         for player in players:
             self.game.set_position(player, move_to)
