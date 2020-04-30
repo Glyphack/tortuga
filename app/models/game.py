@@ -1,23 +1,12 @@
 import random
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
+from app.models.player import Player
 from app.models.votes import Votes, generate_vote_card
-
-from app.models.event_cards import EventCard
 from app.schemas.game_schema import (
-    Action, VoteCard, Positions, Team
+    Action, VoteCard, Positions, Team,
 )
 from typing import List, Dict, Optional
-
-
-@dataclass
-class Player:
-    id: str
-    team: Team
-    vote_cards: List[VoteCard] = field(default_factory=list)
-    event_cards: List[EventCard] = field(default_factory=list)
-    seen_event_cards: List[EventCard] = field(default_factory=list)
-    chests: int = 0
 
 
 @dataclass
