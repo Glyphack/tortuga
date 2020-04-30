@@ -2,7 +2,7 @@ from app.models.event_cards import EventCardsManager
 from app.schemas.game_schema import Action, RevealOneEventCardActionData
 from .action_handler import ActionHandler
 from app.api.services.game_services.event_card_handlers import (
-    event_card_handler
+    event_card_handlers
 )
 
 
@@ -11,7 +11,7 @@ class RevealEventCardActionHandler(ActionHandler):
         event_card = EventCardsManager.get(
             self.game.event_cards[self.payload.event_card_index - 1]
         )
-        event_card_class = event_card_handler[event_card.slug](
+        event_card_class = event_card_handlers[event_card.slug](
             self.game, self.player, self.payload
         )
         self.game.last_action = Action(
