@@ -100,6 +100,7 @@ class RevealOneEventCardActionData(APIModel):
     event_card: EventCard
     can_keep: bool
     event_card_options: List[str]
+    can_use: bool
 
 
 class ForceAnotherPlayerToChooseCardActionData(APIModel):

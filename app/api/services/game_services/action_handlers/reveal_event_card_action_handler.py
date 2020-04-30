@@ -20,10 +20,11 @@ class RevealEventCardActionHandler(ActionHandler):
                 player=self.player,
                 event_card=event_card,
                 can_keep=event_card_class.can_keep,
-                event_card_options=event_card_class.options
+                event_card_options=event_card_class.options,
+                can_use=event_card_class.can_use
             )
         )
         self.game.event_cards.remove(event_card.slug)
-        if not event_card_class.can_keep and not event_card_class.options:
+        if not event_card_class.can_keep and not event_card_class.can_use:
             self.game.next_turn()
             event_card_class.reveal()
