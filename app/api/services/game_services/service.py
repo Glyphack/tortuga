@@ -59,7 +59,7 @@ def _get_available_actions(player: Player, game: Game):
                 ) and
                 game.last_action.action_data.player == player.id
         ):
-            if game.last_action.action_data.event_card_options:
+            if game.last_action.action_data.can_use:
                 available_actions.append(
                     game_schema.Action.ActionType.USE_EVENT_CARD
                 )
