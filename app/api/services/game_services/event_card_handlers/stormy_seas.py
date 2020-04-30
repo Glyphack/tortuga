@@ -40,5 +40,6 @@ class StormySeas(EventCardHandler):
     def can_keep(self) -> bool:
         return False
 
+    @property
     def can_use(self) -> bool:
         return False
