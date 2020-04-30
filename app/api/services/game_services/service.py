@@ -42,7 +42,8 @@ def _get_available_actions(player: Player, game: Game):
                     player.id == game.last_action.action_data.which_captain
             ):
                 if game.last_action.action_data.state == game_schema.State.Success:
-                    available_actions = [game_schema.Action.ActionType.PUT_CHEST]
+                    available_actions = [
+                        game_schema.Action.ActionType.PUT_CHEST]
                 elif game.last_action.action_data.state == game_schema.State.InProgress:
                     available_actions = []
                 return available_actions
@@ -246,7 +247,7 @@ def generate_game_schema_from_game(username: str):
         player_game_info=game_schema.PlayerGameInfo(
             team=player_info.team,
             vote_cards=player_info.vote_cards,
-            event_cards=player_info.event_cards,
+            event_cards=player_info.get_kept_event_cards(),
             seen_event_cards=player_info.seen_event_cards,
             role=None,
             available_actions=_get_available_actions(player_info, game),
