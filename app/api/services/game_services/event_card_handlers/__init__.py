@@ -9,7 +9,7 @@ from .spanish_armada import SpanishArmadaCard
 from .letter_of_marque_handler import LetterOfMarque
 from .stormy_seas import StormySeas
 
-event_card_handler: Dict[str, Type[EventCardHandler]] = {
+event_card_handlers: Dict[str, Type[EventCardHandler]] = {
     "spanish-armada": SpanishArmadaCard,
     "letter-of-marque": LetterOfMarque,
     "pistol": Pistol,

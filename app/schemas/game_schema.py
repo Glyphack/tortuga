@@ -91,6 +91,11 @@ class EventCard(APIModel):
     image_url: str
 
 
+class KeptEventCard(APIModel):
+    event_card: EventCard
+    can_use: bool
+
+
 class ViewTwoEventCardsActionData(APIModel):
     who_viewed: str
 
@@ -200,7 +205,7 @@ class PlayerGameInfo(APIModel):
 
     team: str
     vote_cards: Optional[List[VoteCard]] = None
-    event_cards: Optional[List[EventCard]] = None
+    event_cards: Optional[List[KeptEventCard]] = None
     seen_event_cards: Optional[List[EventCard]] = None
     role: Optional[Role]
     available_actions: List[Action.ActionType]
