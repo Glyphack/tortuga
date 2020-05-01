@@ -9,5 +9,12 @@ class TestKeepEventCardAction(BaseGameTestCase):
         self._reveal_event_card_action(player, 1)
         assert player == game.turn
         self._keep_event_card_action(player)
-        assert len(game.players_info[player].event_cards) > 0
+        r = self._get_my_game(player).json()
+        assert len(r["gameStatus"]["playerGameInfo"]["eventCards"]) > 0
+        assert (
+                "canUse" in r["gameStatus"]["playerGameInfo"]["eventCards"][
+            0] and
+                "eventCard" in r["gameStatus"]["playerGameInfo"]["eventCards"][
+                    0]
+        )
         assert player != game.turn
