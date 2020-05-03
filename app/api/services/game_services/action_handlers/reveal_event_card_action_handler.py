@@ -9,7 +9,7 @@ from app.api.services.game_services.event_card_handlers import (
 class RevealEventCardActionHandler(ActionHandler):
     def execute(self):
         event_card = EventCardsManager.get(
-            self.game.event_cards[self.payload.event_card_index - 1]
+            self.game.event_cards[self.payload.event_card_index]
         )
         event_card_class = event_card_handlers[event_card.slug](
             self.game, self.player, self.payload

@@ -5,11 +5,11 @@ from .action_handler import ActionHandler
 
 class ViewTwoEventCardsActionHandler(ActionHandler):
     def execute(self):
-        seen_event_cards = []
+        seen_event_cards = {}
         for event_card_index in self.payload.event_cards_indexes:
-            seen_event_cards.append(
+            seen_event_cards[event_card_index](
                 EventCardsManager.get(
-                    self.game.event_cards[event_card_index - 1]
+                    self.game.event_cards[event_card_index]
                 )
             )
 
