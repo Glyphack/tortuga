@@ -46,7 +46,7 @@ class BaseGameTestCase:
                 "actionType": "vote",
             },
             "payload": {
-                "voteCardIndex": 1
+                "voteCardIndex": 0
             }
         }
         headers = self.auth_header(player)

@@ -22,7 +22,7 @@ class VoteActionHandler(ActionHandler):
                 self.player in last_action.action_data.participating_players
         )
         vote_card = self.game.players_info.get(self.player).vote_cards.pop(
-            self.payload.vote_card_index - 1
+            self.payload.vote_card_index
         )
 
         last_action.action_data.participating_players.remove(
