@@ -6,6 +6,6 @@ class TestBlackSpot(BaseGameTestCase):
     def test_reveal_black_spot(self, game):
         player = game.turn
         game.event_cards = ["black-spot"]
-        self._reveal_event_card_action(player, 1)
+        self._reveal_event_card_action(player, 0)
         assert game.players_position[player] in Positions.tr_positions()
         assert game.turn != player

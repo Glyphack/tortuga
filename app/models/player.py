@@ -11,7 +11,7 @@ class Player:
     team: Team
     vote_cards: List[VoteCard] = field(default_factory=list)
     event_cards: List[EventCard] = field(default_factory=list)
-    seen_event_cards: Dict[EventCard] = field(default_factory=dict)
+    seen_event_cards: Dict[int, EventCard] = field(default_factory=dict)
     chests: int = 0
 
     def get_kept_event_cards(self):
