@@ -206,7 +206,7 @@ class PlayerGameInfo(APIModel):
     team: str
     vote_cards: Optional[List[VoteCard]] = None
     event_cards: Optional[List[KeptEventCard]] = None
-    seen_event_cards: Optional[List[EventCard]] = None
+    seen_event_cards: Optional[Dict[int, EventCard]] = None
     role: Optional[Role]
     available_actions: List[Action.ActionType]
     chests: int = 0

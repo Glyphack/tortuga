@@ -7,7 +7,7 @@ class TestPistolEventCard(BaseGameTestCase):
     def test_reveal_pistol_card(self, game: Game):
         game.event_cards = ["pistol"]
         player = game.turn
-        self._reveal_event_card_action(player, 1)
+        self._reveal_event_card_action(player, 0)
         game_response = self._get_my_game(player).json()
         assert (
                 game_response["gameStatus"]["lastAction"][

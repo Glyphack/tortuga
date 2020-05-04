@@ -11,5 +11,5 @@ class TestEightBells(BaseGameTestCase):
             player = game.turn
             position = game.get_position(player)
             game.event_cards = ["eight-bells"]
-            self._reveal_event_card_action(player, 1)
+            self._reveal_event_card_action(player, 0)
         assert game.get_position(player) != position

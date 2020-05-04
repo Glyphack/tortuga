@@ -9,7 +9,7 @@ class TestStormySeas(BaseGameTestCase):
         game.chests_position.jr_en = 1
         game.chests_position.jr_fr = 1
         game.chests_position.sg_nt = 2
-        self._reveal_event_card_action(player, 1)
+        self._reveal_event_card_action(player, 0)
         assert game.chests_position.jr_en == 0
         assert game.chests_position.jr_fr == 0
         assert game.chests_position.sg_nt == 4
@@ -21,7 +21,7 @@ class TestStormySeas(BaseGameTestCase):
         game.chests_position.fd_en = 1
         game.chests_position.fd_fr = 1
         game.chests_position.sg_nt = 2
-        self._reveal_event_card_action(player, 1)
+        self._reveal_event_card_action(player, 0)
         assert game.chests_position.fd_en == 0
         assert game.chests_position.fd_fr == 0
         assert game.chests_position.sg_nt == 4
@@ -32,6 +32,6 @@ class TestStormySeas(BaseGameTestCase):
         game.set_position(player, Positions.TR)
         game.chests_position.tr_en = 2
         game.chests_position.tr_fr = 0
-        self._reveal_event_card_action(player, 1)
+        self._reveal_event_card_action(player, 0)
         assert game.chests_position.tr_en == 1
         assert game.chests_position.tr_fr == 1

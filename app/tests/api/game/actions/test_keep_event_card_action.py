@@ -6,7 +6,7 @@ class TestKeepEventCardAction(BaseGameTestCase):
     def test_keep_event_card(self, game: Game):
         game.event_cards = ["letter-of-marque"]
         player = game.turn
-        self._reveal_event_card_action(player, 1)
+        self._reveal_event_card_action(player, 0)
         assert player == game.turn
         self._keep_event_card_action(player)
         r = self._get_my_game(player).json()
