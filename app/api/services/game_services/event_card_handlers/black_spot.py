@@ -1,6 +1,5 @@
 from typing import List
 
-from app.schemas.game_schema import Positions
 from .event_card_handler import EventCardHandler
 
 
