@@ -156,3 +156,10 @@ class Game:
                 break
             fd_cabin_boy = p
         return [jr_cabin_boy, fd_cabin_boy]
+
+    def maroon_player(self, player_to_maroon) -> bool:
+        self.set_position(
+            player_to_maroon,
+            Positions.TR
+        )
+        return True

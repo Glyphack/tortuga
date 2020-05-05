@@ -6,7 +6,7 @@ from .event_card_handler import EventCardHandler
 
 class BlackSpot(EventCardHandler):
     def reveal(self):
-        self.game.set_position(self.player, Positions.TR)
+        self.game.maroon_player(self.player)
 
     @property
     def options(self) -> List:
