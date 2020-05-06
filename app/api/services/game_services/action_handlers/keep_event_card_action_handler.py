@@ -15,12 +15,7 @@ class KeepEventCardActionHandler(ActionHandler):
         )
         event_card = self.game.last_action.action_data.event_card
         self.game.players_info[self.player].event_cards.append(
-            EventCard(
-                slug=event_card.slug,
-                title=event_card.title,
-                description=event_card.description,
-                image_url=event_card.image_url
-            )
+            event_card.slug
         )
         self.game.last_action = Action(
             action_type=Action.ActionType.KEEP_EVENT_CARD,
