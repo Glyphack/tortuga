@@ -7,7 +7,7 @@ from .event_card_handler import EventCardHandler
 class FountainOfYouth(EventCardHandler):
     def reveal(self):
         self.game.get_player_info(self.player).event_cards.append(
-            EventCardsManager.get(self.slug)
+            self.slug
         )
 
     @property
