@@ -13,7 +13,7 @@ class EightBells(EventCardHandler):
         for player in self.affected_players:
             del self.game.players_position[player]
         for player in players:
-            self.game.set_position(player, move_to)
+            self.game.players_position[player] = move_to
 
     @property
     def affected_players(self) -> List:
