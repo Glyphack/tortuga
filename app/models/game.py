@@ -156,3 +156,12 @@ class Game:
                 break
             fd_cabin_boy = p
         return [jr_cabin_boy, fd_cabin_boy]
+
+    def maroon_player(self, player) -> bool:
+        if "fountain-of-youth" in self.get_player_info(player).event_cards:
+            return False
+        self.set_position(
+            player,
+            Positions.TR
+        )
+        return True

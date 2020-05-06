@@ -1,11 +1,14 @@
 from typing import List
 
+from app.models.event_cards import EventCardsManager
 from .event_card_handler import EventCardHandler
 
 
-class BlackSpot(EventCardHandler):
+class FountainOfYouth(EventCardHandler):
     def reveal(self):
-        self.game.maroon_player(self.player)
+        self.game.get_player_info(self.player).event_cards.append(
+            self.slug
+        )
 
     @property
     def options(self) -> List:
@@ -22,3 +25,7 @@ class BlackSpot(EventCardHandler):
     @property
     def can_use(self):
         return False
+
+    @property
+    def slug(self):
+        return "fountain-of-youth"

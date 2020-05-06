@@ -19,9 +19,7 @@ class MaroonCrewActionHandler(ActionHandler):
                 self.game.on_same_ship(self.player, player_to_maroon)
         )
 
-        self.game.players_position[player_to_maroon] = (
-            self.game.tortuga_first_empty_slot
-        )
+        self.game.maroon_player(player_to_maroon)
         self.game.last_action = Action(
             action_type=Action.ActionType.MAROON_ANY_CREW_MATE_TO_TORTUGA,
             action_data=MaroonAnyCrewMateToTortugaActionData(

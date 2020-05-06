@@ -41,6 +41,12 @@
       "image_url": "https://www.ultraboardgames.com/tortuga-1667/gfx/c5.jpg",
       "description": "All pawns on the revealer's boat or island are put into the pouch and drawn out randomly back onto that boat or island. There is no effect if the revealer is alone or is on a Rowboat.",
       "count": 1
+    },
+    "fountain-of-youth": {
+      "title": "Fountain Of Youth",
+      "image_url": "https://www.ultraboardgames.com/tortuga-1667/gfx/c1.jpg",
+      "description": "Owner may choose to not be marooned after revealing a Black Spot, getting shot with a Pistol, being marooned by their captain, or being marooned from a successful Mutiny.\n\nIf they use this card to prevent being marooned by their captain, that counts as the captain's action. Discard after use.",
+      "count": 1
     }
   }
 }

@@ -8,7 +8,7 @@ from .event_card_handler import EventCardHandler
 class Pistol(EventCardHandler):
     def reveal(self):
         player_to_maroon = self.options_operations[self.chosen_option]
-        self.game.set_position(player_to_maroon, Positions.TR)
+        self.game.maroon_player(player_to_maroon)
 
     @property
     def can_use(self):
