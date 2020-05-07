@@ -15,8 +15,8 @@ class Atlantis(EventCardHandler):
     @property
     def can_use(self):
         return (
-                self.available_move() is not None and
-                self.game.has_unfinished_voting()
+                self.available_move() and
+                not self.game.has_unfinished_voting()
         )
 
     def available_move(self) -> Optional[Positions]:
