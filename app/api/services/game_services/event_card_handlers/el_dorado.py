@@ -1,6 +1,6 @@
 from typing import List
 
-from app.api.services.game_services.event_card_handlers import EventCardHandler
+from .event_card_handler import EventCardHandler
 from app.api.services.game_services.service import can_vote
 
 
