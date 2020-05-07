@@ -12,7 +12,8 @@ class UseEventCardActionHandler(ActionHandler):
         if self.payload.event_card_option_index is not None:
             event_card.chosen_option = self.payload.event_card_option_index
         event_card.reveal()
-        self.game.last_action = Action(
-            action_type=Action.ActionType.USE_EVENT_CARD,
-        )
+        if self.game.has_unfinished_voting():
+            self.game.last_action = Action(
+                action_type=Action.ActionType.USE_EVENT_CARD,
+            )
         self.game.next_turn()
