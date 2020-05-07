@@ -3,8 +3,9 @@ from dataclasses import dataclass
 
 from app.models.player import Player
 from app.models.votes import Votes, generate_vote_card
+from app.schemas import game_schema
 from app.schemas.game_schema import (
-    Action, VoteCard, Positions, Team,
+    Action, VoteCard, Positions, Team
 )
 from typing import List, Dict, Optional
 
@@ -64,6 +65,22 @@ class Game:
 
     def give_chest(self, player: str):
         self.players_info.get(player).chests += 1
+
+    def has_unfinished_voting(self):
+        last_action = self.last_action
+        if last_action is None:
+            return False
+        is_voting_started = (
+            last_action.action_type in [
+                Action.ActionType.CALL_FOR_AN_ATTACK,
+                Action.ActionType.CALL_FOR_BRAWL,
+                Action.ActionType.CALL_FOR_A_MUTINY
+            ]
+        )
+        return (
+                is_voting_started and
+                last_action.action_data.state == game_schema.State.InProgress
+        )
 
     def on_same_ship(self, player1: str, player2: str):
         ship_slots_positions = [

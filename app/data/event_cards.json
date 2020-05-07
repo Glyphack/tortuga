@@ -47,6 +47,12 @@
       "image_url": "https://www.ultraboardgames.com/tortuga-1667/gfx/c1.jpg",
       "description": "Owner may choose to not be marooned after revealing a Black Spot, getting shot with a Pistol, being marooned by their captain, or being marooned from a successful Mutiny.\n\nIf they use this card to prevent being marooned by their captain, that counts as the captain's action. Discard after use.",
       "count": 1
+    },
+    "el-dorado": {
+      "title": "El Dorado",
+      "image_url": "https://www.ultraboardgames.com/tortuga-1667/gfx/c8.jpg",
+      "description": "Owner immediately draws 1 extra Vote card. In any one future Vote, owner may play two Vote cards instead of the usual one.",
+      "count": 1
     }
   }
 }

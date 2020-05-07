@@ -2,17 +2,13 @@ import random
 from typing import List, Dict
 
 from app.api.services import lobby_service
-from app.api.services.game_services.action_handlers import handlers
-from app.api.services.game_services.action_handlers.action_handler import (
-    ActionHandler
-)
 from app.models.event_cards import EventCardsManager
 from app.models.game import Game, Player, Chests
 from app.models import votes
 from app.models.votes import Votes
 from app.schemas import game_schema
 from app.schemas.auth import User
-from app.schemas.game_schema import PayloadType, Team
+from app.schemas.game_schema import Team
 
 game_statuses: Dict[str, Game] = {}
 players_game: Dict[str, str] = {}
@@ -268,9 +264,8 @@ def generate_game_schema_from_game(username: str):
     return game_status
 
 
-def get_action_handler(game: Game, player: str,
-                       action: game_schema.Action,
-                       payload: PayloadType = None) -> ActionHandler:
-    action_handler_class = handlers.get(action.action_type)
-    action_handler = action_handler_class(game, player, action, payload)
-    return action_handler
+def can_vote(game: Game, player: str):
+    return (
+            game.has_unfinished_voting() and
+            player in game.last_action.action_data.participating_players
+    )
