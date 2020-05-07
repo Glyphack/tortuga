@@ -2,11 +2,12 @@ from fastapi import HTTPException
 from fastapi.routing import APIRouter
 from starlette.requests import Request
 
+from app.api.services.game_services.action_handlers import handlers
 from app.api.services.game_services.service import (
     get_player_game,
     remove_game, is_game_host,
     generate_game_schema_from_game,
-    get_action_handler, leave_current_game)
+    leave_current_game)
 from app.schemas.game_schema import (
     MyGameResponse,
     DoActionRequest,
@@ -46,12 +47,14 @@ async def do_action(request: Request, action_request: DoActionRequest):
     ):
         raise HTTPException(status_code=400, detail="It's not your turn")
     try:
-        get_action_handler(
+        action_handler_class = handlers.get(action_request.action.action_type)
+        action_handler = action_handler_class(
             game,
             request.user.username,
             action_request.action,
-            payload=action_request.payload
-        ).execute()
+            action_request.payload
+        )
+        action_handler.execute()
     except AssertionError:
         raise HTTPException(
             status_code=400,
