@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from app.schemas.game_schema import Positions
+from app.schemas.game_schema import Positions, Action
 from .event_card_handler import EventCardHandler
 
 
@@ -16,7 +16,8 @@ class Atlantis(EventCardHandler):
     def can_use(self):
         return (
                 self.available_move() and
-                not self.game.has_unfinished_voting()
+                not self.game.has_unfinished_voting() and
+                not hasattr(self.payload, "event_card_index")
         )
 
     def available_move(self) -> Optional[Positions]:
