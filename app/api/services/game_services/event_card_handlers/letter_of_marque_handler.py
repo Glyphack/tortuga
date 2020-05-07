@@ -14,8 +14,6 @@ class LetterOfMarque(EventCardHandler):
         positions.extend(Positions.tr_positions())
         can_use = False
         for player in self.game.players:
-            if player == self.player:
-                continue
             if self.game.players_position[player] in positions:
                 can_use = True
         return can_use

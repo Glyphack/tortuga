@@ -1,6 +1,7 @@
 from app.api.services.game_services.action_handlers.action_handler import (
     ActionHandler
 )
+from app.api.services.game_services.service import can_vote
 from app.schemas import game_schema
 from app.schemas.game_schema import VoteCard, State, Positions
 
@@ -8,19 +9,7 @@ from app.schemas.game_schema import VoteCard, State, Positions
 class VoteActionHandler(ActionHandler):
     def execute(self):
         last_action = self.game.last_action
-        is_voting_active = (
-                last_action.action_type ==
-                game_schema.Action.ActionType.CALL_FOR_AN_ATTACK or
-                last_action.action_type ==
-                game_schema.Action.ActionType.CALL_FOR_BRAWL or
-                last_action.action_type ==
-                game_schema.Action.ActionType.CALL_FOR_A_MUTINY
-        )
-        assert (
-                is_voting_active and
-                last_action.action_data.state == game_schema.State.InProgress and
-                self.player in last_action.action_data.participating_players
-        )
+        assert can_vote(self.game, self.player)
         vote_card = self.game.players_info.get(self.player).vote_cards.pop(
             self.payload.vote_card_index
         )

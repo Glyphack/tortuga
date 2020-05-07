@@ -3,8 +3,9 @@ from dataclasses import dataclass
 
 from app.models.player import Player
 from app.models.votes import Votes, generate_vote_card
+from app.schemas import game_schema
 from app.schemas.game_schema import (
-    Action, VoteCard, Positions, Team,
+    Action, VoteCard, Positions, Team
 )
 from typing import List, Dict, Optional
 
@@ -65,6 +66,22 @@ class Game:
     def give_chest(self, player: str):
         self.players_info.get(player).chests += 1
 
+    def has_unfinished_voting(self):
+        last_action = self.last_action
+        if last_action is None:
+            return False
+        is_voting_started = (
+            last_action.action_type in [
+                Action.ActionType.CALL_FOR_AN_ATTACK,
+                Action.ActionType.CALL_FOR_BRAWL,
+                Action.ActionType.CALL_FOR_A_MUTINY
+            ]
+        )
+        return (
+                is_voting_started and
+                last_action.action_data.state == game_schema.State.InProgress
+        )
+
     def on_same_ship(self, player1: str, player2: str):
         ship_slots_positions = [
             Positions.jr_positions(), Positions.fd_positions()
@@ -103,6 +120,7 @@ class Game:
         return True
 
     def set_position(self, player: str, position: Positions):
+        current_position = self.get_position(player)
         if position == Positions.JR:
             position = self.jr_ship_first_empty_slot
         elif position == Positions.FD:
@@ -110,6 +128,33 @@ class Game:
         elif position == Positions.TR:
             position = self.tortuga_first_empty_slot
         self.players_position[player] = position
+        self.fill_empty_position(current_position)
+
+    def fill_empty_position(self, position: Positions):
+        if position in Positions.jr_positions():
+            positions = Positions.jr_positions()
+            move_to = Positions.JR
+        elif position in Positions.fd_positions():
+            positions = Positions.fd_positions()
+            move_to = Positions.FD
+        elif position in Positions.tr_positions():
+            positions = Positions.tr_positions()
+            move_to = Positions.TR
+        else:
+            return
+
+        move_from = None
+        for front, back in zip(positions[0:], positions[1:]):
+            if (
+                    front not in self.players_position.values() and
+                    back in self.players_position.values()
+            ):
+                move_from = back
+                break
+        if move_from:
+            for player, position in self.players_position.items():
+                if position == move_from:
+                    self.set_position(player, move_to)
 
     def get_position(self, player: str) -> Positions:
         return self.players_position[player]
