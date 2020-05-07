@@ -266,6 +266,8 @@ def generate_game_schema_from_game(username: str):
 
 def can_vote(game: Game, player: str):
     last_action = game.last_action
+    if last_action is None:
+        return False
     is_voting_started = (
             last_action.action_type in [
                 game_schema.Action.ActionType.CALL_FOR_AN_ATTACK,
