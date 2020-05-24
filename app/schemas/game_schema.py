@@ -67,6 +67,14 @@ class Positions(str, Enum):
             cls.TR6, cls.TR7, cls.TR8, cls.TR9
         ]
 
+    @classmethod
+    def all_sections(cls) -> List[List["Positions"]]:
+        return [
+            cls.fd_positions(),
+            cls.jr_positions(),
+            cls.tr_positions()
+        ]
+
 
 class VoteCard(APIModel):
     cannon: int
