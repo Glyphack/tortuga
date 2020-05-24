@@ -19,4 +19,5 @@ class KeepEventCardActionHandler(ActionHandler):
         self.game.last_action = Action(
             action_type=Action.ActionType.KEEP_EVENT_CARD,
         )
+        self.game.check_albatross()
         self.game.next_turn()
