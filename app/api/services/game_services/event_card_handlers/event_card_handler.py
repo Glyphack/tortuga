@@ -1,5 +1,5 @@
 import abc
-from typing import List
+from typing import List, Optional
 
 from app.models.game import Game
 from app.schemas.game_schema import PayloadType
@@ -7,10 +7,10 @@ from app.schemas.game_schema import PayloadType
 
 class EventCardHandler:
     def __init__(self, game: Game, player: str, payload: PayloadType):
-        self.game = game
-        self.player = player
-        self.payload = payload
-        self._chosen_option = None
+        self.game: Game = game
+        self.player: str = player
+        self.payload: PayloadType = payload
+        self._chosen_option: Optional[int] = None
 
     @abc.abstractmethod
     def reveal(self) -> None:
