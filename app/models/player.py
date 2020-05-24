@@ -14,6 +14,9 @@ class Player:
     seen_event_cards: Dict[int, EventCard] = field(default_factory=dict)
     chests: int = 0
 
+    def add_event_card(self, slug) -> None:
+        self.event_cards.append(slug)
+
     def get_kept_event_cards(self):
         kept_event_cards = []
         for event_card_slug in self.event_cards:
