@@ -53,6 +53,12 @@
       "image_url": "https://www.ultraboardgames.com/tortuga-1667/gfx/c8.jpg",
       "description": "Owner immediately draws 1 extra Vote card. In any one future Vote, owner may play two Vote cards instead of the usual one.",
       "count": 1
+    },
+    "albatross": {
+      "title": "Albatross",
+      "image_url" : "https://www.ultraboardgames.com/tortuga-1667/gfx/c7.jpg",
+      "description": "Revealer keeps this card face-up in front of them for the rest of the game. If at any point a ship has 2 total Albatross' on board, all players on that ship are marooned to Tortuga.",
+      "count": 3
     }
   }
 }
