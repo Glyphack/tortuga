@@ -49,7 +49,7 @@ class Game:
                 return player
         return None
 
-    def get_player_info(self, username):
+    def get_player_info(self, username) -> Player:
         return self.players_info[username]
 
     @property
