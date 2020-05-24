@@ -230,12 +230,10 @@ class Game:
                 lambda pos: pos in positions, positions_with_albatross
             ))
             if len(result) >= 2:
-                map(
-                    self.maroon_player,
-                    filter(
-                        lambda player: self.players_position[player] in positions,
-                        self.players
-                    )
-
+                players = filter(
+                    lambda x: self.players_position[x] in positions,
+                    self.players
                 )
+                for player in players:
+                    self.maroon_player(player)
                 return
