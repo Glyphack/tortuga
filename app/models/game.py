@@ -49,7 +49,7 @@ class Game:
                 return player
         return None
 
-    def get_player_info(self, username):
+    def get_player_info(self, username) -> Player:
         return self.players_info[username]
 
     @property
@@ -203,10 +203,37 @@ class Game:
         return [jr_cabin_boy, fd_cabin_boy]
 
     def maroon_player(self, player) -> bool:
-        if "fountain-of-youth" in self.get_player_info(player).event_cards:
+        if self.get_player_info(player).has_event_card("fountain-of-youth"):
+            self.get_player_info(player).remove_event_card(
+                "fountain-of-youth"
+            )
             return False
         self.set_position(
             player,
             Positions.TR
         )
         return True
+
+    def check_albatross(self):
+        """
+        after every move we check that if two players on one part
+        has albatross cards we maroon all the players on that
+        part to tortuga
+        """
+        positions_with_albatross = []
+        for player_name, position in self.players_position.items():
+            if self.get_player_info(player_name).has_event_card("albatross"):
+                positions_with_albatross.append(position)
+
+        for positions in game_schema.Positions.all_sections():
+            result = list(filter(
+                lambda pos: pos in positions, positions_with_albatross
+            ))
+            if len(result) >= 2:
+                players = filter(
+                    lambda x: self.players_position[x] in positions,
+                    self.players
+                )
+                for player in players:
+                    self.maroon_player(player)
+                return

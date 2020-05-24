@@ -67,6 +67,14 @@ class Positions(str, Enum):
             cls.TR6, cls.TR7, cls.TR8, cls.TR9
         ]
 
+    @classmethod
+    def all_sections(cls) -> List[List["Positions"]]:
+        return [
+            cls.fd_positions(),
+            cls.jr_positions(),
+            cls.tr_positions()
+        ]
+
 
 class VoteCard(APIModel):
     cannon: int
@@ -163,7 +171,7 @@ class PutChestActionData(APIModel):
 
 
 class Action(APIModel):
-    class ActionType(Enum):
+    class ActionType(str, Enum):
         VIEW_TWO_EVENT_CARDS = "view two event cards"
         REVEAL_EVENT_CARD = "reveal one event card"
         FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD = (
