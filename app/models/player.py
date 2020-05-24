@@ -17,6 +17,12 @@ class Player:
     def add_event_card(self, slug) -> None:
         self.event_cards.append(slug)
 
+    def remove_event_card(self, slug) -> None:
+        self.event_cards.remove(slug)
+
+    def has_event_card(self, slug) -> bool:
+        return slug in self.event_cards
+
     def get_kept_event_cards(self):
         kept_event_cards = []
         for event_card_slug in self.event_cards:
