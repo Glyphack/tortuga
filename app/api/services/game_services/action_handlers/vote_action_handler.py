@@ -52,7 +52,7 @@ class VoteActionHandler(ActionHandler):
                 self.game.votes.vote_cards
             )
             self.game.end_voting()
-            self.game.next_turn()
+
 
     def handle_call_for_brawl_vote(self, vote_card):
         last_action = self.game.last_action
