@@ -49,6 +49,12 @@ class Game:
                 return player
         return None
 
+    def get_fd_caption(self) -> Optional[str]:
+        for player, position in self.players_position.items():
+            if position == Positions.FD1:
+                return player
+        return None
+
     def get_player_info(self, username) -> Player:
         return self.players_info[username]
 

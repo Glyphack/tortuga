@@ -42,7 +42,8 @@ async def do_action(request: Request, action_request: DoActionRequest):
             game.turn != request.user.username and
             action_request.action.action_type not in [
                 Action.ActionType.VOTE,
-                Action.ActionType.USE_EVENT_CARD
+                Action.ActionType.USE_EVENT_CARD,
+                Action.ActionType.SEE_EVENT_CARD_OPTIONS
             ]
     ):
         raise HTTPException(status_code=400, detail="It's not your turn")

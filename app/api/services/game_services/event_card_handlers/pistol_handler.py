@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from typing import List
 
 from app.schemas.game_schema import Positions
