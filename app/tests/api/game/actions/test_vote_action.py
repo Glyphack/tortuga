@@ -1,5 +1,4 @@
-import requests
-
+from app.schemas.game_schema import State
 from app.tests.api.game.base import BaseGameTestCase
 
 
@@ -60,7 +59,10 @@ class TestVoteAction(BaseGameTestCase):
         turn = self.game.turn
         for player in participating_players_copy:
             self._vote(player)
-        assert turn != self.game.turn
+        if self.game.last_action.action_data.state == State.Failed:
+            assert turn != self.game.turn
+        elif self.game.last_action.action_data.state == State.Success:
+            assert turn == self.game.turn
 
     def test_available_action_is_voting(self):
         self._start_call_for_action()
