@@ -47,6 +47,7 @@ class VoteActionHandler(ActionHandler):
                 )
             else:
                 last_action.action_data.state = game_schema.State.Failed
+                self.game.next_turn()
             self.game.last_action.action_data.vote_results.extend(
                 self.game.votes.vote_cards
             )
