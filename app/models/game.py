@@ -168,7 +168,6 @@ class Game:
 
     def end_voting(self):
         self.give_vote_cards_back_after_vote()
-        self.next_turn()
         self.votes = Votes()
         self.vote_deck = generate_vote_card()
 
