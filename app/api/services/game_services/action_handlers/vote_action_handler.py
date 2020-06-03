@@ -62,11 +62,17 @@ class VoteActionHandler(ActionHandler):
             self.game.votes.britain += self.game.vote_deck.britain
             self.game.votes.france += self.game.vote_deck.france
             last_action.action_data.state = game_schema.State.Failed
-            if self.game.votes.britain > self.game.votes.france:
+            if (
+                    self.game.votes.britain > self.game.votes.france and
+                    self.game.chests_position.tr_fr > 0
+            ):
                 self.game.chests_position.tr_fr -= 1
                 self.game.chests_position.tr_en += 1
                 last_action.action_data.state = game_schema.State.Success
-            elif self.game.votes.britain < self.game.votes.france:
+            elif (
+                    self.game.votes.britain < self.game.votes.france and
+                    self.game.chests_position.tr_en > 0
+            ):
                 self.game.chests_position.tr_en -= 1
                 self.game.chests_position.tr_fr += 1
                 last_action.action_data.state = game_schema.State.Success
