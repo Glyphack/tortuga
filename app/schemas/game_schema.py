@@ -119,6 +119,10 @@ class RevealOneEventCardActionData(APIModel):
 class ForceAnotherPlayerToChooseCardActionData(APIModel):
     player: str
     forced_player: str
+    event_card_index: str
+    can_keep: bool
+    event_card_options: List[str]
+    can_use: bool
 
 
 class SeeEventCardOptionsActionData(APIModel):
