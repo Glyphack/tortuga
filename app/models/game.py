@@ -188,7 +188,9 @@ class Game:
         self.is_over = True
 
     def get_event_cards_deck_count(self):
-        if len(self.event_cards) > 5:
+        if self.last_action.action_type == Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD:
+            return min(len(self.event_cards), 2)
+        elif len(self.event_cards) > 5:
             return 5
         else:
             return len(self.event_cards)
