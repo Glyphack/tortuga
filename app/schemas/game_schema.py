@@ -294,6 +294,11 @@ class UseEventCardPayload(APIModel):
     event_card_option_index: Optional[int]
 
 
+class ForceAnotherPlayerToChooseCardPayload(APIModel):
+    forced_player: str
+    event_card_index: int
+
+
 PayloadType = Optional[
     Union[
         ViewTwoEventCardsPayload,
@@ -305,6 +310,7 @@ PayloadType = Optional[
         RevealEventCardPayload,
         SeeEventCardOptionsPayload,
         UseEventCardPayload,
+        ForceAnotherPlayerToChooseCardPayload
     ]
 ]
 
