@@ -1,5 +1,7 @@
 from typing import Dict, Type
 
+from app.api.services.game_services.action_handlers.force_another_player_to_choose_card import \
+    ForceAnotherPlayerToChooseCard
 from app.schemas.game_schema import Action
 from .action_handler import ActionHandler
 from .call_for_an_attack_action_handler import CallForAnAttackActionHandler
@@ -29,5 +31,7 @@ handlers: Dict[Action.ActionType, Type[ActionHandler]] = {
     Action.ActionType.REVEAL_EVENT_CARD: RevealEventCardActionHandler,
     Action.ActionType.KEEP_EVENT_CARD: KeepEventCardActionHandler,
     Action.ActionType.SEE_EVENT_CARD_OPTIONS: SeeEventCardOptions,
-    Action.ActionType.USE_EVENT_CARD: UseEventCardActionHandler
+    Action.ActionType.USE_EVENT_CARD: UseEventCardActionHandler,
+    Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD:
+        ForceAnotherPlayerToChooseCard
 }
