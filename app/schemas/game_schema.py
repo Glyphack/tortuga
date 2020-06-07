@@ -302,6 +302,7 @@ class ForceAnotherPlayerToChooseCardPayload(APIModel):
 
 PayloadType = Optional[
     Union[
+        ForceAnotherPlayerToChooseCardPayload,
         ViewTwoEventCardsPayload,
         MovePayload,
         MaroonCrewMateToTortugaPayload,
@@ -311,7 +312,6 @@ PayloadType = Optional[
         RevealEventCardPayload,
         SeeEventCardOptionsPayload,
         UseEventCardPayload,
-        ForceAnotherPlayerToChooseCardPayload
     ]
 ]
 
