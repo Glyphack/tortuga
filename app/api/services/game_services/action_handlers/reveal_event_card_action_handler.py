@@ -8,7 +8,7 @@ from app.api.services.game_services.event_card_handlers import (
 
 class RevealEventCardActionHandler(ActionHandler):
     def execute(self):
-        if self.game.last_action.action_type == Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD:
+        if self.game.last_action and self.game.last_action.action_type == Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD:
             index = self.get_index_when_forced()
         else:
             index = self.payload.event_card_index
