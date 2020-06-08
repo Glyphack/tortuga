@@ -17,11 +17,15 @@ class TestForceAnotherPlayerToChooseCard(BaseGameTestCase):
         )
         response = self._get_my_game(other_player).json()
         assert (
-            response["gameStatus"]["playerGameInfo"]["availableActions"] ==
-            [Action.ActionType.REVEAL_EVENT_CARD]
+                response["gameStatus"]["playerGameInfo"]["availableActions"] ==
+                [Action.ActionType.REVEAL_EVENT_CARD]
         )
         assert (
-            response["gameStatus"]["eventCardsDeckCount"] == 2
+                response["gameStatus"]["eventCardsDeck"]["count"] == 2
+        )
+        assert (
+                response["gameStatus"]["eventCardsDeck"]["selectableCards"] ==
+                [0, 1]
         )
 
     def test_player_reveal_after_forced(self, game):

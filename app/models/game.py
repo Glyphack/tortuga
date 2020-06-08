@@ -198,6 +198,15 @@ class Game:
         else:
             return len(self.event_cards)
 
+    def get_event_card_deck_selectable_cards(self):
+        if(
+            self.last_action and
+            self.last_action.action_type == Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD
+        ):
+            return self.last_action.action_data.event_cards_indexes
+        else:
+            return [i for i in range(self.get_event_cards_deck_count())]
+
     @property
     def cabin_boy_slots(self) -> List[Positions]:
         jr_cabin_boy = None

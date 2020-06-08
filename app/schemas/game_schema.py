@@ -236,11 +236,16 @@ class WinState(APIModel):
     players_teams: Dict[str, Team]
 
 
+class EventCardDeck(APIModel):
+    count: int
+    selectable_cards: List[int]
+
+
 class GameStatus(APIModel):
     players_position: Dict[str, Positions]
     chests_position: Chests
     player_game_info: PlayerGameInfo
-    event_cards_deck_count: int
+    event_cards_deck: EventCardDeck
     last_action: Optional[Action] = None
     is_over: bool = False
     turn: User
