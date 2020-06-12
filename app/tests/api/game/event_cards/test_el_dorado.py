@@ -1,3 +1,4 @@
+from app.schemas.game_schema import Action
 from app.tests.api.game.base import BaseGameTestCase
 
 
@@ -13,6 +14,8 @@ class TestElDorado(BaseGameTestCase):
         game.event_cards = ["el-dorado"]
         player = game.turn
         self._reveal_event_card_action(player, 0)
+        response = self._get_my_game(player).json()
+        assert response["gameStatus"]["playerGameInfo"]["availableActions"] == [Action.ActionType.KEEP_EVENT_CARD]
         self._keep_event_card_action(player)
         game.turn = player
         self._call_for_an_attack(player)
