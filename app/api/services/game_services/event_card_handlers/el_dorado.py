@@ -5,6 +5,10 @@ from app.api.services.game_services.service import can_vote
 
 
 class ElDorado(EventCardHandler):
+    @property
+    def slug(self):
+        return "el-dorado"
+
     def reveal(self) -> None:
         self.game.last_action.action_data.participating_players.append(
             self.player
@@ -24,4 +28,9 @@ class ElDorado(EventCardHandler):
 
     @property
     def can_use(self) -> bool:
-        return can_vote(self.game, self.player)
+        return (
+                can_vote(self.game, self.player) and
+                self.game.get_player_info(
+                    self.player
+                ).has_event_card(self.slug)
+        )

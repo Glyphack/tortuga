@@ -12,6 +12,10 @@ class EventCardHandler:
         self.payload: PayloadType = payload
         self._chosen_option: Optional[int] = None
 
+    @property
+    def slug(self):
+        raise NotImplementedError()
+
     @abc.abstractmethod
     def reveal(self) -> None:
         raise NotImplementedError()
