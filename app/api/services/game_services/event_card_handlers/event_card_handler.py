@@ -14,7 +14,7 @@ class EventCardHandler:
 
     @abc.abstractmethod
     def reveal(self) -> None:
-        raise NotImplemented
+        raise NotImplementedError()
 
     @property
     def chosen_option(self) -> int:
@@ -27,12 +27,12 @@ class EventCardHandler:
     @property
     @abc.abstractmethod
     def options(self) -> List:
-        raise NotImplemented
+        raise NotImplementedError()
 
     @property
     @abc.abstractmethod
     def options_operations(self) -> List:
-        raise NotImplemented
+        raise NotImplementedError()
 
     @property
     @abc.abstractmethod
@@ -42,4 +42,4 @@ class EventCardHandler:
     @property
     @abc.abstractmethod
     def can_use(self) -> bool:
-        raise NotImplemented
+        raise NotImplementedError()
