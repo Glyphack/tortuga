@@ -16,7 +16,7 @@ It currently has clients for these platforms:
 - web: https://github.com/Frostack/tortugack-client
 
 
-#### Contributing
+### Contributing
 This project is just finished and heavily needs testing, So your best contribution would be playing with your friends and giving
 feedback.
 Also if you are interested you can contact me for creating a client for tortuga.
