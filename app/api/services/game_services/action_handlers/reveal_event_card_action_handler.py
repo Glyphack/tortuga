@@ -8,8 +8,21 @@ from app.api.services.game_services.event_card_handlers import (
 
 class RevealEventCardActionHandler(ActionHandler):
     def execute(self):
+        assert (
+                self.game.turn == self.player or
+                (
+                        self.game.last_action and
+                        self.game.last_action.action_data.forced_player ==
+                        self.player
+                )
+        )
+        if self.game.last_action and self.game.last_action.action_type == Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD:
+            index = self.get_index_when_forced()
+        else:
+            index = self.payload.event_card_index
+
         event_card = EventCardsManager.get(
-            self.game.event_cards[self.payload.event_card_index]
+            self.game.event_cards[index]
         )
         event_card_class = event_card_handlers[event_card.slug](
             self.game, self.player, self.payload
@@ -28,3 +41,8 @@ class RevealEventCardActionHandler(ActionHandler):
         if not event_card_class.can_keep and not event_card_class.can_use:
             self.game.next_turn()
             event_card_class.reveal()
+
+    def get_index_when_forced(self):
+        return self.game.last_action.action_data.event_cards_indexes[
+            self.payload.event_card_index
+        ]

@@ -6,8 +6,11 @@ from requests import Response
 
 from app.models.game import Game
 from app.schemas import game_schema
-from app.schemas.game_schema import Action, DoActionRequest, \
-    SeeEventCardOptionsPayload, UseEventCardPayload
+from app.schemas.game_schema import (
+    Action, DoActionRequest,
+    SeeEventCardOptionsPayload, UseEventCardPayload,
+    ForceAnotherPlayerToChooseCardPayload
+)
 
 
 class BaseGameTestCase:
@@ -213,7 +216,27 @@ class BaseGameTestCase:
         )
         headers = self.auth_header(player)
         return self.client.post(self.do_action_url, data=request.json(),
-                         headers=headers)
+                                headers=headers)
+
+    def force_another_player_to_choose_card(self,
+                                            other_player: str,
+                                            player: str,
+                                            event_card_indexes: List[int]):
+        payload = ForceAnotherPlayerToChooseCardPayload(
+            forced_player=other_player,
+            event_cards_indexes=event_card_indexes
+        )
+        request = DoActionRequest(
+            action=Action(
+                action_type=Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD
+            ),
+            game_id="1",
+            payload=payload
+        )
+        headers = self.auth_header(player)
+        return self.client.post(
+            self.do_action_url, data=request.json(), headers=headers
+        )
 
     def _get_my_game(self, player) -> Response:
         headers = self.auth_header(player)

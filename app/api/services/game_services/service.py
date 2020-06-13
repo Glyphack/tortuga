@@ -52,11 +52,7 @@ def _get_available_actions(player: Player, game: Game):
                 available_actions = [game_schema.Action.ActionType.VOTE]
                 return available_actions
         elif (
-                (
-                        game.last_action.action_type == game_schema.Action.ActionType.REVEAL_EVENT_CARD or
-                        game.last_action.action_type == game_schema.Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD
-                ) and
-                game.last_action.action_data.player == player.id
+                game.last_action.action_type == game_schema.Action.ActionType.REVEAL_EVENT_CARD
         ):
             if game.last_action.action_data.can_use:
                 available_actions.append(
@@ -67,7 +63,17 @@ def _get_available_actions(player: Player, game: Game):
                     game_schema.Action.ActionType.KEEP_EVENT_CARD
                 )
             if available_actions:
-                return available_actions
+                if game.last_action.action_data.player == player.id:
+                    return available_actions
+                else:
+                    return []
+        elif (
+                game.last_action.action_type == game_schema.Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD
+        ):
+            if game.last_action.action_data.forced_player == player.id:
+                return [game_schema.Action.ActionType.REVEAL_EVENT_CARD]
+            else:
+                return []
 
     if player.id != game.turn:
         return available_actions
@@ -249,7 +255,10 @@ def generate_game_schema_from_game(username: str):
             available_actions=_get_available_actions(player_info, game),
             chests=player_info.chests
         ),
-        event_cards_deck_count=game.get_event_cards_deck_count(),
+        event_cards_deck=game_schema.EventCardDeck(
+            count=game.get_event_cards_deck_count(),
+            selectable_cards=game.get_event_card_deck_selectable_cards()
+        ),
         last_action=game.last_action,
         is_over=game.is_over,
         turn=User(username=game.turn),

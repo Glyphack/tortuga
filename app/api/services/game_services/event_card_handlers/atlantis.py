@@ -5,6 +5,10 @@ from .event_card_handler import EventCardHandler
 
 
 class Atlantis(EventCardHandler):
+    @property
+    def slug(self):
+        return "atlantis"
+
     def reveal(self):
         self.game.set_position(self.player, self.available_move())
 
@@ -17,7 +21,10 @@ class Atlantis(EventCardHandler):
         return (
                 self.available_move() and
                 not self.game.has_unfinished_voting() and
-                not hasattr(self.payload, "event_card_index")
+                not hasattr(self.payload, "event_card_index") and
+                self.game.get_player_info(
+                    self.player
+                ).has_event_card("atlantis")
         )
 
     def available_move(self) -> Optional[Positions]:

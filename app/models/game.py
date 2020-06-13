@@ -188,10 +188,24 @@ class Game:
         self.is_over = True
 
     def get_event_cards_deck_count(self):
-        if len(self.event_cards) > 5:
+        if (
+                self.last_action and
+                self.last_action.action_type == Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD
+        ):
+            return min(len(self.event_cards), 2)
+        elif len(self.event_cards) > 5:
             return 5
         else:
             return len(self.event_cards)
+
+    def get_event_card_deck_selectable_cards(self):
+        if(
+            self.last_action and
+            self.last_action.action_type == Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD
+        ):
+            return self.last_action.action_data.event_cards_indexes
+        else:
+            return [i for i in range(self.get_event_cards_deck_count())]
 
     @property
     def cabin_boy_slots(self) -> List[Positions]:

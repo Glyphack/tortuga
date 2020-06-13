@@ -119,6 +119,7 @@ class RevealOneEventCardActionData(APIModel):
 class ForceAnotherPlayerToChooseCardActionData(APIModel):
     player: str
     forced_player: str
+    event_cards_indexes: List[int]
 
 
 class SeeEventCardOptionsActionData(APIModel):
@@ -235,11 +236,16 @@ class WinState(APIModel):
     players_teams: Dict[str, Team]
 
 
+class EventCardDeck(APIModel):
+    count: int
+    selectable_cards: List[int]
+
+
 class GameStatus(APIModel):
     players_position: Dict[str, Positions]
     chests_position: Chests
     player_game_info: PlayerGameInfo
-    event_cards_deck_count: int
+    event_cards_deck: EventCardDeck
     last_action: Optional[Action] = None
     is_over: bool = False
     turn: User
@@ -294,8 +300,14 @@ class UseEventCardPayload(APIModel):
     event_card_option_index: Optional[int]
 
 
+class ForceAnotherPlayerToChooseCardPayload(APIModel):
+    forced_player: str
+    event_cards_indexes: List[int]
+
+
 PayloadType = Optional[
     Union[
+        ForceAnotherPlayerToChooseCardPayload,
         ViewTwoEventCardsPayload,
         MovePayload,
         MaroonCrewMateToTortugaPayload,
