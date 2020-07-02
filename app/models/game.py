@@ -256,3 +256,9 @@ class Game:
                 for player in players:
                     self.maroon_player(player)
                 return
+
+    def can_vote(self, player: str):
+        return (
+                self.has_unfinished_voting() and
+                player in self.last_action.action_data.participating_players
+        )

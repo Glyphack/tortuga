@@ -249,7 +249,7 @@ def generate_game_schema_from_game(username: str):
         player_game_info=game_schema.PlayerGameInfo(
             team=player_info.team,
             vote_cards=player_info.vote_cards,
-            event_cards=player_info.get_kept_event_cards(),
+            event_cards=player_info.get_kept_event_cards(game),
             seen_event_cards=player_info.seen_event_cards,
             role=None,
             available_actions=_get_available_actions(player_info, game),
@@ -271,10 +271,3 @@ def generate_game_schema_from_game(username: str):
             }
         )
     return game_status
-
-
-def can_vote(game: Game, player: str):
-    return (
-            game.has_unfinished_voting() and
-            player in game.last_action.action_data.participating_players
-    )
