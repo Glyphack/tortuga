@@ -28,14 +28,14 @@ def _setup_vote_cards(game: Game):
 
 def _get_available_actions(player: Player, game: Game):
     available_actions = []
-    player_position = game.players_position[player.id]
+    player_position = game.players_position[player.username]
     if game.last_action:
         if game.last_action.action_type == game_schema.Action.ActionType.CALL_FOR_AN_ATTACK:
-            if player.id in game.last_action.action_data.participating_players:
+            if player.username in game.last_action.action_data.participating_players:
                 available_actions = [game_schema.Action.ActionType.VOTE]
                 return available_actions
             if (
-                    player.id == game.last_action.action_data.which_captain
+                    player.username == game.last_action.action_data.which_captain
             ):
                 if game.last_action.action_data.state == game_schema.State.Success:
                     available_actions = [
@@ -44,11 +44,11 @@ def _get_available_actions(player: Player, game: Game):
                     available_actions = []
                 return available_actions
         elif game.last_action.action_type == game_schema.Action.ActionType.CALL_FOR_BRAWL:
-            if player.id in game.last_action.action_data.participating_players:
+            if player.username in game.last_action.action_data.participating_players:
                 available_actions = [game_schema.Action.ActionType.VOTE]
                 return available_actions
         elif game.last_action.action_type == game_schema.Action.ActionType.CALL_FOR_A_MUTINY:
-            if player.id in game.last_action.action_data.participating_players:
+            if player.username in game.last_action.action_data.participating_players:
                 available_actions = [game_schema.Action.ActionType.VOTE]
                 return available_actions
         elif (
@@ -63,19 +63,19 @@ def _get_available_actions(player: Player, game: Game):
                     game_schema.Action.ActionType.KEEP_EVENT_CARD
                 )
             if available_actions:
-                if game.last_action.action_data.player == player.id:
+                if game.last_action.action_data.player == player.username:
                     return available_actions
                 else:
                     return []
         elif (
                 game.last_action.action_type == game_schema.Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD
         ):
-            if game.last_action.action_data.forced_player == player.id:
+            if game.last_action.action_data.forced_player == player.username:
                 return [game_schema.Action.ActionType.REVEAL_EVENT_CARD]
             else:
                 return []
 
-    if player.id != game.turn:
+    if player.username != game.turn:
         return available_actions
     if player.chests > 0:
         available_actions = [game_schema.Action.ActionType.PUT_CHEST]
@@ -170,16 +170,16 @@ def create_new_game(game_id: str, players: List[str], host: str) -> Game:
     if len(players_copy) % 2 != 0:
         dutch = players_copy[0]
         players_copy.remove(dutch)
-        dutch = Player(id=dutch, team=Team.DUTCH.value)
-        players_info[dutch.id] = dutch
-        players_game[dutch.id] = game_id
+        dutch = Player(username=dutch, team=Team.DUTCH.value)
+        players_info[dutch.username] = dutch
+        players_game[dutch.username] = game_id
 
     for index, player in enumerate(players_copy):
         if index % 2 != 0:
             player_team = Team.BRITAIN.value
         else:
             player_team = Team.FRANCE.value
-        players_info[player] = Player(id=player, team=player_team)
+        players_info[player] = Player(username=player, team=player_team)
         players_game[player] = game_id
 
     players_positions = _generate_map(players)
