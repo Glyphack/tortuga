@@ -12,10 +12,15 @@ class VoteActionHandler(ActionHandler):
         vote_card = self.game.players_info.get(self.player).vote_cards.pop(
             self.payload.vote_card_index
         )
+        player_game_info = self.game.get_player_info(self.player)
 
-        last_action.action_data.participating_players.remove(
-            self.player
-        )
+        # if player has el dorado can vote twice
+        if player_game_info.has_event_card("el-dorado"):
+            player_game_info.remove_event_card("el-dorado")
+        else:
+            last_action.action_data.participating_players.remove(
+                self.player
+            )
         self.game.votes.participated_players.append(self.player)
         self.game.votes.vote_cards.append(vote_card)
 
