@@ -6,7 +6,8 @@ from app.schemas.game_schema import PayloadType
 
 
 class EventCardHandler:
-    def __init__(self, game: Game, player: str, payload: PayloadType):
+    def __init__(self, game: Game, player: str,
+                 payload: Optional[PayloadType] = None):
         self.game: Game = game
         self.player: str = player
         self.payload: PayloadType = payload
