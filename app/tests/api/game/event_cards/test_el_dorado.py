@@ -15,4 +15,3 @@ class TestElDorado(BaseGameTestCase):
         self._vote(player)
         self._vote(player)
         assert len(game.votes.participated_players) == 2
-        print(game.last_action, game.votes)
