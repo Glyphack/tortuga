@@ -158,7 +158,7 @@ def _give_treasure_to_captains(players_info: Dict[str, Player],
 
 
 def _get_random_event_cards():
-    event_cards = EventCardsManager.get_all_slugs()
+    event_cards = EventCardsManager.get_all_slugs().copy()
     random.shuffle(event_cards)
     return event_cards
 
