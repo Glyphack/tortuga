@@ -27,6 +27,8 @@ def _setup_vote_cards(game: Game):
 
 
 def _get_available_actions(player: Player, game: Game):
+    if game.is_over:
+        return []
     available_actions = []
     player_position = game.players_position[player.username]
     if game.last_action:
