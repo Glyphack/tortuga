@@ -1,14 +1,13 @@
 import abc
 from typing import List, Optional
 
-from app.models.game import Game
 from app.schemas.game_schema import PayloadType
 
 
 class EventCardHandler:
-    def __init__(self, game: Game, player: str,
+    def __init__(self, game: "Game", player: str,
                  payload: Optional[PayloadType] = None):
-        self.game: Game = game
+        self.game: "Game" = game
         self.player: str = player
         self.payload: PayloadType = payload
         self._chosen_option: Optional[int] = None
