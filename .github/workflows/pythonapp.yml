@@ -20,8 +20,6 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.8
-    - name: Super-Linter
-      uses: github/super-linter@v2.0.0
     - name: Install pipenv
       uses: dschep/install-pipenv-action@v1
     - name: Install dependencies
