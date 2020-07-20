@@ -260,6 +260,7 @@ def generate_game_schema_from_game(username: str):
             selectable_cards=game.get_event_card_deck_selectable_cards()
         ),
         last_action=game.last_action,
+        activities=game.activities,
         is_over=game.is_over,
         turn=User(username=game.turn),
     )

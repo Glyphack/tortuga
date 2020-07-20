@@ -16,6 +16,16 @@ class ActionHandler:
         self.player = player
         self.payload = payload
 
+    def do_action(self):
+        self.execute()
+        if self.activity_text:
+            self.game.add_activity(self.activity_text)
+
     @abstractmethod
     def execute(self):
         raise NotImplemented
+
+    @property
+    @abstractmethod
+    def activity_text(self):
+        raise NotImplementedError()

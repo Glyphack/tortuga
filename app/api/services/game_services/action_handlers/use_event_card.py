@@ -1,9 +1,18 @@
+from app.models.event_cards import EventCardsManager
 from app.schemas.game_schema import Action
 from .action_handler import ActionHandler
 from ..event_card_handlers import event_card_handlers
 
 
 class UseEventCardActionHandler(ActionHandler):
+    @property
+    def activity_text(self):
+        event_card = EventCardsManager.get(
+            self.payload.event_card_to_use
+        )
+        return f"{self.player} used " \
+               f"{event_card.title}"
+
     def execute(self):
         event_card = event_card_handlers[self.payload.event_card_to_use](
             self.game, self.player, self.payload,

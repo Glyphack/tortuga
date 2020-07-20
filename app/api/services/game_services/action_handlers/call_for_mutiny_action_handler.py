@@ -4,6 +4,11 @@ from .action_handler import ActionHandler
 
 
 class CallForMutinyActionHandler(ActionHandler):
+    @property
+    def activity_text(self):
+        return f"player {self.player} called fer a mutiny," \
+               f"waitin' fer vote: {self._get_participating_players()}"
+
     def execute(self):
         player_position = self.game.players_position[self.player]
         if player_position in Positions.jr_positions():
@@ -34,9 +39,8 @@ class CallForMutinyActionHandler(ActionHandler):
         else:
             positions = Positions.fd_positions()
             positions.remove(Positions.FD1)
-        participating = []
-        for player, position in self.game.players_position.items():
-            if position in positions:
-                participating.append(player)
-
-        return participating
+        return [
+            player
+            for player, position in self.game.players_position.items()
+            if position in positions
+        ]

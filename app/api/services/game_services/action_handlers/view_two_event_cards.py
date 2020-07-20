@@ -4,6 +4,11 @@ from .action_handler import ActionHandler
 
 
 class ViewTwoEventCardsActionHandler(ActionHandler):
+    @property
+    def activity_text(self):
+        return f"{self.player} viewed event cards in " \
+               f"{self.payload.event_cards_indexes} places"
+
     def execute(self):
         seen_event_cards = {}
         for event_card_index in self.payload.event_cards_indexes:
