@@ -1,3 +1,4 @@
+from dataclasses import field
 from enum import Enum
 from typing import Dict, List, Optional, Union
 
@@ -241,12 +242,17 @@ class EventCardDeck(APIModel):
     selectable_cards: List[int]
 
 
+class Activity(APIModel):
+    text: str
+
+
 class GameStatus(APIModel):
     players_position: Dict[str, Positions]
     chests_position: Chests
     player_game_info: PlayerGameInfo
     event_cards_deck: EventCardDeck
     last_action: Optional[Action] = None
+    activities: List[Activity] = []
     is_over: bool = False
     turn: User
     winner: Optional[WinState]
