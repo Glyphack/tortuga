@@ -3,6 +3,10 @@ from .action_handler import ActionHandler
 
 
 class KeepEventCardActionHandler(ActionHandler):
+    @property
+    def activity_text(self):
+        return f"{self.player} kept th' event card"
+
     def execute(self):
         assert (
                 self.game.last_action.action_type ==

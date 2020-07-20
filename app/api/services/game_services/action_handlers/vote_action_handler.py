@@ -7,6 +7,10 @@ from app.schemas.game_schema import VoteCard, State, Positions
 
 
 class VoteActionHandler(ActionHandler):
+    @property
+    def activity_text(self):
+        return f"{self.player} voted"
+
     def execute(self):
         last_action = self.game.last_action
         assert can_vote(self.game, self.player)

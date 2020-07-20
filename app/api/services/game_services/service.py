@@ -18,7 +18,7 @@ def _setup_vote_cards(game: Game):
     for player_info in game.players_info.values():
         if player_info.vote_cards is None:
             player_info.vote_cards = []
-        for _ in range(0, 3):
+        for _ in range(3):
             player_info.vote_cards.append(
                 votes.generate_vote_card()
             )
@@ -132,7 +132,7 @@ def _generate_map(players: List[str]):
 
 
 def _generate_chests_positions() -> Chests:
-    chests = Chests(
+    return Chests(
         tr_en=1,
         tr_fr=1,
         sg_nt=4,
@@ -141,25 +141,28 @@ def _generate_chests_positions() -> Chests:
         jr_en=0,
         jr_fr=0
     )
-    return chests
 
 
 def _give_treasure_to_captains(players_info: Dict[str, Player],
                                positions: Dict[str, game_schema.Positions]):
     updated_players_info = players_info.copy()
     for player, position in positions.items():
-        if (
-                position == game_schema.Positions.FD1.value or
-                position == game_schema.Positions.JR1.value
-        ):
+        if position in [
+            game_schema.Positions.FD1.value,
+            game_schema.Positions.JR1.value,
+        ]:
             updated_players_info[player].chests += 1
 
     return updated_players_info
 
 
-def _get_random_event_cards():
-    event_cards = EventCardsManager.get_all_slugs()
+def setup_event_cards_deck():
+    event_cards = EventCardsManager.get_all_slugs().copy()
     random.shuffle(event_cards)
+    event_cards.remove("spanish-armada")
+    spanish_armada_place = random.randint(-4, -1)
+    event_cards.insert(spanish_armada_place, "spanish-armada")
+    print(event_cards)
     return event_cards
 
 
@@ -185,7 +188,7 @@ def create_new_game(game_id: str, players: List[str], host: str) -> Game:
     players_positions = _generate_map(players)
     chests_position = _generate_chests_positions()
     players_info = _give_treasure_to_captains(players_info, players_positions)
-    event_cards = _get_random_event_cards()
+    event_cards = setup_event_cards_deck()
 
     new_game = Game(
         id=game_id,
@@ -260,6 +263,7 @@ def generate_game_schema_from_game(username: str):
             selectable_cards=game.get_event_card_deck_selectable_cards()
         ),
         last_action=game.last_action,
+        activities=game.activities,
         is_over=game.is_over,
         turn=User(username=game.turn),
     )

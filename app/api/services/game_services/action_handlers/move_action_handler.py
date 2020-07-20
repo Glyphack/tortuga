@@ -3,6 +3,10 @@ from .action_handler import ActionHandler
 
 
 class MoveActionHandler(ActionHandler):
+    @property
+    def activity_text(self):
+        return f"{self.player} moved"
+
     def execute(self):
         move_where = self.payload.move_where
         player_position = self.game.players_position.get(self.player)

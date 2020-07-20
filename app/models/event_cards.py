@@ -3,8 +3,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Dict
 
-event_cards = None
-
 
 @dataclass
 class EventCard:
@@ -16,18 +14,19 @@ class EventCard:
 
 class EventCardsManager:
     event_cards: Dict[str, EventCard] = {}
+    all_slugs: List[str] = []
 
     @classmethod
     def get(cls, slug: str) -> EventCard:
-        if not event_cards:
+        if not cls.event_cards:
             cls.load_event_cards()
         return cls.event_cards[slug]
 
     @classmethod
     def get_all_slugs(cls) -> List[str]:
-        if not event_cards:
+        if not cls.all_slugs:
             cls.load_event_cards()
-        return list(cls.event_cards.keys())
+        return cls.all_slugs
 
     @classmethod
     def load_event_cards(cls):
@@ -35,10 +34,12 @@ class EventCardsManager:
         file_path = (base_path / "../data/event_cards.json").resolve()
         with file_path.open() as f:
             event_cards = json.load(f)["event_cards"]
-        for event_card_name, event_card in event_cards.items():
-            cls.event_cards[event_card_name] = EventCard(
-                slug=event_card_name,
+        for event_card_slug, event_card in event_cards.items():
+            cls.event_cards[event_card_slug] = EventCard(
+                slug=event_card_slug,
                 title=event_card["title"],
                 description=event_card["description"],
                 image_url=event_card["image_url"]
             )
+            for _ in range(int(event_card["count"])):
+                cls.all_slugs.append(event_card_slug)

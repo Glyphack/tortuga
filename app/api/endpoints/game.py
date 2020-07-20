@@ -57,7 +57,7 @@ async def do_action(request: Request, action_request: DoActionRequest):
             action_request.action,
             action_request.payload
         )
-        action_handler.execute()
+        action_handler.do_action()
     except AssertionError:
         raise HTTPException(
             status_code=400,

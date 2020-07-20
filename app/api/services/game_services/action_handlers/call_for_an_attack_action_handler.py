@@ -7,17 +7,19 @@ from app.schemas import game_schema
 
 
 class CallForAnAttackActionHandler(ActionHandler):
+    @property
+    def activity_text(self):
+        return f"player {self.player} called fer an attack," \
+               f"waitin' fer vote: " \
+               f"{self.get_attack_call_participating_players()}"
+
     def execute(self):
-        assert (
-                self.game.players_position.get(
-                    self.player) == game_schema.Positions.JR1 or
-                self.game.players_position.get(
-                    self.player) == game_schema.Positions.FD1
-        )
-        participating_players = self.get_attack_call_participating_players(
-            players_position=self.game.players_position,
-            captain=self.player
-        )
+        assert self.game.players_position.get(self.player) in [
+            game_schema.Positions.JR1,
+            game_schema.Positions.FD1,
+        ]
+
+        participating_players = self.get_attack_call_participating_players()
         from_other_ship = True
         if self.game.chests_position.sg_nt > 0:
             from_other_ship = False
@@ -33,18 +35,16 @@ class CallForAnAttackActionHandler(ActionHandler):
         )
         self.game.last_action = action
 
-    @staticmethod
-    def get_attack_call_participating_players(
-            players_position: Dict[str, game_schema.Positions],
-            captain: str):
+    def get_attack_call_participating_players(self):
         positions = []
-
-        participating = []
+        players_position = self.game.players_position
+        captain = self.player
         if players_position.get(captain) == game_schema.Positions.JR1:
             positions = game_schema.Positions.jr_positions()
         elif players_position.get(captain) == game_schema.Positions.FD1:
             positions = game_schema.Positions.fd_positions()
-        for player, position in players_position.items():
-            if position in positions:
-                participating.append(player)
-        return participating
+        return [
+            player
+            for player, position in players_position.items()
+            if position in positions
+        ]

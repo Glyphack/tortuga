@@ -1,12 +1,12 @@
 import random
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from app.models.player import Player
 from app.models.votes import Votes, generate_vote_card
 from app.schemas import game_schema
 from app.schemas.game_schema import (
-    Action, VoteCard, Positions, Team
-)
+    Action, VoteCard, Positions, Team,
+    Activity)
 from typing import List, Dict, Optional
 
 
@@ -37,6 +37,7 @@ class Game:
     event_cards: List[str]
     vote_deck: VoteCard = None
     votes: Optional[Votes] = Votes()
+    activities: List[Activity] = field(default_factory=list)
     turn: str = ""
     last_action: Optional[Action] = None
     last_votes: Optional[Votes] = None
@@ -256,3 +257,6 @@ class Game:
                 for player in players:
                     self.maroon_player(player)
                 return
+
+    def add_activity(self, text):
+        self.activities.append(Activity(text=text))

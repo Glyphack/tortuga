@@ -4,6 +4,10 @@ from ..event_card_handlers import event_card_handlers
 
 
 class SeeEventCardOptions(ActionHandler):
+    @property
+    def activity_text(self):
+        return ""
+
     def execute(self):
         event_card = event_card_handlers[self.payload.event_card_to_see_slug](
             self.game, self.player, self.payload

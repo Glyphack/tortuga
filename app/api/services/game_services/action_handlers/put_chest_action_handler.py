@@ -3,6 +3,11 @@ from .action_handler import ActionHandler
 
 
 class PutChestActionHandler(ActionHandler):
+    @property
+    def activity_text(self):
+        return f"{self.player} jus' put a new chest in " \
+               f"{self.payload.which_team.lower()} hold"
+
     def execute(self):
         assert (
                 self.game.players_info.get(self.player).chests > 0
@@ -11,13 +16,14 @@ class PutChestActionHandler(ActionHandler):
         player_pos: Positions = self.game.players_position.get(
             self.player
         )
-        if self.game.last_action:
-            if (
-                    self.game.last_action.action_type == Action.ActionType.CALL_FOR_AN_ATTACK and
-                    self.game.last_action.action_data.which_captain.username == self.player
-            ):
-                self.remove_other_chest_if_call_for_attack(player_pos)
-                self.game.next_turn()
+        if self.game.last_action and (
+            self.game.last_action.action_type
+            == Action.ActionType.CALL_FOR_AN_ATTACK
+            and self.game.last_action.action_data.which_captain.username
+            == self.player
+        ):
+            self.remove_other_chest_if_call_for_attack(player_pos)
+            self.game.next_turn()
 
         if team == PutChestPayload.Team.britain:
             if player_pos in Positions.fd_positions():
