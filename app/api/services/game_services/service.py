@@ -4,11 +4,13 @@ from typing import List, Dict
 from app.api.services import lobby_service
 from app.models.event_cards import EventCardsManager
 from app.models.game import Game, Player, Chests
+from app.api.services.game_services.event_card_handlers import \
+    event_card_handlers
 from app.models import votes
 from app.models.votes import Votes
 from app.schemas import game_schema
 from app.schemas.auth import User
-from app.schemas.game_schema import Team
+from app.schemas.game_schema import Team, KeptEventCard
 
 game_statuses: Dict[str, Game] = {}
 players_game: Dict[str, str] = {}
@@ -252,7 +254,7 @@ def generate_game_schema_from_game(username: str):
         player_game_info=game_schema.PlayerGameInfo(
             team=player_info.team,
             vote_cards=player_info.vote_cards,
-            event_cards=player_info.get_kept_event_cards(),
+            event_cards=get_kept_event_cards(player_info, game),
             seen_event_cards=player_info.seen_event_cards,
             role=None,
             available_actions=_get_available_actions(player_info, game),
@@ -277,8 +279,10 @@ def generate_game_schema_from_game(username: str):
     return game_status
 
 
-def can_vote(game: Game, player: str):
-    return (
-            game.has_unfinished_voting() and
-            player in game.last_action.action_data.participating_players
-    )
+def get_kept_event_cards(player: Player, game: Game):
+    return [
+        KeptEventCard(
+            event_card=EventCardsManager.get(event_card_slug),
+            can_use=event_card_handlers[event_card_slug](game, player).can_use
+        ) for event_card_slug in player.event_cards
+    ]
