@@ -10,7 +10,7 @@ class SeeEventCardOptions(ActionHandler):
 
     def execute(self):
         event_card = event_card_handlers[self.payload.event_card_to_see_slug](
-            self.game, self.player, self.payload
+            self.game, self.player
         )
         action = Action(
             action_type=Action.ActionType.SEE_EVENT_CARD_OPTIONS,
