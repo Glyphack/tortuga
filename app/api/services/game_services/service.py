@@ -164,7 +164,6 @@ def setup_event_cards_deck():
     event_cards.remove("spanish-armada")
     spanish_armada_place = random.randint(-4, -1)
     event_cards.insert(spanish_armada_place, "spanish-armada")
-    print(event_cards)
     return event_cards
 
 
