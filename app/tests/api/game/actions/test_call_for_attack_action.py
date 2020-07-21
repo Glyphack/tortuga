@@ -24,3 +24,8 @@ class TestCallForAnAttackAction(BaseGameTestCase):
         }
 
         assert response.json()["gameStatus"]["lastAction"] == expected_response
+
+    def test_after_call_for_an_attack_player_can_vote(self):
+        player = self.game.get_jr_caption()
+        self._call_for_an_attack(player)
+        assert (self.game.can_vote(player) is True)
