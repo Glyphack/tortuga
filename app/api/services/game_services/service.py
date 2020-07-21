@@ -282,6 +282,7 @@ def get_kept_event_cards(player: Player, game: Game):
     return [
         KeptEventCard(
             event_card=EventCardsManager.get(event_card_slug),
+            options=event_card_handlers[event_card_slug](game, player).options,
             can_use=event_card_handlers[event_card_slug](game, player).can_use
         ) for event_card_slug in player.event_cards
     ]

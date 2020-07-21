@@ -103,6 +103,7 @@ class EventCard(APIModel):
 class KeptEventCard(APIModel):
     event_card: EventCard
     can_use: bool
+    options: List[str]
 
 
 class ViewTwoEventCardsActionData(APIModel):
@@ -121,13 +122,6 @@ class ForceAnotherPlayerToChooseCardActionData(APIModel):
     player: str
     forced_player: str
     event_cards_indexes: List[int]
-
-
-class SeeEventCardOptionsActionData(APIModel):
-    player: str
-    options: List[str]
-    can_use: bool
-    event_card_slug: str
 
 
 class UseEventCardActionData(APIModel):
@@ -180,7 +174,6 @@ class Action(APIModel):
             "force another player to choose card"
         )
         KEEP_EVENT_CARD = "KEEP-EVENT-CARD"
-        SEE_EVENT_CARD_OPTIONS = "SEE-EVENT-CARD-OPTIONS"
         USE_EVENT_CARD = "USE-EVENT-CARD"
         MOVE = "move"
         CALL_FOR_AN_ATTACK = "call for an attack"
@@ -196,7 +189,6 @@ class Action(APIModel):
         ViewTwoEventCardsActionData,
         RevealOneEventCardActionData,
         ForceAnotherPlayerToChooseCardActionData,
-        SeeEventCardOptionsActionData,
         CaptainCallForAttackData,
         MaroonAnyCrewMateToTortugaActionData,
         CallForMutinyActionData,

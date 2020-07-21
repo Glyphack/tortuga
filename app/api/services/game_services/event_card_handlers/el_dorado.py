@@ -31,5 +31,5 @@ class ElDorado(EventCardHandler):
                 self.game.can_vote(self.player) and
                 self.game.get_player_info(
                     self.player
-                ).has_event_card(self.slug)
+                ).has_event_card("el-dorado")
         )
