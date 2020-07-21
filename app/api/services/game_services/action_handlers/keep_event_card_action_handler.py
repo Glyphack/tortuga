@@ -17,7 +17,7 @@ class KeepEventCardActionHandler(ActionHandler):
                 self.game.last_action.action_data.player == self.player
         )
         event_card = self.game.last_action.action_data.event_card
-        self.game.players_info[self.player].add_event_card(
+        self.game.get_player_info(self.player).add_event_card(
             event_card.slug
         )
         self.game.last_action = Action(
