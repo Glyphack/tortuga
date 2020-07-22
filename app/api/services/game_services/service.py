@@ -54,7 +54,8 @@ def _get_available_actions(player: Player, game: Game):
                 available_actions = [game_schema.Action.ActionType.VOTE]
                 return available_actions
         elif (
-                game.last_action.action_type == game_schema.Action.ActionType.REVEAL_EVENT_CARD
+                game.last_action.action_type == game_schema.Action.ActionType.REVEAL_EVENT_CARD and
+                game.last_action.action_data.player == player.id
         ):
             if game.last_action.action_data.can_use:
                 available_actions.append(
@@ -65,10 +66,7 @@ def _get_available_actions(player: Player, game: Game):
                     game_schema.Action.ActionType.KEEP_EVENT_CARD
                 )
             if available_actions:
-                if game.last_action.action_data.player == player.id:
-                    return available_actions
-                else:
-                    return []
+                return available_actions
         elif (
                 game.last_action.action_type == game_schema.Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD
         ):
