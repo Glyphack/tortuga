@@ -194,7 +194,7 @@ class Action(APIModel):
         CallForMutinyActionData,
         MoveTreasureActionData,
         CallForBrawlActionData,
-        PutChestActionData
+        PutChestActionData,
     ] = None
 
 
