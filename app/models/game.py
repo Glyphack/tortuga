@@ -6,7 +6,8 @@ from app.models.votes import Votes, generate_vote_card
 from app.schemas import game_schema
 from app.schemas.game_schema import (
     Action, VoteCard, Positions, Team,
-    Activity)
+    Activity
+)
 from typing import List, Dict, Optional
 
 
@@ -121,10 +122,10 @@ class Game:
         return position_list[0]
 
     def is_empty(self, position: Positions):
-        for _, position_occupied in self.players_position.items():
-            if position == position_occupied:
-                return False
-        return True
+        return all(
+            position != position_occupied
+            for _, position_occupied in self.players_position.items()
+        )
 
     def set_position(self, player: str, position: Positions):
         current_position = self.get_position(player)
@@ -260,3 +261,9 @@ class Game:
 
     def add_activity(self, text):
         self.activities.append(Activity(text=text))
+
+    def can_vote(self, player: str):
+        return (
+                self.has_unfinished_voting() and
+                player in self.last_action.action_data.participating_players
+        )

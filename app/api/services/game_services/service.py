@@ -4,11 +4,13 @@ from typing import List, Dict
 from app.api.services import lobby_service
 from app.models.event_cards import EventCardsManager
 from app.models.game import Game, Player, Chests
+from app.api.services.game_services.event_card_handlers import \
+    event_card_handlers
 from app.models import votes
 from app.models.votes import Votes
 from app.schemas import game_schema
 from app.schemas.auth import User
-from app.schemas.game_schema import Team
+from app.schemas.game_schema import Team, KeptEventCard
 
 game_statuses: Dict[str, Game] = {}
 players_game: Dict[str, str] = {}
@@ -52,7 +54,8 @@ def _get_available_actions(player: Player, game: Game):
                 available_actions = [game_schema.Action.ActionType.VOTE]
                 return available_actions
         elif (
-                game.last_action.action_type == game_schema.Action.ActionType.REVEAL_EVENT_CARD
+                game.last_action.action_type == game_schema.Action.ActionType.REVEAL_EVENT_CARD and
+                game.last_action.action_data.player == player.id
         ):
             if game.last_action.action_data.can_use:
                 available_actions.append(
@@ -63,10 +66,7 @@ def _get_available_actions(player: Player, game: Game):
                     game_schema.Action.ActionType.KEEP_EVENT_CARD
                 )
             if available_actions:
-                if game.last_action.action_data.player == player.id:
-                    return available_actions
-                else:
-                    return []
+                return available_actions
         elif (
                 game.last_action.action_type == game_schema.Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD
         ):
@@ -162,7 +162,6 @@ def setup_event_cards_deck():
     event_cards.remove("spanish-armada")
     spanish_armada_place = random.randint(-4, -1)
     event_cards.insert(spanish_armada_place, "spanish-armada")
-    print(event_cards)
     return event_cards
 
 
@@ -252,7 +251,7 @@ def generate_game_schema_from_game(username: str):
         player_game_info=game_schema.PlayerGameInfo(
             team=player_info.team,
             vote_cards=player_info.vote_cards,
-            event_cards=player_info.get_kept_event_cards(),
+            event_cards=get_kept_event_cards(player_info, game),
             seen_event_cards=player_info.seen_event_cards,
             role=None,
             available_actions=_get_available_actions(player_info, game),
@@ -277,8 +276,11 @@ def generate_game_schema_from_game(username: str):
     return game_status
 
 
-def can_vote(game: Game, player: str):
-    return (
-            game.has_unfinished_voting() and
-            player in game.last_action.action_data.participating_players
-    )
+def get_kept_event_cards(player: Player, game: Game):
+    return [
+        KeptEventCard(
+            event_card=EventCardsManager.get(event_card_slug),
+            options=event_card_handlers[event_card_slug](game, player).options,
+            can_use=event_card_handlers[event_card_slug](game, player).can_use
+        ) for event_card_slug in player.event_cards
+    ]

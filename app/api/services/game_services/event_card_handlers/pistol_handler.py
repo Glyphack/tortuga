@@ -19,10 +19,7 @@ class Pistol(EventCardHandler):
 
     @property
     def options(self) -> List:
-        options = []
-        for player in self.affected_players:
-            options.append(f"maroon {player}")
-        return options
+        return [f"maroon {player}" for player in self.affected_players]
 
     @property
     def options_operations(self):
@@ -36,8 +33,7 @@ class Pistol(EventCardHandler):
 
     @property
     def affected_positions(self):
-        positions = [Positions.JR_B, Positions.FD_B]
-        positions.extend(Positions.jr_positions())
+        positions = [Positions.JR_B, Positions.FD_B, *Positions.jr_positions()]
         positions.extend(Positions.fd_positions())
         return positions
 

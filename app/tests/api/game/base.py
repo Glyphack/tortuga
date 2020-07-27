@@ -185,20 +185,6 @@ class BaseGameTestCase:
         return self.client.post(url=self.do_action_url, data=request.json(),
                                 headers=headers)
 
-    def see_event_card_options(self, player, slug):
-        request = DoActionRequest(
-            action=Action(
-                action_type=Action.ActionType.SEE_EVENT_CARD_OPTIONS,
-            ),
-            game_id="1",
-            payload=SeeEventCardOptionsPayload(
-                event_card_to_see_slug=slug
-            )
-        )
-        headers = self.auth_header(player)
-        return self.client.post(url=self.do_action_url, data=request.json(),
-                                headers=headers)
-
     def use_event_card_action(self, player, slug: str,
                               option: Optional[int] = None):
         payload = UseEventCardPayload(
