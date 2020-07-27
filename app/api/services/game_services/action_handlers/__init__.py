@@ -15,7 +15,6 @@ from .call_for_mutiny_action_handler import CallForMutinyActionHandler
 from .view_two_event_cards import ViewTwoEventCardsActionHandler
 from .reveal_event_card_action_handler import RevealEventCardActionHandler
 from .keep_event_card_action_handler import KeepEventCardActionHandler
-from .see_event_card_options import SeeEventCardOptions
 from .use_event_card import UseEventCardActionHandler
 
 handlers: Dict[Action.ActionType, Type[ActionHandler]] = {
@@ -30,7 +29,6 @@ handlers: Dict[Action.ActionType, Type[ActionHandler]] = {
     Action.ActionType.VIEW_TWO_EVENT_CARDS: ViewTwoEventCardsActionHandler,
     Action.ActionType.REVEAL_EVENT_CARD: RevealEventCardActionHandler,
     Action.ActionType.KEEP_EVENT_CARD: KeepEventCardActionHandler,
-    Action.ActionType.SEE_EVENT_CARD_OPTIONS: SeeEventCardOptions,
     Action.ActionType.USE_EVENT_CARD: UseEventCardActionHandler,
     Action.ActionType.FORCE_ANOTHER_PLAYER_TO_CHOOSE_CARD:
         ForceAnotherPlayerToChooseCard

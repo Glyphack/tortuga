@@ -34,7 +34,7 @@ class RevealEventCardActionHandler(ActionHandler):
                 )
         )
         event_card_class = event_card_handlers[self.event_card.slug](
-            self.game, self.player, self.payload
+            self.game, self.player
         )
         self.game.last_action = Action(
             action_type=Action.ActionType.REVEAL_EVENT_CARD,

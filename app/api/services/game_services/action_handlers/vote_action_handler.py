@@ -1,7 +1,6 @@
 from app.api.services.game_services.action_handlers.action_handler import (
     ActionHandler
 )
-from app.api.services.game_services.service import can_vote
 from app.schemas import game_schema
 from app.schemas.game_schema import VoteCard, State, Positions
 
@@ -13,7 +12,7 @@ class VoteActionHandler(ActionHandler):
 
     def execute(self):
         last_action = self.game.last_action
-        assert can_vote(self.game, self.player)
+        assert self.game.can_vote(self.player)
         vote_card = self.game.players_info.get(self.player).vote_cards.pop(
             self.payload.vote_card_index
         )

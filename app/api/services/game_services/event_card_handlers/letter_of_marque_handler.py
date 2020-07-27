@@ -10,13 +10,13 @@ class LetterOfMarque(EventCardHandler):
     def can_use(self) -> bool:
         if self.game.turn != self.player:
             return False
-        positions = [Positions.JR_B, Positions.FD_B]
-        positions.extend(Positions.tr_positions())
-        can_use = False
-        for player in self.game.players:
-            if self.game.players_position[player] in positions:
-                can_use = True
-        return can_use
+        positions = [
+            Positions.JR_B, Positions.FD_B, *Positions.tr_positions()
+        ]
+        return any(
+            self.game.players_position[player] in positions
+            for player in self.game.players
+        )
 
     def reveal(self):
         option_opr = self.options_operations[self.chosen_option]
@@ -24,8 +24,9 @@ class LetterOfMarque(EventCardHandler):
 
     @property
     def options(self) -> List:
-        positions = [Positions.JR_B, Positions.FD_B]
-        positions.extend(Positions.tr_positions())
+        positions = [
+            Positions.JR_B, Positions.FD_B, *Positions.tr_positions()
+        ]
         options = []
         for player in self.game.players:
             if self.game.players_position[player] in positions:
@@ -35,8 +36,9 @@ class LetterOfMarque(EventCardHandler):
 
     @property
     def options_operations(self):
-        positions = [Positions.JR_B, Positions.FD_B]
-        positions.extend(Positions.tr_positions())
+        positions = [
+            Positions.JR_B, Positions.FD_B, *Positions.tr_positions()
+        ]
         options = []
         for player in self.game.players:
             if self.game.players_position[player] in positions:

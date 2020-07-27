@@ -1,8 +1,8 @@
 from dataclasses import field, dataclass
 from typing import List, Dict
 
-from app.models.event_cards import EventCard, EventCardsManager
-from app.schemas.game_schema import Team, VoteCard, KeptEventCard
+from app.models.event_cards import EventCard
+from app.schemas.game_schema import Team, VoteCard
 
 
 @dataclass
@@ -22,14 +22,3 @@ class Player:
 
     def has_event_card(self, slug) -> bool:
         return slug in self.event_cards
-
-    def get_kept_event_cards(self):
-        kept_event_cards = []
-        for event_card_slug in self.event_cards:
-            kept_event_cards.append(
-                KeptEventCard(
-                    event_card=EventCardsManager.get(event_card_slug),
-                    can_use=True
-                )
-            )
-        return kept_event_cards

@@ -15,7 +15,7 @@ class UseEventCardActionHandler(ActionHandler):
 
     def execute(self):
         event_card = event_card_handlers[self.payload.event_card_to_use](
-            self.game, self.player, self.payload,
+            self.game, self.player
         )
         assert event_card.can_use
         if self.payload.event_card_option_index is not None:
