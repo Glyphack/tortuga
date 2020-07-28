@@ -1,5 +1,11 @@
 import os
 
+from dotenv import load_dotenv
+
+BASEDIR = os.path.abspath(os.path.dirname(__file__))
+
+load_dotenv(dotenv_path=os.path.join(BASEDIR, '../.env'))
+
 
 def getenv_boolean(var_name, default_value=False):
     result = default_value
@@ -12,6 +18,7 @@ def getenv_boolean(var_name, default_value=False):
 API_V1_STR = "/api/v1"
 
 SECRET_KEY = os.getenvb(b"SECRET_KEY")
+print(SECRET_KEY)
 if not SECRET_KEY:
     SECRET_KEY = os.urandom(32)
 
