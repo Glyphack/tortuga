@@ -3,7 +3,7 @@ from starlette.testclient import TestClient
 
 from app.api.services.game_services.service import create_new_game
 from app.helpers.jwt_helper import create_access_token
-from main import app
+from app.main import app
 
 
 @pytest.fixture()
