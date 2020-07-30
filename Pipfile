@@ -9,7 +9,7 @@ pytest-cov = "*"
 pytest = "*"
 
 [packages]
-uvicorn = ""0.11.7""
+uvicorn = "0.11.7"
 fastapi = "*"
 gunicorn = "*"
 pyjwt = "*"
