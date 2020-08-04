@@ -1,4 +1,6 @@
 # Tortuga online board game
+![Python application](https://github.com/Glyphack/tortuga/workflows/Python%20application/badge.svg)
+
 tortuga is a board game with 2-9 players. Players are divided into teams of British and French pirates. In games with an odd number of players, there will also be a Dutch pirate. You will begin the game on either the Flying Dutchman or the Jolly Roger, but the other players on your ship will not necessarily be on your team.
 
 ![tortuga-game](https://github.com/Glyphack/tortuga/blob/master/assets/game_demo.gif)
